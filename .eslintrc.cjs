@@ -1,0 +1,45 @@
+module.exports = {
+  env: { browser: true, es2020: true, node: true },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'airbnb',
+    'prettier',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  plugins: ['react-refresh', 'prettier', '@typescript-eslint', 'import'],
+  rules: {
+    'react-refresh/only-export-components': 'warn',
+    'import/no-cycle': [2, { maxDepth: 1 }],
+    'no-param-reassign': ['error', { props: false }],
+    'no-restricted-modules': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
+    'no-debugger': 'off',
+    'no-console': 0,
+    'no-underscore-dangle': 0,
+    'class-methods-use-this': 'off',
+    '@typescript-eslint/no-var-requires': 2,
+    '@typescript-eslint/no-explicit-any': 2,
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+  },
+  'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+};
