@@ -1,3 +1,7 @@
 {
-  "welcomePageHeader": "Welcome"
+  "welcomePageHeader": "Добро пожаловать",
+  "login": "Страница регистрации",
+  "redactor": "Страница редактора",
+  "notFound": "Страница не найдена",
+  "error": "Что-то пошло не так"
 }

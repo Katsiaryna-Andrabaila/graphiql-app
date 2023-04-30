@@ -1,3 +1,7 @@
 {
-  "welcomePageHeader": "Добро пожаловать"
+  "welcomePageHeader": "Welcome",
+  "login": "Login page",
+  "redactor": "redactor page",
+  "notFound": "Page not found",
+  "error": "Something went wrong"
 }
