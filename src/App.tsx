@@ -5,6 +5,9 @@ import { initReactI18next } from 'react-i18next';
 import en from './data/en.json';
 import ru from './data/ru.json';
 
+
+import HeaderResponsive from './components/Header/Header';
+
 i18n.use(initReactI18next).init({
   resources: {
     en: {
@@ -24,9 +27,15 @@ i18n.use(initReactI18next).init({
 
 function App() {
   return (
-    <div className="App">
+    <>
+      <HeaderResponsive
+        links={[
+          { link: '/', label: 'Home' },
+          { link: '/redactor', label: 'Redactor' },
+        ]}
+      />
       <WelcomePage />
-    </div>
+    </>
   );
 }
 
