@@ -9,10 +9,17 @@
   "login": "Login",
   "email": "Email",
   "password": "Password",
+  "passwordDescription": "Password must include at least 8 symbols (one latin letter, number and special character)",
   "repeatPassword": "Repeat password",
-  "notHaveAccount": "Don't hane an account yet?",
-  "haveAccount": "Already have an account?",
+  "forgotPassword": "Forgot password?",
+  "notHaveAccount": "Don't hane an account yet? ",
+  "haveAccount": "Already have an account? ",
   "registerLink": "Register",
   "loginLink": "Login",
-  "logOut": "Log out"
+  "logOut": "Log out",
+
+  "generalLoginError": "Please enter your email and password",
+  "emailError": "Invalid email",
+  "passwordError": "Invalid password format",
+  "repeatPasswordError": "Please repeat your password carefully"
 }

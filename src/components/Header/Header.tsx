@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   createStyles,
   Header,
@@ -14,6 +14,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { MantineLogo } from '@mantine/ds';
 import { Link, useNavigate } from 'react-router-dom';
+import { AppContext } from '../../utils/context';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -113,9 +114,16 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
   ));
 
   const navigate = useNavigate();
+  const setIsLogin = useContext(AppContext)?.setIsLogin;
 
-  const handleClick = () => {
+  const handleClickLogin = () => {
     navigate('/login');
+    setIsLogin && setIsLogin(true);
+  };
+
+  const handleClickRegister = () => {
+    navigate('/login');
+    setIsLogin && setIsLogin(false);
   };
 
   return (
@@ -137,10 +145,10 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </Transition>
 
         <Group>
-          <Button variant="default" onClick={handleClick}>
+          <Button variant="default" onClick={handleClickLogin}>
             Log in
           </Button>
-          <Button onClick={handleClick}>Sign up</Button>
+          <Button onClick={handleClickRegister}>Sign up</Button>
         </Group>
       </Container>
     </Header>

@@ -1,4 +1,4 @@
-export type User = {
+export type TypeUser = {
   email: string;
   token: string;
 };

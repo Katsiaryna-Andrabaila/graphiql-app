@@ -1,14 +1,17 @@
-import { User } from '../types/types';
+import { User } from 'firebase/auth';
 
-export const startSession = (user: User) => {
-  localStorage.setItem('email', user.email);
-  localStorage.setItem('authToken', user.token);
+export const startSession = async (user: User) => {
+  if (user.email) {
+    const token = await user.getIdToken();
+    localStorage.setItem('email', user.email);
+    localStorage.setItem('authToken', token);
+  }
 };
 
 export const getSession = () => {
   return {
-    email: sessionStorage.getItem('email'),
-    authToken: sessionStorage.getItem('authToken'),
+    email: localStorage.getItem('email'),
+    authToken: localStorage.getItem('authToken'),
   };
 };
 
