@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MantineLogo } from '@mantine/ds';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -112,6 +112,12 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     </Text>
   ));
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/login');
+  };
+
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
@@ -130,9 +136,11 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
           )}
         </Transition>
 
-        <Group >
-          <Button variant="default">Log in</Button>
-          <Button>Sign up</Button>
+        <Group>
+          <Button variant="default" onClick={handleClick}>
+            Log in
+          </Button>
+          <Button onClick={handleClick}>Sign up</Button>
         </Group>
       </Container>
     </Header>

@@ -1,7 +1,18 @@
 {
   "welcomePageHeader": "Welcome",
-  "login": "Login page",
+  "loginPage": "Login page",
   "redactor": "redactor page",
   "notFound": "Page not found",
-  "error": "Something went wrong"
+  "error": "Something went wrong",
+
+  "register": "Register",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "repeatPassword": "Repeat password",
+  "notHaveAccount": "Don't hane an account yet?",
+  "haveAccount": "Already have an account?",
+  "registerLink": "Register",
+  "loginLink": "Login",
+  "logOut": "Log out"
 }
