@@ -63,13 +63,12 @@ const LoginPage = () => {
       if (type === `${t('registerLink')}`) {
         const registerResponse = await createUser(email, password);
         startSession(registerResponse.user);
-        navigate('/');
       } else {
         const loginResponse = await signInUser(email, password);
         startSession(loginResponse.user);
-        navigate('/');
       }
       setIsAuth && setIsAuth(true);
+      navigate('/');
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
