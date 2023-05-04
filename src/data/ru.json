@@ -1,7 +1,47 @@
 {
-  "welcomePageHeader": "Добро пожаловать",
   "login": "Страница регистрации",
   "redactor": "Страница редактора",
   "notFound": "Страница не найдена",
-  "error": "Что-то пошло не так"
+  "error": "Что-то пошло не так",
+  "playground": "Перейти в песочницу",
+  "teamMembers": {
+    "Katya": "Екатерина Андробайло",
+    "Sasha": "Александр Котов",
+    "Denis": "Денис Меженин",
+    "Aleh": "Олег Горнизонов"
+  },
+  "teamMemberRole": {
+    "teamLead" : "Тим лид",
+    "developer": "Разработчик",
+    "mentor": "Ментор"
+  },
+  "welcomePageHeader": "GraphiQL",
+  "welcomePageMainText": "GraphiQL это песочница для graphQL запросов",
+  "team": "Команда разработчиков",
+  "footer": {
+    "iconText": "GraphQL песочница",
+    "rightsText": "© 2023  GraphiQL React. Все права защищены."
+  },
+  "teamArray": [
+    {
+      "name": "Екатерина Андробайло",
+      "role": "Тим лид",
+      "link": "https://github.com/Katsiaryna-Andrabaila"
+    },
+    {
+      "name": "Александр Котов",
+      "role": "Разработчик",
+      "link": "https://github.com/Sashkakotov"
+    },
+    {
+      "name": "Денис Меженин",
+      "role": "Разработчик",
+      "link": "https://github.com/denismezhenin"
+    },
+    {
+      "name": "Олег Горнизонов",
+      "role": "Ментор",
+      "link": "https://github.com/alehharnizonau"
+    }
+  ]
 }

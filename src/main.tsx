@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { routes } from './utils/routes.tsx';
+import { routes } from './utils/routes';
 import { ErrorBoundary } from 'react-error-boundary';
 import { MantineProvider } from '@mantine/core';
 

@@ -7,6 +7,7 @@ import ru from './data/ru.json';
 
 
 import HeaderResponsive from './components/Header/Header';
+import { Footer } from './components/Footer/Footer';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -35,6 +36,7 @@ function App() {
         ]}
       />
       <WelcomePage />
+      <Footer />
     </>
   );
 }

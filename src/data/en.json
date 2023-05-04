@@ -1,7 +1,47 @@
 {
-  "welcomePageHeader": "Welcome",
   "login": "Login page",
   "redactor": "redactor page",
   "notFound": "Page not found",
-  "error": "Something went wrong"
+  "error": "Something went wrong",
+  "playground": "Go to Playground",
+  "teamMembers": {
+    "Katya": "Katsiaryna Andrabaila",
+    "Sasha": "Alexander Kotov",
+    "Denis": "Denis Mezhenin",
+    "Aleh": "Aleh Harnizonau"
+  },
+  "teamMemberRole": {
+    "teamLead" : "Team Lead",
+    "developer": "Developer",
+    "mentor": "Mentor"
+  },
+  "welcomePageHeader": "GraphiQL",
+  "welcomePageMainText": "GraphiQL is the playground/IDE for graphQL requests",
+  "team": "Developer Team",
+  "footer": {
+    "iconText": "GraphQL playground",
+    "rightsText": "© 2023  GraphiQL React. All rights reserved."
+  },
+  "teamArray": [
+    {
+      "name": "Katsiaryna Andrabaila",
+      "role": "Team Lead",
+      "link": "https://github.com/Katsiaryna-Andrabaila"
+    },
+    {
+      "name": "Alexander Kotov",
+      "role": "Developer",
+      "link": "https://github.com/Sashkakotov"
+    },
+    {
+      "name": "Denis Mezhenin",
+      "role": "Developer",
+      "link": "https://github.com/denismezhenin"
+    },
+    {
+      "name": "Aleh Harnizonau",
+      "role": "Mentor",
+      "link": "https://github.com/alehharnizonau"
+    }
+  ]
 }
