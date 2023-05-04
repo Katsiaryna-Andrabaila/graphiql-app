@@ -10,7 +10,7 @@ import { MantineProvider } from '@mantine/core';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { routes } from './utils/routes';
 import { AppContext } from './utils/context';
-import { Footer } from './components/Footer/Footer';
+
 
 i18n.use(initReactI18next).init({
   resources: {

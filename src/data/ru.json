@@ -1,5 +1,4 @@
 {
-  "welcomePageHeader": "Добро пожаловать",
   "loginPage": "Страница регистрации",
   "redactor": "Страница редактора",
   "notFound": "Страница не найдена",
@@ -26,17 +25,6 @@
   "passwordError": "Неверный формат пароля",
   "repeatPasswordError": "Пожалуйста, внимательно повторите свой пароль",
   "playground": "Перейти в песочницу",
-  "teamMembers": {
-    "Katya": "Екатерина Андробайло",
-    "Sasha": "Александр Котов",
-    "Denis": "Денис Меженин",
-    "Aleh": "Олег Горнизонов"
-  },
-  "teamMemberRole": {
-    "teamLead" : "Тим лид",
-    "developer": "Разработчик",
-    "mentor": "Ментор"
-  },
   "welcomePageHeader": "GraphiQL",
   "welcomePageMainText": "GraphiQL это песочница для graphQL запросов",
   "team": "Команда разработчиков",

@@ -9,3 +9,11 @@ export type TypeAppContext = {
   isLogin: boolean;
   setIsLogin?: (value: React.SetStateAction<boolean>) => void;
 };
+
+export type TeamMember = {
+  name: string,
+  role: string,
+  link: string
+}
+
+

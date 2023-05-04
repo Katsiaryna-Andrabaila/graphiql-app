@@ -1,10 +1,9 @@
-import { createStyles, Text, Container, ActionIcon, Group, rem, Image, Anchor, Flex } from '@mantine/core';
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram, IconBrandGithub } from '@tabler/icons-react';
-import { MantineLogo } from '@mantine/ds';
+import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import GraphQLIcon from '../../assets/graphql-ar21.svg'
 import { membersData } from './MembersLinks';
+import { TeamMember } from '../../types/types';
 
 
 const useStyles = createStyles((theme) => ({
@@ -47,15 +46,6 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  groups: {
-    display: 'flex',
-    flexWrap: 'wrap',
-
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
   wrapper: {
     width: rem(180),
   },
@@ -70,14 +60,6 @@ const useStyles = createStyles((theme) => ({
     '&:hover': {
       textDecoration: 'underline',
     },
-  },
-
-  title: {
-    fontSize: theme.fontSizes.lg,
-    fontWeight: 700,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    marginBottom: `calc(${theme.spacing.xs} / 2)`,
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
   },
 
   afterFooter: {
@@ -107,7 +89,7 @@ const useStyles = createStyles((theme) => ({
 export function Footer() {
   const { t } = useTranslation();
   const { classes } = useStyles();
-  const data: Array<{}> = t('teamArray', { returnObjects: true })
+  const data: Array<TeamMember> = t('teamArray', { returnObjects: true })
   const Members = membersData(data)
 
   return (

@@ -1,5 +1,4 @@
 {
-  "welcomePageHeader": "Welcome",
   "loginPage": "Login page",
   "redactor": "redactor page",
   "notFound": "Page not found",
@@ -26,17 +25,6 @@
   "passwordError": "Invalid password format",
   "repeatPasswordError": "Please repeat your password carefully",
   "playground": "Go to Playground",
-  "teamMembers": {
-    "Katya": "Katsiaryna Andrabaila",
-    "Sasha": "Alexander Kotov",
-    "Denis": "Denis Mezhenin",
-    "Aleh": "Aleh Harnizonau"
-  },
-  "teamMemberRole": {
-    "teamLead" : "Team Lead",
-    "developer": "Developer",
-    "mentor": "Mentor"
-  },
   "welcomePageHeader": "GraphiQL",
   "welcomePageMainText": "GraphiQL is the playground/IDE for graphQL requests",
   "team": "Developer Team",
