@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAVzJEdVA2RTEWl2sxCaGZyC5WHe3JKFLA',
-  authDomain: 'graphiql-react-rsschool.firebaseapp.com',
-  projectId: 'graphiql-react-rsschool',
-  storageBucket: 'graphiql-react-rsschool.appspot.com',
-  messagingSenderId: '457812089131',
-  appId: '1:457812089131:web:b14804a1d6812cfca30d6e',
-  measurementId: 'G-HG7RJ1KM55',
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_API_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
