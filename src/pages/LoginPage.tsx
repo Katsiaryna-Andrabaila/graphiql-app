@@ -106,7 +106,7 @@ const LoginPage = () => {
             label={t('password')}
             required
             placeholder="********"
-            description={t('passwordDescription')}
+            description={type === `${t('registerLink')}` ? t('passwordDescription') : ''}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
