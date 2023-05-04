@@ -5,7 +5,7 @@ export type TypeUser = {
 
 export type TypeAppContext = {
   isAuth: boolean;
-  setIsAuth: (value: React.SetStateAction<boolean>) => void;
+  setIsAuth?: (value: React.SetStateAction<boolean>) => void;
   isLogin: boolean;
-  setIsLogin: (value: React.SetStateAction<boolean>) => void;
+  setIsLogin?: (value: React.SetStateAction<boolean>) => void;
 };

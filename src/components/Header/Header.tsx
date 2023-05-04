@@ -117,9 +117,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const setIsLogin = useContext(AppContext)?.setIsLogin;
-  const isAuth = useContext(AppContext)?.isAuth;
-  const setIsAuth = useContext(AppContext)?.setIsAuth;
+  const { setIsLogin, isAuth, setIsAuth } = useContext(AppContext);
 
   const handleClickLogin = () => {
     setIsLogin && setIsLogin(true);

@@ -22,12 +22,11 @@ import { IconAlertCircle } from '@tabler/icons-react';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const isLogin = useContext(AppContext)?.isLogin;
-  const setIsAuth = useContext(AppContext)?.setIsAuth;
-  const [type, toggle] =
-    isLogin === false
-      ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
-      : useToggle([`${t('loginLink')}`, `${t('registerLink')}`]);
+  const { isLogin, setIsAuth } = useContext(AppContext);
+
+  const [type, toggle] = !isLogin
+    ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
+    : useToggle([`${t('loginLink')}`, `${t('registerLink')}`]);
 
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
