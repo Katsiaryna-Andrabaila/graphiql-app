@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import HeaderResponsive from '../components/Header/Header';
 import { Text, Center, Button, Title, Flex, Container, Image, Group, Anchor, createStyles } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { IconBrandGithub } from '@tabler/icons-react';
@@ -12,16 +13,24 @@ const useStyles = createStyles(() => ({
   },
 }));
 
+
 const WelcomePage = () => {
   const { t } = useTranslation();
   const { classes } = useStyles();
   const data: Array<{}> = t('teamArray', { returnObjects: true })
   const team = TeamDescription(data)
 
-  return <Container p="xl" sx={{
+  return (
+  <>
+        <HeaderResponsive
+        links={[
+          { link: '/', label: `${t('homeLink')}` },
+          { link: '/redactor', label: `${t('redactorLink')}` },
+        ]}
+      />
+  <Container p="xl" sx={{
     background: 'linear-gradient(180deg, #CD8FFF -20.03%, rgba(255, 226, 202, 0.59) 32.42%, #fff 61.98%)'
   }}>
-
     <Container p="xl" mx="auto">
     <Title
      order={1}
@@ -53,7 +62,8 @@ const WelcomePage = () => {
       </Title>
         {team}
       </Container>
-    </Container>;
-};
+    </Container>
+  </>)
+}
 
 export default WelcomePage;
