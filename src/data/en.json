@@ -1,7 +1,28 @@
 {
   "welcomePageHeader": "Welcome",
-  "login": "Login page",
+  "loginPage": "Login page",
   "redactor": "redactor page",
   "notFound": "Page not found",
-  "error": "Something went wrong"
+  "error": "Something went wrong",
+  "homeLink": "Home",
+  "redactorLink": "Redactor",
+
+  "register": "Register",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "passwordDescription": "Password must include at least 8 symbols (one latin letter, number and special character)",
+  "repeatPassword": "Repeat password",
+  "forgotPassword": "Forgot password?",
+  "notHaveAccount": "Don't hane an account yet? ",
+  "haveAccount": "Already have an account? ",
+  "registerLink": "Register",
+  "loginLink": "Login",
+  "signUp": "Sign Up",
+  "logOut": "Log out",
+
+  "generalLoginError": "Please enter your email and password",
+  "emailError": "Invalid email",
+  "passwordError": "Invalid password format",
+  "repeatPasswordError": "Please repeat your password carefully"
 }
