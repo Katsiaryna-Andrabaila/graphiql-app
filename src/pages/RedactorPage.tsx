@@ -5,29 +5,10 @@ import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
-import { useTranslation } from 'react-i18next';
 import HeaderResponsive from '../components/Header/Header';
 
-// const RedactorPage = () => {
-//   const { t } = useTranslation();
-
-//   return (
-//     <>
-//       <HeaderResponsive
-//         links={[
-//           { link: '/', label: 'Home' },
-//           { link: '/redactor', label: 'Redactor' },
-//         ]}
-//       />
-//       {t('redactor')}
-//     </>
-//   );
-// };
-
-// export default RedactorPage;
-
 const fetcher = createGraphiQLFetcher({
-  url: 'https://api.spacex.land/graphql/',
+  url: 'https://rickandmortyapi.com/graphql/',
 });
 
 const defaultOperations =
@@ -37,10 +18,21 @@ const defaultOperations =
 # same in variables editor below
 # also available via context menu & f1 command palette
 
-query($limit: Int!) {
-    payloads(limit: $limit) {
-        customer
+query {
+  characters(page: 2, filter: { name: "rick" }) {
+    info {
+      count
     }
+    results {
+      name
+    }
+  }
+  location(id: 1) {
+    id
+  }
+  episodesByIds(ids: [1, 2]) {
+    id
+  }
 }
 `;
 
@@ -68,17 +60,15 @@ const getOrCreateModel = (uri: string, value: string) => {
 };
 
 const execOperation = async function () {
-  const { t } = useTranslation();
   const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
   const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
   const resultsModel = editor.getModel(Uri.file('results.json'));
-  // @ts-expect-error
+
   const result = await fetcher({
     query: operations,
     variables: JSON.stringify(JSONC.parse(variables)),
   });
-  // TODO: this demo only supports a single iteration for http GET/POST,
-  // no multipart or subscriptions yet.
+
   // @ts-expect-error
   const data = await result.next();
 
@@ -219,6 +209,7 @@ export default function RedactorPage() {
           { link: '/redactor', label: 'Redactor' },
         ]}
       />
+
       <div id="wrapper">
         <div id="left-pane" className="pane">
           <div ref={opsRef} className="editor" />
