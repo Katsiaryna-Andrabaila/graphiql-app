@@ -165,7 +165,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
             <Button variant="default" onClick={handleClickLogin}>
               {t('loginLink')}
             </Button>
-            <Button onClick={handleClickRegister}>{t('register')}</Button>
+            <Button onClick={handleClickRegister}>{t('signUp')}</Button>
           </Group>
         )}
       </Container>

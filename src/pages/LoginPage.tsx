@@ -37,11 +37,6 @@ const LoginPage = () => {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!email || !password) {
-      setError(`${t('generalLoginError')}`);
-      return;
-    }
-
     if (!email || !validateEmail(email)) {
       setError(`${t('emailError')}`);
       return;
@@ -79,13 +74,9 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate('/');
-  };
-
   return (
     <Container size={560} my={100}>
-      <Anchor component="button" size="lg" align="left" onClick={handleClick}>
+      <Anchor component="button" size="lg" align="left" onClick={() => navigate('/')}>
         ← Back to welcome page
       </Anchor>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">

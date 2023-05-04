@@ -18,6 +18,7 @@
   "haveAccount": "Already have an account? ",
   "registerLink": "Register",
   "loginLink": "Login",
+  "signUp": "Sign Up",
   "logOut": "Log out",
 
   "generalLoginError": "Please enter your email and password",
