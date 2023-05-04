@@ -8,8 +8,8 @@ const WelcomePage = () => {
     <>
       <HeaderResponsive
         links={[
-          { link: '/', label: 'Home' },
-          { link: '/redactor', label: 'Redactor' },
+          { link: '/', label: `${t('homeLink')}` },
+          { link: '/redactor', label: `${t('redactorLink')}` },
         ]}
       />
       {t('welcomePageHeader')}

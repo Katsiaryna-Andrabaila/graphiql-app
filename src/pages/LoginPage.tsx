@@ -23,6 +23,7 @@ import { IconAlertCircle } from '@tabler/icons-react';
 const LoginPage = () => {
   const { t } = useTranslation();
   const isLogin = useContext(AppContext)?.isLogin;
+  const setIsAuth = useContext(AppContext)?.setIsAuth;
   const [type, toggle] =
     isLogin === false
       ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
@@ -68,6 +69,7 @@ const LoginPage = () => {
         startSession(loginResponse.user);
         navigate('/');
       }
+      setIsAuth && setIsAuth(true);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

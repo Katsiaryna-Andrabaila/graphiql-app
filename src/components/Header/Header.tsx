@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useContext, useState } from 'react';
 import {
   createStyles,
@@ -15,6 +16,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { MantineLogo } from '@mantine/ds';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../utils/context';
+import { endSession } from '../../utils/storage';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -113,26 +115,38 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     </Text>
   ));
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const setIsLogin = useContext(AppContext)?.setIsLogin;
+  const isAuth = useContext(AppContext)?.isAuth;
+  const setIsAuth = useContext(AppContext)?.setIsAuth;
 
   const handleClickLogin = () => {
-    navigate('/login');
     setIsLogin && setIsLogin(true);
+    navigate('/login');
   };
 
   const handleClickRegister = () => {
-    navigate('/login');
     setIsLogin && setIsLogin(false);
+    navigate('/login');
+  };
+
+  const handleClickLogout = () => {
+    endSession();
+    setIsAuth && setIsAuth(false);
+    setIsLogin && setIsLogin(true);
+    navigate('/login');
   };
 
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
         <MantineLogo size={28} />
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
+        {isAuth ? (
+          <Group spacing={5} className={classes.links}>
+            {items}
+          </Group>
+        ) : null}
 
         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
 
@@ -144,12 +158,16 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
           )}
         </Transition>
 
-        <Group>
-          <Button variant="default" onClick={handleClickLogin}>
-            Log in
-          </Button>
-          <Button onClick={handleClickRegister}>Sign up</Button>
-        </Group>
+        {isAuth ? (
+          <Button onClick={handleClickLogout}>{t('logOut')}</Button>
+        ) : (
+          <Group>
+            <Button variant="default" onClick={handleClickLogin}>
+              {t('loginLink')}
+            </Button>
+            <Button onClick={handleClickRegister}>{t('register')}</Button>
+          </Group>
+        )}
       </Container>
     </Header>
   );

@@ -4,6 +4,8 @@
   "redactor": "redactor page",
   "notFound": "Page not found",
   "error": "Something went wrong",
+  "homeLink": "Home",
+  "redactorLink": "Redactor",
 
   "register": "Register",
   "login": "Login",
