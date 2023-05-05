@@ -31,6 +31,7 @@ i18n.use(initReactI18next).init({
 function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [lang, setLang] = useState('en');
 
   useEffect(() => {
     if (localStorage.getItem('authToken')) {
@@ -44,7 +45,7 @@ function App() {
     <React.StrictMode>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <MantineProvider withGlobalStyles withNormalizeCSS>
-          <AppContext.Provider value={{ isAuth, setIsAuth, isLogin, setIsLogin }}>
+          <AppContext.Provider value={{ isAuth, setIsAuth, isLogin, setIsLogin, lang, setLang }}>
             <RouterProvider router={router} />
           </AppContext.Provider>
         </MantineProvider>

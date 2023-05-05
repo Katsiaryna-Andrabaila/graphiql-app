@@ -8,12 +8,12 @@ export type TypeAppContext = {
   setIsAuth?: (value: React.SetStateAction<boolean>) => void;
   isLogin: boolean;
   setIsLogin?: (value: React.SetStateAction<boolean>) => void;
+  lang: string;
+  setLang?: (value: React.SetStateAction<string>) => void;
 };
 
 export type TeamMember = {
-  name: string,
-  role: string,
-  link: string
-}
-
-
+  name: string;
+  role: string;
+  link: string;
+};
