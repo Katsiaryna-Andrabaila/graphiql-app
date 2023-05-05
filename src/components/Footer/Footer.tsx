@@ -27,6 +27,11 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
+  footerLogo: {
+    width: 86,
+    height: 43,
+  },
+
   description: {
     marginTop: rem(5),
 
@@ -96,10 +101,15 @@ export function Footer() {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
+          <ActionIcon 
+        component={Link} to="/"
+        className={classes.footerLogo}
+        >
         <Image 
         src={GraphQLIcon}
         alt="GraphQL icon"
             />
+          </ActionIcon>
           <Text size="xs" color="dimmed" className={classes.description}>
           {t('footer.iconText')}
           </Text>

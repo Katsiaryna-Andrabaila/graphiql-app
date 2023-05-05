@@ -1,11 +1,11 @@
 {
   "loginPage": "Login page",
   "redactor": "redactor page",
-  "notFound": "Page not found",
+  "notFound": "Page not found. Come back to the ",
+  "mainPage": "Main page",
   "error": "Something went wrong",
   "homeLink": "Home",
   "redactorLink": "Redactor",
-
   "register": "Register",
   "login": "Login",
   "email": "Email",

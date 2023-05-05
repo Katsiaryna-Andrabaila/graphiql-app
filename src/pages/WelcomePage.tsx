@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import HeaderResponsive from '../components/Header/Header';
-import { Text, Center, Button, Title, Container, Group, createStyles } from '@mantine/core';
+import { Text, Center, Button, Title, Container, Group, createStyles, Box } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { TeamDescription } from '../components/TeamDescription';
 import { Footer } from '../components/Footer/Footer';
@@ -9,11 +9,17 @@ import { useContext } from 'react';
 import { TeamMember } from '../types/types';
 
 const useStyles = createStyles(() => ({
+  mainContainer: {
+    background:
+    'linear-gradient(180deg, #CD8FFF -20.03%, rgba(255, 226, 202, 0.59) 32.42%, #fff 61.98%)'
+  },
+
   button: {
     '&:hover': {
       color: 'white',
     },
   },
+
 }));
 
 const WelcomePage = () => {
@@ -31,12 +37,9 @@ const WelcomePage = () => {
           { link: '/redactor', label: `${t('redactorLink')}` },
         ]}
       />
-      <Container
+      <Box
         p="xl"
-        sx={{
-          background:
-            'linear-gradient(180deg, #CD8FFF -20.03%, rgba(255, 226, 202, 0.59) 32.42%, #fff 61.98%)',
-        }}
+        className={classes.mainContainer}
       >
         <Container p="xl" mx="auto">
           <Title
@@ -69,7 +72,7 @@ const WelcomePage = () => {
           <Title>{t('team')}</Title>
           {team}
         </Container>
-      </Container>
+      </Box>
       <Footer />
     </>
   );
