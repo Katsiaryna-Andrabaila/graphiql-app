@@ -48,15 +48,15 @@ const WelcomePage = () => {
             gradient={{ from: 'indigo', to: 'red', deg: 45 }}
             mb={40}
           >
-            {t('welcomePageHeader')}
+            {t('welcomePage.title')}
           </Title>
           <Text fz="xl" ta="center" align="center" mx="auto" mb={30} fw={600}>
-            {t('welcomePageMainText')}
+            {t('welcomePage.mainText')}
           </Text>
           <Center mb={30}>
             {isAuth ? (
               <Button component={Link} to="/redactor" className={classes.button}>
-                {t('playground')}
+                {t('welcomePage.playgroundButton')}
               </Button>
             ) : (
               <Group>
@@ -69,7 +69,7 @@ const WelcomePage = () => {
               </Group>
             )}
           </Center>
-          <Title>{t('team')}</Title>
+          <Title>{t('welcomePage.team')}</Title>
           {team}
         </Container>
       </Box>

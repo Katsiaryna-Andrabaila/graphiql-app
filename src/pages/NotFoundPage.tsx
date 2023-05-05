@@ -15,9 +15,9 @@ const NotFoundPage = () => {
         ]}
       />
       <Title order={3} mt={30} fw={500}>
-        {t('notFound')}
+        {t('404Page.notFound')}
         <Text component="a" fw={600} href="/">
-          {t('mainPage')}
+          {t('404Page.mainPage')}
         </Text>
       </Title>
       <Footer />
