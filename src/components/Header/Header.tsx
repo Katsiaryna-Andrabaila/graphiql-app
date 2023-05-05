@@ -11,12 +11,14 @@ import {
   rem,
   Text,
   Button,
+  ActionIcon,
+  Image
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { MantineLogo } from '@mantine/ds';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../utils/context';
 import { endSession } from '../../utils/storage';
+import GraphQLIcon from '../../assets/graphql-ar21.svg'
 
 const HEADER_HEIGHT = rem(60);
 
@@ -24,6 +26,11 @@ const useStyles = createStyles((theme) => ({
   root: {
     position: 'relative',
     zIndex: 1,
+  },
+
+  logo: {
+    width: 86,
+    height: 43,
   },
 
   dropdown: {
@@ -95,8 +102,9 @@ interface HeaderResponsiveProps {
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
+  const pathname = String(location.pathname) !== "/404" ? links.filter((el) => el.link === String(location.pathname))[0].link : null
   const [active, setActive] = useState(
-    links.filter((el) => el.link === String(location.pathname))[0].link
+    pathname
   );
   const { classes, cx } = useStyles();
 
@@ -139,7 +147,15 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
-        <MantineLogo size={28} />
+      <ActionIcon 
+        component={Link} to="/"
+        className={classes.logo}
+        >
+        <Image 
+        src={GraphQLIcon}
+        alt="GraphQL icon"
+            />
+          </ActionIcon>
         {isAuth ? (
           <Group spacing={5} className={classes.links}>
             {items}

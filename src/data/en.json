@@ -1,11 +1,13 @@
 {
   "loginPage": "Login page",
   "redactor": "redactor page",
-  "notFound": "Page not found",
+  "404Page": {
+    "notFound": "Page not found. Come back to the ",
+    "mainPage": "Main page"
+  },
   "error": "Something went wrong",
   "homeLink": "Home",
   "redactorLink": "Redactor",
-
   "register": "Register",
   "login": "Login",
   "email": "Email",
@@ -19,15 +21,17 @@
   "loginLink": "Login",
   "signUp": "Sign Up",
   "logOut": "Log out",
-
   "generalLoginError": "Please enter your email and password",
   "emailError": "Invalid email",
   "passwordError": "Invalid password format",
   "repeatPasswordError": "Please repeat your password carefully",
   "playground": "Go to Playground",
-  "welcomePageHeader": "GraphiQL",
-  "welcomePageMainText": "GraphiQL is the playground/IDE for graphQL requests",
-  "team": "Developer Team",
+  "welcomePage": {
+    "title": "GraphiQL",
+    "mainText": "GraphiQL is the playground/IDE for graphQL requests",
+    "playgroundButton": "Go to Playground",
+    "team": "Developer Team"
+  },
   "footer": {
     "iconText": "GraphQL playground",
     "rightsText": "© 2023  GraphiQL React. All rights reserved."

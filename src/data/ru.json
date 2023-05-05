@@ -1,7 +1,10 @@
 {
   "loginPage": "Страница регистрации",
   "redactor": "Страница редактора",
-  "notFound": "Страница не найдена",
+  "404Page": {
+    "notFound": "Страница не найдена. Вернитесь на ",
+    "mainPage": "Главную страницу"
+  },
   "error": "Что-то пошло не так",
   "homeLink": "Главная",
   "redactorLink": "Редактор",
@@ -24,10 +27,12 @@
   "emailError": "Неверный формат электронной почты",
   "passwordError": "Неверный формат пароля",
   "repeatPasswordError": "Пожалуйста, внимательно повторите свой пароль",
-  "playground": "Перейти в песочницу",
-  "welcomePageHeader": "GraphiQL",
-  "welcomePageMainText": "GraphiQL это песочница для graphQL запросов",
-  "team": "Команда разработчиков",
+  "welcomePage": {
+    "title": "GraphiQL",
+    "mainText": "GraphiQL это песочница для graphQL запросов",
+    "playgroundButton": "Перейти в песочницу",
+    "team": "Команда разработчиков"
+  },
   "footer": {
     "iconText": "GraphQL песочница",
     "rightsText": "© 2023  GraphiQL React. Все права защищены."
