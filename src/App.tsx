@@ -11,7 +11,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { routes } from './utils/routes';
 import { AppContext } from './utils/context';
 
-
 i18n.use(initReactI18next).init({
   resources: {
     en: {

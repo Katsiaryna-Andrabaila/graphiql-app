@@ -76,7 +76,7 @@ const LoginPage = () => {
   return (
     <Container size={560} my={100}>
       <Anchor component="button" size="lg" align="left" onClick={() => navigate('/')}>
-        ← Back to welcome page
+        {t('backToMain')}
       </Anchor>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Text size="xl" component="h1" ta="center">

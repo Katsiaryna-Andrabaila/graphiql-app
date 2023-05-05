@@ -11,7 +11,7 @@ import { TeamMember } from '../types/types';
 const useStyles = createStyles(() => ({
   mainContainer: {
     background:
-    'linear-gradient(180deg, #CD8FFF -20.03%, rgba(255, 226, 202, 0.59) 32.42%, #fff 61.98%)'
+      'linear-gradient(180deg, #CD8FFF -20.03%, rgba(255, 226, 202, 0.59) 32.42%, #fff 61.98%)',
   },
 
   button: {
@@ -19,7 +19,6 @@ const useStyles = createStyles(() => ({
       color: 'white',
     },
   },
-
 }));
 
 const WelcomePage = () => {
@@ -37,10 +36,7 @@ const WelcomePage = () => {
           { link: '/redactor', label: `${t('redactorLink')}` },
         ]}
       />
-      <Box
-        p="xl"
-        className={classes.mainContainer}
-      >
+      <Box p="xl" className={classes.mainContainer}>
         <Container p="xl" mx="auto">
           <Title
             order={1}
