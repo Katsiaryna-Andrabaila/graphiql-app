@@ -28,4 +28,32 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 97.7vh;
+}
+
+.pane {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  text-align: start;
+}
+
+#left-pane .editor {
+  height: 50%;
+}
+
+#right-pane .editor {
+  height: 100%;
 }
