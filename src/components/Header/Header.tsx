@@ -12,13 +12,13 @@ import {
   Text,
   Button,
   ActionIcon,
-  Image
+  Image,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../utils/context';
 import { endSession } from '../../utils/storage';
-import GraphQLIcon from '../../assets/graphql-ar21.svg'
+import GraphQLIcon from '../../assets/graphql-ar21.svg';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -63,7 +63,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   burger: {
-    [theme.fn.largerThan('sm')]: {
+    [theme.fn.largerThan('47.95em')]: {
       display: 'none',
     },
   },
@@ -102,10 +102,11 @@ interface HeaderResponsiveProps {
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
-  const pathname = String(location.pathname) !== "/404" ? links.filter((el) => el.link === String(location.pathname))[0].link : null
-  const [active, setActive] = useState(
-    pathname
-  );
+  const pathname =
+    String(location.pathname) !== '/404'
+      ? links.filter((el) => el.link === String(location.pathname))[0].link
+      : null;
+  const [active, setActive] = useState(pathname);
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
@@ -147,15 +148,9 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
-      <ActionIcon 
-        component={Link} to="/"
-        className={classes.logo}
-        >
-        <Image 
-        src={GraphQLIcon}
-        alt="GraphQL icon"
-            />
-          </ActionIcon>
+        <ActionIcon component={Link} to="/" className={classes.logo}>
+          <Image src={GraphQLIcon} alt="GraphQL icon" />
+        </ActionIcon>
         {isAuth ? (
           <Group spacing={5} className={classes.links}>
             {items}
