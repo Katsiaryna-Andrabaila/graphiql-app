@@ -97,7 +97,7 @@ const createEditor = (
   options: editor.IStandaloneEditorConstructionOptions
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
-export default function RedactorPage() {
+const RedactorPage = () => {
   const opsRef = React.useRef(null);
   const varsRef = React.useRef(null);
   const resultsRef = React.useRef(null);
@@ -221,4 +221,5 @@ export default function RedactorPage() {
       </div>
     </>
   );
-}
+};
+export default RedactorPage;
