@@ -19,6 +19,7 @@ import { validateEmail, validatePassword } from '../utils/validate';
 import { createUser, signInUser } from '../utils/firebase';
 import { startSession } from '../utils/storage';
 import { IconAlertCircle } from '@tabler/icons-react';
+import { Footer } from '../components/Footer/Footer';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -74,71 +75,74 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Container size={560} my={100}>
-      <Anchor component="button" size="lg" align="left" onClick={() => navigate('/')}>
-        {t('backToMain')}
-      </Anchor>
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Text size="xl" component="h1" ta="center">
-          {type === `${t('registerLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
-        </Text>
-        {error && (
-          <Alert
-            icon={<IconAlertCircle size="1rem" />}
-            sx={{ my: 2 }}
-            color="red"
-            variant="outline"
-          >
-            {error}
-          </Alert>
-        )}
-        <Space h="md" />
-        <form onSubmit={onSubmit}>
-          <TextInput
-            label={t('email')}
-            placeholder="email@example.com"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <PasswordInput
-            label={t('password')}
-            required
-            placeholder="********"
-            description={type === `${t('registerLink')}` ? t('passwordDescription') : ''}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {type === `${t('registerLink')}` && (
-            <>
-              <PasswordInput
-                label={t('repeatPassword')}
-                required
-                placeholder="********"
-                value={passwordRepeated}
-                onChange={(e) => setPasswordRepeated(e.target.value)}
-              />
-              <Space h="md" />
-            </>
+    <>
+      <Container size={560} my={100}>
+        <Anchor component="button" size="lg" align="left" onClick={() => navigate('/')}>
+          {t('backToMain')}
+        </Anchor>
+        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <Text size="xl" component="h1" ta="center">
+            {type === `${t('registerLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
+          </Text>
+          {error && (
+            <Alert
+              icon={<IconAlertCircle size="1rem" />}
+              sx={{ my: 2 }}
+              color="red"
+              variant="outline"
+            >
+              {error}
+            </Alert>
           )}
-          {type === `${t('loginLink')}` && (
-            <Anchor component="button" size="sm">
-              {t('forgotPassword')}
-            </Anchor>
-          )}
-          <Button type="submit" fullWidth>
-            {upperFirst(type)}
-          </Button>
-        </form>
+          <Space h="md" />
+          <form onSubmit={onSubmit}>
+            <TextInput
+              label={t('email')}
+              placeholder="email@example.com"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <PasswordInput
+              label={t('password')}
+              required
+              placeholder="********"
+              description={type === `${t('registerLink')}` ? t('passwordDescription') : ''}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {type === `${t('registerLink')}` && (
+              <>
+                <PasswordInput
+                  label={t('repeatPassword')}
+                  required
+                  placeholder="********"
+                  value={passwordRepeated}
+                  onChange={(e) => setPasswordRepeated(e.target.value)}
+                />
+                <Space h="md" />
+              </>
+            )}
+            {type === `${t('loginLink')}` && (
+              <Anchor component="button" size="sm">
+                {t('forgotPassword')}
+              </Anchor>
+            )}
+            <Button type="submit" fullWidth>
+              {upperFirst(type)}
+            </Button>
+          </form>
 
-        <Box sx={{ mt: 2 }}>
-          {type === `${t('loginLink')}` ? `${t('notHaveAccount')}` : `${t('haveAccount')}`}
-          <Anchor td="underline" c="blue" onClick={() => toggle()}>
-            {type === `${t('loginLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
-          </Anchor>
-        </Box>
-      </Paper>
-    </Container>
+          <Box sx={{ mt: 2 }}>
+            {type === `${t('loginLink')}` ? `${t('notHaveAccount')}` : `${t('haveAccount')}`}
+            <Anchor td="underline" c="blue" onClick={() => toggle()}>
+              {type === `${t('loginLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
+            </Anchor>
+          </Box>
+        </Paper>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
