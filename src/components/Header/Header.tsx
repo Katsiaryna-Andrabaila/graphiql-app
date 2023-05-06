@@ -12,13 +12,14 @@ import {
   Text,
   Button,
   ActionIcon,
-  Image
+  Image,
+  SegmentedControl,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../utils/context';
 import { endSession } from '../../utils/storage';
-import GraphQLIcon from '../../assets/graphql-ar21.svg'
+import GraphQLIcon from '../../assets/graphql-ar21.svg';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -63,7 +64,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   burger: {
-    [theme.fn.largerThan('sm')]: {
+    [theme.fn.largerThan('47.95em')]: {
       display: 'none',
     },
   },
@@ -102,10 +103,11 @@ interface HeaderResponsiveProps {
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
-  const pathname = String(location.pathname) !== "/404" ? links.filter((el) => el.link === String(location.pathname))[0].link : null
-  const [active, setActive] = useState(
-    pathname
-  );
+  const pathname =
+    String(location.pathname) !== '/404'
+      ? links.filter((el) => el.link === String(location.pathname))[0].link
+      : null;
+  const [active, setActive] = useState(pathname);
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
@@ -123,9 +125,9 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     </Text>
   ));
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { setIsLogin, isAuth, setIsAuth } = useContext(AppContext);
+  const { setIsLogin, isAuth, setIsAuth, lang, setLang } = useContext(AppContext);
 
   const handleClickLogin = () => {
     setIsLogin && setIsLogin(true);
@@ -144,18 +146,22 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     navigate('/login');
   };
 
+  const handleChangeLanguage = () => {
+    if (lang === 'en') {
+      setLang && setLang('ru');
+      i18n.changeLanguage('ru');
+    } else {
+      setLang && setLang('en');
+      i18n.changeLanguage('en');
+    }
+  };
+
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
-      <ActionIcon 
-        component={Link} to="/"
-        className={classes.logo}
-        >
-        <Image 
-        src={GraphQLIcon}
-        alt="GraphQL icon"
-            />
-          </ActionIcon>
+        <ActionIcon component={Link} to="/" className={classes.logo}>
+          <Image src={GraphQLIcon} alt="GraphQL icon" />
+        </ActionIcon>
         {isAuth ? (
           <Group spacing={5} className={classes.links}>
             {items}
@@ -172,16 +178,26 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
           )}
         </Transition>
 
-        {isAuth ? (
-          <Button onClick={handleClickLogout}>{t('logOut')}</Button>
-        ) : (
-          <Group>
-            <Button variant="default" onClick={handleClickLogin}>
-              {t('loginLink')}
-            </Button>
-            <Button onClick={handleClickRegister}>{t('signUp')}</Button>
-          </Group>
-        )}
+        <Group>
+          <SegmentedControl
+            value={lang}
+            onChange={handleChangeLanguage}
+            data={[
+              { label: 'RU', value: 'ru' },
+              { label: 'EN', value: 'en' },
+            ]}
+          />
+          {isAuth ? (
+            <Button onClick={handleClickLogout}>{t('logOut')}</Button>
+          ) : (
+            <Group>
+              <Button variant="default" onClick={handleClickLogin}>
+                {t('loginLink')}
+              </Button>
+              <Button onClick={handleClickRegister}>{t('signUp')}</Button>
+            </Group>
+          )}
+        </Group>
       </Container>
     </Header>
   );

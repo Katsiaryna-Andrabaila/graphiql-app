@@ -6,6 +6,7 @@ import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import HeaderResponsive from '../components/Header/Header';
+import { useTranslation } from 'react-i18next';
 
 const fetcher = createGraphiQLFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
@@ -98,6 +99,7 @@ const createEditor = (
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
 const RedactorPage = () => {
+  const { t } = useTranslation();
   const opsRef = React.useRef(null);
   const varsRef = React.useRef(null);
   const resultsRef = React.useRef(null);
@@ -205,8 +207,8 @@ const RedactorPage = () => {
     <>
       <HeaderResponsive
         links={[
-          { link: '/', label: 'Home' },
-          { link: '/redactor', label: 'Redactor' },
+          { link: '/', label: `${t('homeLink')}` },
+          { link: '/redactor', label: `${t('redactorLink')}` },
         ]}
       />
 
