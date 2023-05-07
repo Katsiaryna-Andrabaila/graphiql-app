@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
@@ -7,6 +7,7 @@ import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import HeaderResponsive from '../components/Header/Header';
 import { useTranslation } from 'react-i18next';
+import { UnstyledButton } from '@mantine/core';
 
 const fetcher = createGraphiQLFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
@@ -94,24 +95,21 @@ languages.json.jsonDefaults.setDiagnosticsOptions({
 });
 
 const createEditor = (
-  ref: React.MutableRefObject<null>,
+  ref: MutableRefObject<null>,
   options: editor.IStandaloneEditorConstructionOptions
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
 const RedactorPage = () => {
   const { t } = useTranslation();
-  const opsRef = React.useRef(null);
-  const varsRef = React.useRef(null);
-  const resultsRef = React.useRef(null);
-  const [queryEditor, setQueryEditor] = React.useState<editor.IStandaloneCodeEditor | null>(null);
-  const [variablesEditor, setVariablesEditor] = React.useState<editor.IStandaloneCodeEditor | null>(
-    null
-  );
-  const [resultsViewer, setResultsViewer] = React.useState<editor.IStandaloneCodeEditor | null>(
-    null
-  );
-  const [schema, setSchema] = React.useState<unknown | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const opsRef = useRef(null);
+  const varsRef = useRef(null);
+  const resultsRef = useRef(null);
+  const [queryEditor, setQueryEditor] = useState<editor.IStandaloneCodeEditor | null>(null);
+  const [variablesEditor, setVariablesEditor] = useState<editor.IStandaloneCodeEditor | null>(null);
+  const [resultsViewer, setResultsViewer] = useState<editor.IStandaloneCodeEditor | null>(null);
+  const [schema, setSchema] = useState<unknown | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [isOpenSchema, setIsOpenSchema] = useState(false);
 
   /**
    * Create the models & editors
@@ -124,7 +122,7 @@ const RedactorPage = () => {
     queryEditor ??
       setQueryEditor(
         createEditor(opsRef, {
-          theme: 'vs-dark',
+          theme: 'hc-light',
           model: queryModel,
           language: 'graphql',
         })
@@ -132,14 +130,14 @@ const RedactorPage = () => {
     variablesEditor ??
       setVariablesEditor(
         createEditor(varsRef, {
-          theme: 'vs-dark',
+          theme: 'hc-light',
           model: variablesModel,
         })
       );
     resultsViewer ??
       setResultsViewer(
         createEditor(resultsRef, {
-          theme: 'vs-dark',
+          theme: 'hc-light',
           model: resultsModel,
           readOnly: true,
           smoothScrolling: true,
@@ -203,6 +201,11 @@ const RedactorPage = () => {
         .then(() => setLoading(false));
     }
   }, [schema, loading]);
+
+  const handleClickSchema = () => {
+    !isOpenSchema ? setIsOpenSchema(true) : setIsOpenSchema(false);
+  };
+
   return (
     <>
       <HeaderResponsive
@@ -212,13 +215,21 @@ const RedactorPage = () => {
         ]}
       />
 
-      <div id="wrapper">
-        <div id="left-pane" className="pane">
-          <div ref={opsRef} className="editor" />
-          <div ref={varsRef} className="editor" />
-        </div>
-        <div id="right-pane" className="pane">
-          <div ref={resultsRef} className="editor" />
+      <div className="redactor-wrapper">
+        <UnstyledButton onClick={handleClickSchema}>
+          <img src="src/assets/docs.svg" />
+        </UnstyledButton>
+        {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
+        <div id="wrapper">
+          <div id="left-pane" className="pane">
+            <div ref={opsRef} className="ops-editor" />
+            <div ref={varsRef} className="vars-editor">
+              Variables
+            </div>
+          </div>
+          <div id="right-pane" className="pane">
+            <div ref={resultsRef} className="result-editor" />
+          </div>
         </div>
       </div>
     </>

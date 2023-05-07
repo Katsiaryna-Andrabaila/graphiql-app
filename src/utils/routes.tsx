@@ -1,8 +1,10 @@
 import { Navigate } from 'react-router-dom';
 import NotFoundPage from '../pages/NotFoundPage';
 import LoginPage from '../pages/LoginPage';
-import RedactorPage from '../pages/RedactorPage';
 import WelcomePage from '../pages/WelcomePage';
+import { lazy } from 'react';
+
+const RedactorPage = lazy(() => import('../pages/RedactorPage'));
 
 export const routes = [
   {
