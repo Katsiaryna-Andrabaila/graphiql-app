@@ -212,17 +212,19 @@ const RedactorPage = () => {
         ]}
       />
 
-      <div id="wrapper">
-        <div id="left-pane" className="pane">
-          <div ref={opsRef} className="ops-editor" />
-          <div ref={varsRef} className="vars-editor">
-            Variables
+      <>
+        <div id="wrapper">
+          <div id="left-pane" className="pane">
+            <div ref={opsRef} className="ops-editor" />
+            <div ref={varsRef} className="vars-editor">
+              Variables
+            </div>
+          </div>
+          <div id="right-pane" className="pane">
+            <div ref={resultsRef} className="result-editor" />
           </div>
         </div>
-        <div id="right-pane" className="pane">
-          <div ref={resultsRef} className="result-editor" />
-        </div>
-      </div>
+      </>
     </>
   );
 };

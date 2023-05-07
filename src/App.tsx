@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
 import './App.css';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -10,6 +10,7 @@ import { MantineProvider } from '@mantine/core';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { routes } from './utils/routes';
 import { AppContext } from './utils/context';
+import { AppLoader } from './components/AppLoader';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -45,9 +46,11 @@ function App() {
     <StrictMode>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <MantineProvider withGlobalStyles withNormalizeCSS>
-          <AppContext.Provider value={{ isAuth, setIsAuth, isLogin, setIsLogin, lang, setLang }}>
-            <RouterProvider router={router} />
-          </AppContext.Provider>
+          <Suspense fallback={<AppLoader />}>
+            <AppContext.Provider value={{ isAuth, setIsAuth, isLogin, setIsLogin, lang, setLang }}>
+              <RouterProvider router={router} />
+            </AppContext.Provider>
+          </Suspense>
         </MantineProvider>
       </ErrorBoundary>
     </StrictMode>
