@@ -124,7 +124,7 @@ const RedactorPage = () => {
     queryEditor ??
       setQueryEditor(
         createEditor(opsRef, {
-          theme: 'vs-dark',
+          theme: 'hc-light',
           model: queryModel,
           language: 'graphql',
         })
@@ -132,14 +132,14 @@ const RedactorPage = () => {
     variablesEditor ??
       setVariablesEditor(
         createEditor(varsRef, {
-          theme: 'vs-dark',
+          theme: 'hc-light',
           model: variablesModel,
         })
       );
     resultsViewer ??
       setResultsViewer(
         createEditor(resultsRef, {
-          theme: 'vs-dark',
+          theme: 'hc-light',
           model: resultsModel,
           readOnly: true,
           smoothScrolling: true,
@@ -214,11 +214,13 @@ const RedactorPage = () => {
 
       <div id="wrapper">
         <div id="left-pane" className="pane">
-          <div ref={opsRef} className="editor" />
-          <div ref={varsRef} className="editor" />
+          <div ref={opsRef} className="ops-editor" />
+          <div ref={varsRef} className="vars-editor">
+            Variables
+          </div>
         </div>
         <div id="right-pane" className="pane">
-          <div ref={resultsRef} className="editor" />
+          <div ref={resultsRef} className="result-editor" />
         </div>
       </div>
     </>

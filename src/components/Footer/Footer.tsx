@@ -1,10 +1,9 @@
 import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import GraphQLIcon from '../../assets/graphql-ar21.svg'
+import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { membersData } from './MembersLinks';
 import { TeamMember } from '../../types/types';
-
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -90,42 +89,32 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-
 export function Footer() {
   const { t } = useTranslation();
   const { classes } = useStyles();
-  const data: Array<TeamMember> = t('teamArray', { returnObjects: true })
-  const Members = membersData(data)
+  const data: Array<TeamMember> = t('teamArray', { returnObjects: true });
+  const Members = membersData(data);
 
   return (
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          <ActionIcon 
-        component={Link} to="/"
-        className={classes.footerLogo}
-        >
-        <Image 
-        src={GraphQLIcon}
-        alt="GraphQL icon"
-            />
+          <ActionIcon component={Link} to="/" className={classes.footerLogo}>
+            <Image src={GraphQLIcon} alt="GraphQL icon" />
           </ActionIcon>
           <Text size="xs" color="dimmed" className={classes.description}>
-          {t('footer.iconText')}
+            {t('footer.iconText')}
           </Text>
         </div>
-          {Members}
+        {Members}
       </Container>
       <Container className={classes.afterFooter}>
         <Text color="dimmed" size="sm">
-        {t('footer.rightsText')}
+          {t('footer.rightsText')}
         </Text>
         <Group className={classes.social} position="right">
           <ActionIcon size="xl" component={Link} to="https://rs.school/react/">
-            <Image 
-        src="https://rs.school/images/rs_school_js.svg"
-        alt="Rs school icon"
-            />
+            <Image src="https://rs.school/images/rs_school_js.svg" alt="Rs school icon" />
           </ActionIcon>
         </Group>
       </Container>

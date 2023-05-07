@@ -30,7 +30,7 @@
   "repeatPasswordError": "Пожалуйста, внимательно повторите свой пароль",
   "welcomePage": {
     "title": "GraphiQL",
-    "mainText": "GraphiQL это песочница для graphQL запросов",
+    "mainText": "GraphiQL - это песочница для graphQL запросов",
     "playgroundButton": "Перейти в песочницу",
     "team": "Команда разработчиков"
   },

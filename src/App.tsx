@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import './App.css';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -42,7 +42,7 @@ function App() {
   const router = createBrowserRouter(routes);
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <MantineProvider withGlobalStyles withNormalizeCSS>
           <AppContext.Provider value={{ isAuth, setIsAuth, isLogin, setIsLogin, lang, setLang }}>
@@ -50,7 +50,7 @@ function App() {
           </AppContext.Provider>
         </MantineProvider>
       </ErrorBoundary>
-    </React.StrictMode>
+    </StrictMode>
   );
 }
 
