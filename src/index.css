@@ -36,10 +36,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.redactor-wrapper {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.schema {
+  width: 40%;
+  padding: 1rem;
+}
+
 #wrapper {
   display: flex;
   flex-direction: row;
   height: 97.7vh;
+  width: 100%;
   background-color: #efe9e9;
   border-radius: 1rem;
 }
