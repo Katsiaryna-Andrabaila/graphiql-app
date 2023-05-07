@@ -30,12 +30,6 @@ const WelcomePage = () => {
 
   return (
     <>
-      <HeaderResponsive
-        links={[
-          { link: '/', label: `${t('homeLink')}` },
-          { link: '/redactor', label: `${t('redactorLink')}` },
-        ]}
-      />
       <Box p="xl" className={classes.mainContainer}>
         <Container p="xl" mx="auto">
           <Title
@@ -69,7 +63,6 @@ const WelcomePage = () => {
           {team}
         </Container>
       </Box>
-      <Footer />
     </>
   );
 };

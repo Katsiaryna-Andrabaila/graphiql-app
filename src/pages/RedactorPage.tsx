@@ -205,13 +205,6 @@ const RedactorPage = () => {
   }, [schema, loading]);
   return (
     <>
-      <HeaderResponsive
-        links={[
-          { link: '/', label: `${t('homeLink')}` },
-          { link: '/redactor', label: `${t('redactorLink')}` },
-        ]}
-      />
-
       <div id="wrapper">
         <div id="left-pane" className="pane">
           <div ref={opsRef} className="editor" />

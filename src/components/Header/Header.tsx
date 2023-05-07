@@ -103,6 +103,8 @@ interface HeaderResponsiveProps {
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
+  // console.log((location.pathname))
+  console.log((String(location.pathname))[0].link)
   const pathname =
     String(location.pathname) !== '/404'
       ? links.filter((el) => el.link === String(location.pathname))[0].link

@@ -7,8 +7,8 @@ import ru from './data/ru.json';
 import { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { MantineProvider } from '@mantine/core';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { routes } from './utils/routes';
+import { BrowserRouter, createBrowserRouter } from 'react-router-dom';
+import { Routing } from './utils/routes';
 import { AppContext } from './utils/context';
 
 i18n.use(initReactI18next).init({
@@ -39,14 +39,16 @@ function App() {
     }
   }, []);
 
-  const router = createBrowserRouter(routes);
+
 
   return (
     <React.StrictMode>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <MantineProvider withGlobalStyles withNormalizeCSS>
           <AppContext.Provider value={{ isAuth, setIsAuth, isLogin, setIsLogin, lang, setLang }}>
-            <RouterProvider router={router} />
+          <BrowserRouter>
+      <Routing />
+    </BrowserRouter>
           </AppContext.Provider>
         </MantineProvider>
       </ErrorBoundary>
