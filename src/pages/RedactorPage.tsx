@@ -99,7 +99,6 @@ const createEditor = (
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
 const RedactorPage = () => {
-  const { t } = useTranslation();
   const opsRef = useRef(null);
   const varsRef = useRef(null);
   const resultsRef = useRef(null);
