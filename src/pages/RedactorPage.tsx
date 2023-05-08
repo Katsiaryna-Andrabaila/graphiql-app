@@ -5,7 +5,6 @@ import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
-import { useTranslation } from 'react-i18next';
 import { UnstyledButton } from '@mantine/core';
 
 const fetcher = createGraphiQLFetcher({
