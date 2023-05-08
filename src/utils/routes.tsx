@@ -1,12 +1,15 @@
 import { Routes, Route } from 'react-router-dom';
 import NotFoundPage from '../pages/NotFoundPage';
 import LoginPage from '../pages/LoginPage';
-import RedactorPage from '../pages/RedactorPage';
 import WelcomePage from '../pages/WelcomePage';
 import { Layout } from '../components/layout';
 import { RequireAuth } from '../HOC/Private';
 import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
+import { lazy } from 'react';
+
+const RedactorPage = lazy(() => import('../pages/RedactorPage'));
+
 
 export const Routing = () => {
   const { isAuth } = useContext(AppContext);
