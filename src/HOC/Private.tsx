@@ -1,9 +1,10 @@
 import { Navigate } from 'react-router-dom';
 import { RequireAuthProps } from '../types/types';
 
-export const RequireAuth = ({ children, navigate, redirect }: RequireAuthProps) => {
+export const RequireAuth = ({ children, redirectPath = "/about", redirect }: RequireAuthProps) => {
+  console.log(redirect)
   if (redirect) {
-    return <Navigate to={navigate} replace />;
+    return <Navigate to={redirectPath} replace />;
   }
 
   return children;

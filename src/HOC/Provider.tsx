@@ -7,7 +7,10 @@ const initialContext = { isAuth: false, isLogin: false, lang: 'en' };
 export const AppContext = createContext<TypeAppContext>(initialContext);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuth, setIsAuth] = useState(false);
+
+  const hasToken = localStorage.getItem('authToken') ? true : false
+
+  const [isAuth, setIsAuth] = useState(hasToken);
   const [isLogin, setIsLogin] = useState(true);
   const [lang, setLang] = useState('en');
   const { i18n } = useTranslation();
@@ -38,12 +41,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       i18n.changeLanguage('en');
     }
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('authToken')) {
-      setIsAuth(true);
-    }
-  }, []);
 
   const value = {
     isAuth,

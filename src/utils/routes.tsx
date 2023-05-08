@@ -10,13 +10,14 @@ import { useContext } from 'react';
 
 export const Routing = () => {
   const { isAuth } = useContext(AppContext);
+  console.log(isAuth)
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route
           index
           element={
-            <RequireAuth navigate="/about" redirect={!isAuth}>
+            <RequireAuth redirect={!isAuth}>
               <RedactorPage />
             </RequireAuth>
           }
@@ -25,7 +26,7 @@ export const Routing = () => {
         <Route
           path="login"
           element={
-            <RequireAuth navigate="/" redirect={isAuth}>
+            <RequireAuth redirectPath="/" redirect={isAuth}>
               <LoginPage />
             </RequireAuth>
           }

@@ -26,7 +26,7 @@ export type TeamMember = {
 
 export interface RequireAuthProps {
   children: ReactElement<any, any>;
-  navigate: string;
+  redirectPath?: string;
   redirect: boolean;
 }
 
