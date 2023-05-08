@@ -104,7 +104,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const link = String(location.pathname);
   const pathname =
-    link !== '/404' && link !== '/login' ? links.filter((el) => el.link === link)[0].link : '';
+  links.find((el) => el.link === link) ? links.filter((el) => el.link === link)[0].link : '';
   const [active, setActive] = useState('');
   const { classes, cx } = useStyles();
 
