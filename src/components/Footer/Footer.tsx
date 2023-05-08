@@ -1,13 +1,8 @@
 import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-<<<<<<< HEAD
 import GraphQLIcon from '../../assets/graphql-ar21.svg'
 import { MembersData } from './MembersLinks';
-=======
-import GraphQLIcon from '../../assets/graphql-ar21.svg';
-import { membersData } from './MembersLinks';
->>>>>>> develop
 import { TeamMember } from '../../types/types';
 
 const useStyles = createStyles((theme) => ({
