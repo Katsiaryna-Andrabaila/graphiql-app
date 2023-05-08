@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { endSession } from '../utils/storage';
 import { TypeAppContext } from '../types/types';
