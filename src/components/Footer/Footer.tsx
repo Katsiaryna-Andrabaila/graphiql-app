@@ -2,7 +2,7 @@ import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@m
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import GraphQLIcon from '../../assets/graphql-ar21.svg'
-import { membersData } from './MembersLinks';
+import { MembersData } from './MembersLinks';
 import { TeamMember } from '../../types/types';
 
 
@@ -95,7 +95,6 @@ export function Footer() {
   const { t } = useTranslation();
   const { classes } = useStyles();
   const data: Array<TeamMember> = t('teamArray', { returnObjects: true })
-  const Members = membersData(data)
 
   return (
     <footer className={classes.footer}>
@@ -114,7 +113,7 @@ export function Footer() {
           {t('footer.iconText')}
           </Text>
         </div>
-          {Members}
+        <MembersData data={data} />
       </Container>
       <Container className={classes.afterFooter}>
         <Text color="dimmed" size="sm">

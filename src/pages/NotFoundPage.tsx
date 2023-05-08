@@ -1,6 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { Footer } from '../components/Footer/Footer';
-import HeaderResponsive from '../components/Header/Header';
 import { Text, Title } from '@mantine/core';
 
 const NotFoundPage = () => {

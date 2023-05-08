@@ -1,10 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import HeaderResponsive from '../components/Header/Header';
 import { Text, Center, Button, Title, Container, Group, createStyles, Box } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TeamDescription } from '../components/TeamDescription';
-import { Footer } from '../components/Footer/Footer';
-import { AppContext } from '../utils/context';
+import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
 import { TeamMember } from '../types/types';
 
@@ -25,8 +23,8 @@ const WelcomePage = () => {
   const { t } = useTranslation();
   const { classes } = useStyles();
   const data: Array<TeamMember> = t('teamArray', { returnObjects: true });
-  const team = TeamDescription(data);
-  const { isAuth } = useContext(AppContext);
+  const navigate = useNavigate();
+  const { isAuth, handleClickLogin, handleClickRegister } = useContext(AppContext);
 
   return (
     <>
@@ -50,17 +48,31 @@ const WelcomePage = () => {
               </Button>
             ) : (
               <Group>
-                <Button component={Link} to="/" className={classes.button}>
+                <Button
+                  className={classes.button}
+                  onClick={() => {
+                    if (handleClickLogin) {
+                      handleClickLogin(() => navigate('/login'));
+                    }
+                  }}
+                >
                   {t('loginLink')}
                 </Button>
-                <Button component={Link} to="/" className={classes.button}>
+                <Button
+                  className={classes.button}
+                  onClick={() => {
+                    if (handleClickRegister) {
+                      handleClickRegister(() => navigate('/login'));
+                    }
+                  }}
+                >
                   {t('signUp')}
                 </Button>
               </Group>
             )}
           </Center>
           <Title>{t('welcomePage.team')}</Title>
-          {team}
+          <TeamDescription data={data} />
         </Container>
       </Box>
     </>

@@ -1,6 +1,6 @@
 import { createStyles, Text, rem, Anchor, Flex } from '@mantine/core';
 import { IconBrandGithub } from '@tabler/icons-react';
-import { TeamMember } from '../../types/types';
+import { MembersDataProps } from '../../types/types';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const membersData = (data: Array<TeamMember>) => {
+export const MembersData = ({data}: MembersDataProps) => {
   const { classes } = useStyles();
   const membersJSX = data.map((member, index) => {
     return (

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   createStyles,
   Header,
@@ -17,9 +17,8 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppContext } from '../../utils/context';
-import { endSession } from '../../utils/storage';
 import GraphQLIcon from '../../assets/graphql-ar21.svg';
+import { AppContext } from '../../HOC/Provider';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -103,14 +102,15 @@ interface HeaderResponsiveProps {
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
-  // console.log((location.pathname))
-  console.log((String(location.pathname))[0].link)
+  const link = String(location.pathname);
   const pathname =
-    String(location.pathname) !== '/404'
-      ? links.filter((el) => el.link === String(location.pathname))[0].link
-      : null;
-  const [active, setActive] = useState(pathname);
+    link !== '/404' && link !== '/login' ? links.filter((el) => el.link === link)[0].link : '';
+  const [active, setActive] = useState('');
   const { classes, cx } = useStyles();
+
+  useEffect(() => {
+    setActive(pathname);
+  }, [pathname]);
 
   const items = links.map((link) => (
     <Text
@@ -119,7 +119,6 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
       to={link.link}
       className={cx(classes.link, { [classes.linkActive]: active === link.link })}
       onClick={() => {
-        setActive(link.link);
         close();
       }}
     >
@@ -127,38 +126,18 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     </Text>
   ));
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setIsLogin, isAuth, setIsAuth, lang, setLang } = useContext(AppContext);
+  const {
+    isAuth,
+    lang,
+    handleClickLogin,
+    handleClickRegister,
+    handleClickLogout,
+    handleChangeLanguage,
+  } = useContext(AppContext);
 
-  const handleClickLogin = () => {
-    setIsLogin && setIsLogin(true);
-    navigate('/login');
-  };
-
-  const handleClickRegister = () => {
-    setIsLogin && setIsLogin(false);
-    navigate('/login');
-  };
-
-  const handleClickLogout = () => {
-    endSession();
-    setIsAuth && setIsAuth(false);
-    setIsLogin && setIsLogin(true);
-    navigate('/login');
-  };
-
-  const handleChangeLanguage = () => {
-    if (lang === 'en') {
-      setLang && setLang('ru');
-      i18n.changeLanguage('ru');
-    } else {
-      setLang && setLang('en');
-      i18n.changeLanguage('en');
-    }
-  };
-
-  return (
+  return link === '/login' ? null : (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
         <ActionIcon component={Link} to="/" className={classes.logo}>
@@ -190,13 +169,36 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
             ]}
           />
           {isAuth ? (
-            <Button onClick={handleClickLogout}>{t('logOut')}</Button>
+            <Button
+              onClick={() => {
+                if (handleClickLogout) {
+                  handleClickLogout(() => navigate('/login'));
+                }
+              }}
+            >
+              {t('logOut')}
+            </Button>
           ) : (
             <Group>
-              <Button variant="default" onClick={handleClickLogin}>
+              <Button
+                variant="default"
+                onClick={() => {
+                  if (handleClickLogin) {
+                    handleClickLogin(() => navigate('/login'));
+                  }
+                }}
+              >
                 {t('loginLink')}
               </Button>
-              <Button onClick={handleClickRegister}>{t('signUp')}</Button>
+              <Button
+                onClick={() => {
+                  if (handleClickRegister) {
+                    handleClickRegister(() => navigate('/login'));
+                  }
+                }}
+              >
+                {t('signUp')}
+              </Button>
             </Group>
           )}
         </Group>

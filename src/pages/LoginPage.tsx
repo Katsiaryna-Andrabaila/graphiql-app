@@ -14,12 +14,11 @@ import {
 } from '@mantine/core';
 import { upperFirst, useToggle } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../utils/context';
 import { validateEmail, validatePassword } from '../utils/validate';
 import { createUser, signInUser } from '../utils/firebase';
 import { startSession } from '../utils/storage';
 import { IconAlertCircle } from '@tabler/icons-react';
-import { Footer } from '../components/Footer/Footer';
+import { AppContext } from '../HOC/Provider';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -63,7 +62,7 @@ const LoginPage = () => {
         startSession(loginResponse.user);
       }
       setIsAuth && setIsAuth(true);
-      navigate('/');
+      navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -77,7 +76,7 @@ const LoginPage = () => {
   return (
     <>
       <Container size={560} my={100}>
-        <Anchor component="button" size="lg" align="left" onClick={() => navigate('/')}>
+        <Anchor component="button" size="lg" align="left" onClick={() => navigate('/about')}>
           {t('backToMain')}
         </Anchor>
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -141,7 +140,6 @@ const LoginPage = () => {
           </Box>
         </Paper>
       </Container>
-      <Footer />
     </>
   );
 };
