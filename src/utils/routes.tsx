@@ -23,7 +23,7 @@ export const Routing = () => {
             </RequireAuth>
           }
         />
-        <Route path="about" element={<WelcomePage />} />
+        <Route path="welcome" element={<WelcomePage />} />
         <Route
           path="login"
           element={
