@@ -10,8 +10,8 @@ export const Layout = () => {
     <>
         <HeaderResponsive
         links={[
-          { link: '/', label: `${t('redactorLink')}` },
-          { link: '/welcome', label: `${t('homeLink')}` },
+          { link: '/', label: `${t('homeLink')}` },
+          { link: '/welcome', label: `${t('about')}` },
         ]}
       />
       <main className="main">
