@@ -31,5 +31,31 @@ export interface RequireAuthProps {
 }
 
 export type MembersDataProps = {
-  data: Array<TeamMember>
-}
+  data: Array<TeamMember>;
+};
+
+type Type = {
+  kind: string;
+  name: string | null;
+  ofType: null;
+};
+
+type Args = {
+  defaultValue: null;
+  description: string;
+  name: string;
+  type: {
+    kind: string;
+    name: string | null;
+    ofType: Type;
+  };
+};
+
+export type Field = {
+  args: Args;
+  deprecationReason: null;
+  description: string;
+  isDeprecated: boolean;
+  name: string;
+  type: Type;
+};
