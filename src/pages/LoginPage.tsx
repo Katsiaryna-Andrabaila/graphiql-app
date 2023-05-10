@@ -15,9 +15,14 @@ import {
 import { upperFirst, useToggle } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from '../utils/validate';
-import { createUser, signInUser } from '../utils/firebase';
+import {
+  createUser,
+  forgotPassword,
+  signInUser,
+  signInWithGooggleAccount,
+} from '../utils/firebase';
 import { startSession } from '../utils/storage';
-import { IconAlertCircle } from '@tabler/icons-react';
+import { IconAlertCircle, IconBrandGoogle } from '@tabler/icons-react';
 import { AppContext } from '../HOC/Provider';
 
 const LoginPage = () => {
@@ -28,6 +33,7 @@ const LoginPage = () => {
     ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
     : useToggle([`${t('loginLink')}`, `${t('registerLink')}`]);
 
+  const [isReset, setReset] = useState(false);
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,6 +77,20 @@ const LoginPage = () => {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      const registerResponse = await signInWithGooggleAccount();
+      startSession(registerResponse.user);
+      setIsAuth && setIsAuth(true);
+      navigate('/', { replace: true });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+        setError(error.message);
+      }
+    }
+  };
+
   const navigate = useNavigate();
 
   return (
@@ -81,7 +101,11 @@ const LoginPage = () => {
         </Anchor>
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <Text size="xl" component="h1" ta="center">
-            {type === `${t('registerLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
+            {isReset
+              ? `${t('resetTitle')}`
+              : type === `${t('registerLink')}`
+              ? `${t('registerLink')}`
+              : `${t('loginLink')}`}
           </Text>
           {error && (
             <Alert
@@ -102,14 +126,16 @@ const LoginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <PasswordInput
-              label={t('password')}
-              required
-              placeholder="********"
-              description={type === `${t('registerLink')}` ? t('passwordDescription') : ''}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            {!isReset && (
+              <PasswordInput
+                label={t('password')}
+                required
+                placeholder="********"
+                description={type === `${t('registerLink')}` ? t('passwordDescription') : ''}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            )}
             {type === `${t('registerLink')}` && (
               <>
                 <PasswordInput
@@ -122,19 +148,37 @@ const LoginPage = () => {
                 <Space h="md" />
               </>
             )}
-            {type === `${t('loginLink')}` && (
-              <Anchor component="button" size="sm">
+            {type === `${t('loginLink')}` && !isReset && (
+              <Anchor component="button" size="sm" onClick={() => setReset(!isReset)}>
                 {t('forgotPassword')}
               </Anchor>
             )}
-            <Button type="submit" fullWidth>
-              {upperFirst(type)}
-            </Button>
+            {!isReset && (
+              <Button type="submit" fullWidth>
+                {upperFirst(type)}
+              </Button>
+            )}
           </form>
-
+          {type === `${t('loginLink')}` && !isReset && (
+            <Button onClick={signInWithGoogle} fullWidth mt={10} rightIcon={<IconBrandGoogle size={18} />}>
+              {t('signWithGoogle')}
+            </Button>
+          )}
+          {isReset && (
+            <Button onClick={() => forgotPassword(email)} fullWidth mt={10}>
+              {t('resetPassword')}
+            </Button>
+          )}
           <Box sx={{ mt: 2 }}>
             {type === `${t('loginLink')}` ? `${t('notHaveAccount')}` : `${t('haveAccount')}`}
-            <Anchor td="underline" c="blue" onClick={() => toggle()}>
+            <Anchor
+              td="underline"
+              c="blue"
+              onClick={() => {
+                toggle();
+                setReset(false);
+              }}
+            >
               {type === `${t('loginLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
             </Anchor>
           </Box>

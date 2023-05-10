@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -20,3 +20,13 @@ export const createUser = async (email: string, password: string) => {
 export const signInUser = async (email: string, password: string) => {
   return signInWithEmailAndPassword(getAuth(app), email, password);
 };
+
+export const signInWithGooggleAccount = async () => {
+  const provider = new GoogleAuthProvider()
+  return signInWithPopup(getAuth(app), provider)
+}
+
+export const forgotPassword = async (email: string) => {
+// change url before production
+return sendPasswordResetEmail(getAuth(app), email, {url: 'http://localhost:3000/login'})
+}
