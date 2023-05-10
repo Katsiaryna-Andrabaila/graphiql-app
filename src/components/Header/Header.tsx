@@ -149,8 +149,6 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
           </Group>
         ) : null}
 
-        <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
-
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
