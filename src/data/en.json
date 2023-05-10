@@ -18,6 +18,8 @@
   "forgotPassword": "Forgot your password? ",
   "resetPassword": "Reset",
   "resetTitle": "Reset your password",
+  "resetTitleNotificaton": "Your password was reset",
+  "resetMessageNotificaton": "The link to set up your new password was sent to your e-mail",
   "signWithGoogle": "Sign in with",
   "notHaveAccount": "Don't have an account yet? ",
   "haveAccount": "Already have an account? ",

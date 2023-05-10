@@ -15,15 +15,11 @@ import {
 import { upperFirst, useToggle } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from '../utils/validate';
-import {
-  createUser,
-  forgotPassword,
-  signInUser,
-  signInWithGooggleAccount,
-} from '../utils/firebase';
+import { createUser, forgotPassword, signInUser, signInWithGoogleAccount } from '../utils/firebase';
 import { startSession } from '../utils/storage';
-import { IconAlertCircle, IconBrandGoogle } from '@tabler/icons-react';
+import { IconAlertCircle, IconBrandGoogle, IconCheck } from '@tabler/icons-react';
 import { AppContext } from '../HOC/Provider';
+import { Notifications, notifications } from '@mantine/notifications';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -79,10 +75,33 @@ const LoginPage = () => {
 
   const signInWithGoogle = async () => {
     try {
-      const registerResponse = await signInWithGooggleAccount();
+      const registerResponse = await signInWithGoogleAccount();
       startSession(registerResponse.user);
       setIsAuth && setIsAuth(true);
       navigate('/', { replace: true });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+        setError(error.message);
+      }
+    }
+  };
+
+  const resetPassword = async () => {
+    if (!email || !validateEmail(email)) {
+      setError(`${t('emailError')}`);
+      return;
+    }
+    try {
+      setError('');
+      await forgotPassword(email);
+      notifications.show({
+        id: 'log-in',
+        title: `${t('resetTitleNotificaton')}`,
+        message: `${t('resetMessageNotificaton')}`,
+        autoClose: 3000,
+        icon: <IconCheck />,
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -160,12 +179,17 @@ const LoginPage = () => {
             )}
           </form>
           {type === `${t('loginLink')}` && !isReset && (
-            <Button onClick={signInWithGoogle} fullWidth mt={10} rightIcon={<IconBrandGoogle size={18} />}>
+            <Button
+              onClick={signInWithGoogle}
+              fullWidth
+              mt={10}
+              rightIcon={<IconBrandGoogle size={18} />}
+            >
               {t('signWithGoogle')}
             </Button>
           )}
           {isReset && (
-            <Button onClick={() => forgotPassword(email)} fullWidth mt={10}>
+            <Button onClick={resetPassword} fullWidth mt={10}>
               {t('resetPassword')}
             </Button>
           )}
@@ -183,6 +207,7 @@ const LoginPage = () => {
             </Anchor>
           </Box>
         </Paper>
+        <Notifications position="bottom-right" zIndex={2077} />
       </Container>
     </>
   );

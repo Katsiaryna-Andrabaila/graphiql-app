@@ -21,7 +21,7 @@ export const signInUser = async (email: string, password: string) => {
   return signInWithEmailAndPassword(getAuth(app), email, password);
 };
 
-export const signInWithGooggleAccount = async () => {
+export const signInWithGoogleAccount = async () => {
   const provider = new GoogleAuthProvider()
   return signInWithPopup(getAuth(app), provider)
 }

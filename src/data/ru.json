@@ -19,6 +19,8 @@
   "forgotPassword": "Забыли пароль? ",
   "resetPassword": "Сбросить",
   "resetTitle": "Сбросить ваш пароль",
+  "resetTitleNotificaton": "Пароль был сброшен",
+  "resetMessageNotificaton": "Ссылка для установки нового пароля была выслана на вашу почту",
   "signWithGoogle": "Войти с помощью",
   "notHaveAccount": "Ещё нет аккаунта? ",
   "haveAccount": "Уже есть аккаунт? ",
