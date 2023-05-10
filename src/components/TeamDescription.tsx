@@ -1,7 +1,7 @@
 import { Text, Title, Flex, Container, Image } from '@mantine/core';
-import { TeamMember } from '../types/types';
+import { MembersDataProps } from '../types/types';
 
-export const TeamDescription = (data: Array<TeamMember>) => {
+export const TeamDescription = ({data}: MembersDataProps) => {
   const membersJSX = data.map((member, index) => {
     return (
       <Container key={index}>

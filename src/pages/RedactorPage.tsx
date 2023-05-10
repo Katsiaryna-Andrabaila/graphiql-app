@@ -5,8 +5,6 @@ import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
-import HeaderResponsive from '../components/Header/Header';
-import { useTranslation } from 'react-i18next';
 import { UnstyledButton } from '@mantine/core';
 
 const fetcher = createGraphiQLFetcher({
@@ -100,7 +98,6 @@ const createEditor = (
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
 const RedactorPage = () => {
-  const { t } = useTranslation();
   const opsRef = useRef(null);
   const varsRef = useRef(null);
   const resultsRef = useRef(null);
@@ -208,13 +205,6 @@ const RedactorPage = () => {
 
   return (
     <>
-      <HeaderResponsive
-        links={[
-          { link: '/', label: `${t('homeLink')}` },
-          { link: '/redactor', label: `${t('redactorLink')}` },
-        ]}
-      />
-
       <div className="redactor-wrapper">
         <UnstyledButton onClick={handleClickSchema}>
           <img src="src/assets/docs.svg" />
