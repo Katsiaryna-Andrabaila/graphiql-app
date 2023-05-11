@@ -54,8 +54,6 @@ const getSchema = async () =>
   });
 
 const getOrCreateModel = (uri: string, value: string) => {
-  console.log(editor);
-
   return (
     editor.getModel(Uri.file(uri)) ?? editor.createModel(value, uri.split('.').pop(), Uri.file(uri))
   );
@@ -110,7 +108,7 @@ const RedactorPage = () => {
   const [loading, setLoading] = useState(false);
   const [isOpenSchema, setIsOpenSchema] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
-  console.log(editor);
+
   /**
    * Create the models & editors
    */
@@ -229,7 +227,9 @@ const RedactorPage = () => {
           <Button onClick={execOperation} sx={{ padding: '0' }}>
             Run
           </Button>
-          <Button onClick={variablesHandler} sx={{ padding: '0' }}>Variables</Button>
+          <Button onClick={variablesHandler} sx={{ padding: '0' }}>
+            Variables
+          </Button>
         </Stack>
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
         <div id="wrapper">
