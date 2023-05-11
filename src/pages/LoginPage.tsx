@@ -53,6 +53,16 @@ const LoginPage = () => {
       return;
     }
 
+    notifications.show({
+      id: type === `${t('registerLink')}` ? `sign-up` : `sign-in`,
+      loading: true,
+      title:
+        type === `${t('registerLink')}`
+          ? `${t('notifications.signUpTittle')}`
+          : `${t('notifications.signInTittle')}`,
+      message: `${t('notifications.waitMessage')}`,
+    });
+
     setError('');
 
     try {
@@ -63,10 +73,21 @@ const LoginPage = () => {
         const loginResponse = await signInUser(email, password);
         startSession(loginResponse.user);
       }
+      notifications.update({
+        id: type === `${t('registerLink')}` ? `sign-up` : `sign-in`,
+        title:
+          type === `${t('registerLink')}`
+            ? `${t('notifications.signUpTittleComplete')}`
+            : `${t('notifications.signInTittleComplete')}`,
+        message: `${t('notifications.completeMessage')}`,
+        icon: <IconCheck size="1rem" />,
+        autoClose: 2000,
+      });
       setIsAuth && setIsAuth(true);
       navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
+        notifications.clean();
         console.error(error.message);
         setError(error.message);
       }
@@ -74,13 +95,27 @@ const LoginPage = () => {
   };
 
   const signInWithGoogle = async () => {
+    notifications.show({
+      id: 'google-log-in',
+      loading: true,
+      title: `${t('notifications.signInWithGoogleTitle')}`,
+      message: `${t('notifications.waitMessage')}`,
+    });
     try {
       const registerResponse = await signInWithGoogleAccount();
       startSession(registerResponse.user);
+      notifications.update({
+        id: 'google-log-in',
+        title: `${t('notifications.signInTittleComplete')}`,
+        message: `${t('notifications.completeMessage')}`,
+        icon: <IconCheck size="1rem" />,
+        autoClose: 2000,
+      });
       setIsAuth && setIsAuth(true);
       navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
+        notifications.clean();
         console.error(error.message);
         setError(error.message);
       }
@@ -88,22 +123,30 @@ const LoginPage = () => {
   };
 
   const resetPassword = async () => {
+    setError("");
     if (!email || !validateEmail(email)) {
       setError(`${t('emailError')}`);
       return;
     }
+    notifications.show({
+      id: 'reset',
+      loading: true,
+      title: `${t('notifications.resetTitle')}`,
+      message: `${t('notifications.waitMessage')}`,
+    });
     try {
       setError('');
       await forgotPassword(email);
-      notifications.show({
-        id: 'log-in',
-        title: `${t('resetTitleNotificaton')}`,
-        message: `${t('resetMessageNotificaton')}`,
+      notifications.update({
+        id: 'reset',
+        title: `${t('notifications.resetTitleComplete')}`,
+        message: `${t('notifications.resetMessage')}`,
         autoClose: 3000,
         icon: <IconCheck />,
       });
     } catch (error) {
       if (error instanceof Error) {
+        notifications.clean();
         console.error(error.message);
         setError(error.message);
       }
@@ -168,7 +211,10 @@ const LoginPage = () => {
               </>
             )}
             {type === `${t('loginLink')}` && !isReset && (
-              <Anchor component="button" size="sm" onClick={() => setReset(!isReset)}>
+              <Anchor component="button" size="sm" onClick={() => {
+                setReset(!isReset)
+                setError("")
+              }}>
                 {t('forgotPassword')}
               </Anchor>
             )}
@@ -199,8 +245,9 @@ const LoginPage = () => {
               td="underline"
               c="blue"
               onClick={() => {
+                setError("");
                 toggle();
-                setReset(false);
+                setReset(false)
               }}
             >
               {type === `${t('loginLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
