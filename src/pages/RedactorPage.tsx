@@ -5,7 +5,7 @@ import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
-import { UnstyledButton } from '@mantine/core';
+import { Button, Stack, UnstyledButton } from '@mantine/core';
 
 const fetcher = createGraphiQLFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
@@ -107,6 +107,7 @@ const RedactorPage = () => {
   const [schema, setSchema] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
   const [isOpenSchema, setIsOpenSchema] = useState(false);
+  const [showVariables, setShowVariables] = useState(false);
 
   /**
    * Create the models & editors
@@ -124,6 +125,7 @@ const RedactorPage = () => {
           language: 'graphql',
         })
       );
+
     variablesEditor ??
       setVariablesEditor(
         createEditor(varsRef, {
@@ -203,12 +205,32 @@ const RedactorPage = () => {
     !isOpenSchema ? setIsOpenSchema(true) : setIsOpenSchema(false);
   };
 
+  const variablesHandler = () => {
+    if (varsRef.current) {
+      if (!showVariables) {
+        (varsRef.current as HTMLElement).style.display = 'none';
+      } else {
+        (varsRef.current as HTMLElement).style.display = '';
+      }
+    }
+    setShowVariables(!showVariables);
+    queryEditor && queryEditor.layout();
+  };
+
   return (
     <>
       <div className="redactor-wrapper">
-        <UnstyledButton onClick={handleClickSchema}>
-          <img src="src/assets/docs.svg" />
-        </UnstyledButton>
+        <Stack>
+          <UnstyledButton onClick={handleClickSchema}>
+            <img src="src/assets/docs.svg" />
+          </UnstyledButton>
+          <Button onClick={execOperation} sx={{ padding: '0' }}>
+            Run
+          </Button>
+          <Button onClick={variablesHandler} sx={{ padding: '0' }}>
+            Variables
+          </Button>
+        </Stack>
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
         <div id="wrapper">
           <div id="left-pane" className="pane">
