@@ -10,6 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routing } from './utils/routes';
 import { AppProvider } from './HOC/Provider';
 import { AppLoader } from './components/AppLoader';
+import { ErrorFallback } from './components/ErrorFallback';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -31,7 +32,7 @@ i18n.use(initReactI18next).init({
 function App() {
   return (
     <StrictMode>
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <MantineProvider withGlobalStyles withNormalizeCSS>
         <Suspense fallback={<AppLoader />}>
         <AppProvider>
