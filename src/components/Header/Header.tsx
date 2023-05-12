@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
   Header,
   Container,
@@ -18,10 +18,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { AppContext } from '../../HOC/Provider';
 import useStyles, { HEADER_HEIGHT } from './styles';
-
-interface HeaderResponsiveProps {
-  links: { link: string; label: string }[];
-}
+import stickyHeader from '../../utils/stickyHeader';
+import { HeaderResponsiveProps } from '../../types/types';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
@@ -31,6 +29,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     : '';
   const [active, setActive] = useState('');
   const { classes, cx } = useStyles();
+  const rootRef = useRef(null);
 
   useEffect(() => {
     setActive(pathname);
@@ -61,8 +60,10 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     handleChangeLanguage,
   } = useContext(AppContext);
 
+  window.addEventListener('scroll', () => stickyHeader(rootRef));
+
   return link === '/login' ? null : (
-    <Header height={HEADER_HEIGHT} className={classes.root}>
+    <Header height={HEADER_HEIGHT} className={classes.root} ref={rootRef}>
       <Container className={classes.header}>
         <ActionIcon component={Link} to="/" className={classes.logo}>
           <Image src={GraphQLIcon} alt="GraphQL icon" />
