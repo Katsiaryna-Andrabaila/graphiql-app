@@ -4,8 +4,10 @@ export const HEADER_HEIGHT = rem(60);
 
 const useStyles = createStyles((theme) => ({
   root: {
-    position: 'relative',
+    position: 'sticky',
     zIndex: 1,
+    top: '0px',
+    transition: '0.5s',
   },
 
   logo: {
