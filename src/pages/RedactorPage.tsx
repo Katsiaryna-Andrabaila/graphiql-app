@@ -2,12 +2,12 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import { Button, Stack, UnstyledButton } from '@mantine/core';
+import { createFetcher } from '../utils/createFetcher';
 
-const fetcher = createGraphiQLFetcher({
+const fetcher = createFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
 });
 
@@ -86,7 +86,6 @@ const queryAction = {
   ],
   run: execOperation,
 };
-// set these early on so that initial variables with comments don't flash an error
 languages.json.jsonDefaults.setDiagnosticsOptions({
   allowComments: true,
   trailingCommas: 'ignore',
