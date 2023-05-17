@@ -20,6 +20,9 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
       case query[0].name:
         setIsFieldOpen(false);
         setIsQueryOpen(true);
+        setType(null);
+        setNestedType(null);
+        setScalarType(null);
         setHeader('Docs');
         break;
       case field?.name:
@@ -38,7 +41,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
         setScalarType(null);
         setIsNestedTypeOpen(true);
         setIsTypeOpen(false);
-        setHeader(type!.name);
+        type ? setHeader(type.name) : setHeader(query[0].name);
         break;
     }
   };
@@ -55,17 +58,24 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
     }
   };
 
-  const handleClickType = (event: React.MouseEvent<HTMLAnchorElement>, type?: string) => {
+  const handleClickType = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    type?: 'type' | 'nested' | 'scalar'
+  ) => {
     if (event.target instanceof HTMLAnchorElement) {
       const value = event.target.innerText;
       const targetType = query.find((el) => el.name === value);
       if (targetType) {
-        if (type === 'type') {
-          setType(targetType);
-        } else if (type === 'nested') {
-          setNestedType(targetType);
-        } else if (type === 'scalar') {
-          setScalarType(targetType);
+        switch (type) {
+          case 'type':
+            setType(targetType);
+            break;
+          case 'nested':
+            setNestedType(targetType);
+            break;
+          case 'scalar':
+            setScalarType(targetType);
+            break;
         }
       }
       setIsQueryOpen(false);
@@ -73,23 +83,62 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
     }
   };
 
-  const getArgs = (args: Args[]) =>
+  const getArgs = (args: Args[], position: 'type' | 'fields') =>
     args.map((item) => (
       <div key={item.name} className="argument">
         <span>{item.name}</span>:{' '}
         {item.type.kind === 'NON_NULL' && item.name !== 'ids' ? (
           <span>
-            <a>{item.type.ofType.name}</a>!
+            <a
+              onClick={(e) => {
+                handleClickType(e, 'scalar');
+                setHeader(query[0].name);
+              }}
+            >
+              {item.type.ofType.name}
+            </a>
+            !
           </span>
         ) : item.type.kind === 'NON_NULL' && item.name === 'ids' ? (
           <span>
-            [<a>{item.type.ofType.ofType.ofType.name}</a>!]!
+            [
+            <a
+              onClick={(e) => {
+                handleClickType(e, 'scalar');
+                setHeader(query[0].name);
+              }}
+            >
+              {item.type.ofType.ofType.ofType.name}
+            </a>
+            !]!
           </span>
+        ) : item.type.kind === 'SCALAR' ? (
+          <a
+            onClick={(e) => {
+              handleClickType(e, 'scalar');
+              position === 'type' && type ? setHeader(type.name) : setHeader(query[0].name);
+            }}
+          >
+            {item.type.name}
+          </a>
         ) : (
-          <a>{item.type.name}</a>
+          <a
+            onClick={(e) => {
+              handleClickType(e, 'nested');
+              setIsNestedTypeOpen(true);
+              position === 'type' && type ? setHeader(type.name) : setHeader(query[0].name);
+            }}
+          >
+            {item.type.name}
+          </a>
         )}
       </div>
     ));
+
+  let fields: Field[] | null = null;
+  if (nestedType) {
+    fields = nestedType.fields ? nestedType.fields : nestedType.inputFields;
+  }
 
   return (
     <section className="schema">
@@ -114,7 +163,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
           <p>▪ Fields</p>
           {query[0].fields.map((el: Field) => (
             <div key={el.name} className="type">
-              <a onClick={() => handleClickField(el)}>{el.name}</a>({getArgs(el.args)}
+              <a onClick={() => handleClickField(el)}>{el.name}</a>({getArgs(el.args, 'fields')}
               ):{' '}
               {el.type.kind === 'LIST' ? (
                 <span>
@@ -180,7 +229,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
             </a>
           )}
           <p>▪ Arguments</p>
-          {getArgs(field.args)}
+          {getArgs(field.args, 'type')}
         </>
       )}
 
@@ -250,14 +299,44 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
       {isNestedTypeOpen && nestedType && (
         <>
           <h4>{nestedType.name}</h4>
-          {nestedType.fields ? (
+          {(nestedType.fields || nestedType.inputFields) && fields ? (
             <>
               <p>▪ Fields</p>
-              {nestedType.fields.map((el: Field) => (
+              {fields.map((el: Field) => (
                 <div key={el.name}>
                   <p>
                     <span>{el.name}</span>:{' '}
-                    {
+                    {el.type.kind === 'NON_NULL' ? (
+                      <span>
+                        [
+                        <a
+                          onClick={(e) => {
+                            handleClickType(e, 'nested');
+                            setIsTypeOpen(false);
+                            setIsNestedTypeOpen(true);
+                            setHeader(nestedType.name);
+                          }}
+                        >
+                          {el.type.ofType.ofType.name}
+                        </a>
+                        ]!
+                      </span>
+                    ) : el.type.kind === 'LIST' ? (
+                      <span>
+                        [
+                        <a
+                          onClick={(e) => {
+                            handleClickType(e, 'nested');
+                            setIsTypeOpen(false);
+                            setIsNestedTypeOpen(true);
+                            setHeader(nestedType.name);
+                          }}
+                        >
+                          {el.type.ofType.name}
+                        </a>
+                        ]
+                      </span>
+                    ) : (
                       <a
                         onClick={(e) => {
                           handleClickType(e, 'scalar');
@@ -267,7 +346,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
                       >
                         {el.type.name}
                       </a>
-                    }
+                    )}
                   </p>
                   <p>{el.description}</p>
                 </div>
