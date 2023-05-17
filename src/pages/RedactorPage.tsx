@@ -6,6 +6,7 @@ import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import { Button, Stack, UnstyledButton } from '@mantine/core';
+import { Schema } from '../components/Schema';
 
 const fetcher = createGraphiQLFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
@@ -199,6 +200,7 @@ const RedactorPage = () => {
         })
         .then(() => setLoading(false));
     }
+    console.log(schema);
   }, [schema, loading]);
 
   const handleClickSchema = () => {
@@ -232,6 +234,18 @@ const RedactorPage = () => {
           </Button>
         </Stack>
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
+
+        <UnstyledButton onClick={handleClickSchema}>
+          <img src="src/assets/docs.svg" />
+        </UnstyledButton>
+        {isOpenSchema && (
+          <Schema
+            fields={
+              JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types'][0]['fields']
+            }
+          />
+        )}
+
         <div id="wrapper">
           <div id="left-pane" className="pane">
             <div ref={opsRef} className="ops-editor" />
