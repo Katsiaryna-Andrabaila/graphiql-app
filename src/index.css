@@ -48,7 +48,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
 
-  min-width: 50vh;
+  width: 60vh;
   height: 97vh;
   padding: 1rem;
   border-left: 1px solid #e4e0e0;

@@ -32,15 +32,12 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
         setIsNestedTypeOpen(false);
         setIsTypeOpen(true);
         setIsFieldOpen(false);
-        setIsQueryOpen(false);
         setHeader(field!.name);
         break;
       case nestedType?.name:
         setScalarType(null);
         setIsNestedTypeOpen(true);
         setIsTypeOpen(false);
-        setIsFieldOpen(false);
-        setIsQueryOpen(false);
         setHeader(type!.name);
         break;
     }

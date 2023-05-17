@@ -233,11 +233,7 @@ const RedactorPage = () => {
             Variables
           </Button>
         </Stack>
-        {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
 
-        <UnstyledButton onClick={handleClickSchema}>
-          <img src="src/assets/docs.svg" />
-        </UnstyledButton>
         {isOpenSchema && (
           <Schema query={JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types']} />
         )}
