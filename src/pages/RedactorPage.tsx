@@ -212,11 +212,7 @@ const RedactorPage = () => {
           <img src="src/assets/docs.svg" />
         </UnstyledButton>
         {isOpenSchema && (
-          <Schema
-            fields={
-              JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types'][0]['fields']
-            }
-          />
+          <Schema query={JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types']} />
         )}
         <div id="wrapper">
           <div id="left-pane" className="pane">

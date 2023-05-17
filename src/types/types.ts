@@ -34,28 +34,49 @@ export type MembersDataProps = {
   data: Array<TeamMember>;
 };
 
+type Kind = 'OBJECT' | 'SCALAR' | 'ENUM' | 'INPUT_OBJECT' | 'LIST' | 'NON_NULL';
+
 type Type = {
-  kind: string;
+  kind: Kind;
   name: string | null;
-  ofType: null;
+  ofType: {
+    kind: Kind;
+    name: string | null;
+    ofType: Type;
+  };
 };
 
-type Args = {
+export type Args = {
   defaultValue: null;
   description: string;
   name: string;
   type: {
-    kind: string;
+    kind: Kind;
     name: string | null;
     ofType: Type;
   };
 };
 
 export type Field = {
-  args: Args;
+  args: Args[];
   deprecationReason: null;
   description: string;
   isDeprecated: boolean;
   name: string;
-  type: Type;
+  type: {
+    kind: Kind;
+    name: string | null;
+    ofType: Type;
+  };
+};
+
+export type QueryType = {
+  description: string;
+  enumValues: null;
+  fields: Field[];
+  inputFields: null;
+  interfaces: [] | null;
+  kind: Kind;
+  name: string;
+  possibleTypes: null;
 };
