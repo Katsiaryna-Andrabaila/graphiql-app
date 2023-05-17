@@ -17,7 +17,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
       case 'Docs':
         setIsQueryOpen(false);
         break;
-      case 'Query':
+      case query[0].name:
         setIsFieldOpen(false);
         setIsQueryOpen(true);
         setHeader('Docs');
@@ -26,13 +26,13 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
         setIsTypeOpen(false);
         setIsFieldOpen(true);
         setIsQueryOpen(false);
-        setHeader('Query');
+        setHeader(query[0].name);
         break;
       case type?.name:
         setIsNestedTypeOpen(false);
         setIsTypeOpen(true);
         setIsFieldOpen(false);
-        setHeader(field!.name);
+        field ? setHeader(field.name) : setHeader(query[0].name);
         break;
       case nestedType?.name:
         setScalarType(null);
@@ -51,7 +51,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
       setIsFieldOpen(true);
       setIsQueryOpen(false);
       setField(type);
-      setHeader('Query');
+      setHeader(query[0].name);
     }
   };
 
@@ -118,10 +118,30 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
               ):{' '}
               {el.type.kind === 'LIST' ? (
                 <span>
-                  [<a>{el.type.ofType.name}</a>]
+                  [
+                  <a
+                    onClick={(e) => {
+                      handleClickType(e, 'type');
+                      setIsTypeOpen(true);
+                      setHeader(query[0].name);
+                      setField(null);
+                    }}
+                  >
+                    {el.type.ofType.name}
+                  </a>
+                  ]
                 </span>
               ) : (
-                <a>{el.type.name}</a>
+                <a
+                  onClick={(e) => {
+                    handleClickType(e, 'type');
+                    setIsTypeOpen(true);
+                    setHeader(query[0].name);
+                    setField(null);
+                  }}
+                >
+                  {el.type.name}
+                </a>
               )}
               <p>{el.description}</p>
             </div>
