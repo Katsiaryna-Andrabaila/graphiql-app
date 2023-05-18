@@ -74,5 +74,25 @@
       "role": "Ментор",
       "link": "https://github.com/alehharnizonau"
     }
-  ]
+  ],
+  "sideMenu": {
+    "show": "Показать",
+    "hide": "Скрыть",
+    "schema" : "Схема",
+    "history" : "История",
+    "variables" : "Переменные",
+    "settings" : "Настройки",
+    "run" : "Выполнить запрос"
+  },
+  "modal": {
+    "title": "Настройки",
+    "theme": "Тема",
+    "themeAdjust": "Настройте внешний вид интерфейса",
+    "light": "Светлая",
+    "dark": "Темная",
+    "storage": "Очистить истрорию",
+    "storageText": "Удалите все локально сохраненные данные",
+    "clearData": "Удалить данные",
+    "cleared": "Удалить"
+  }
 }

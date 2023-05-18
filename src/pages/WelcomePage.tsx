@@ -1,5 +1,15 @@
 import { useTranslation } from 'react-i18next';
-import { Text, Center, Button, Title, Container, Group, createStyles, Box } from '@mantine/core';
+import {
+  Text,
+  Center,
+  Button,
+  Title,
+  Container,
+  Group,
+  createStyles,
+  Box,
+  useMantineColorScheme,
+} from '@mantine/core';
 import { Link, useNavigate } from 'react-router-dom';
 import { TeamDescription } from '../components/TeamDescription';
 import { AppContext } from '../HOC/Provider';
@@ -7,11 +17,6 @@ import { useContext } from 'react';
 import { TeamMember } from '../types/types';
 
 const useStyles = createStyles(() => ({
-  mainContainer: {
-    background:
-      'linear-gradient(180deg, #CD8FFF -20.03%, rgba(255, 226, 202, 0.59) 32.42%, #fff 61.98%)',
-  },
-
   button: {
     '&:hover': {
       color: 'white',
@@ -25,10 +30,19 @@ const WelcomePage = () => {
   const data: Array<TeamMember> = t('teamArray', { returnObjects: true });
   const navigate = useNavigate();
   const { isAuth, handleClickLogin, handleClickRegister } = useContext(AppContext);
+  const { colorScheme } = useMantineColorScheme();
 
   return (
     <>
-      <Box p="xl" className={classes.mainContainer}>
+      <Box
+        p="xl"
+        sx={{
+          background:
+            colorScheme === 'light'
+              ? 'linear-gradient(180deg, #CD8FFF -20.03%, rgba(255, 226, 202, 0.59) 32.42%, #fff 61.98%)'
+              : '',
+        }}
+      >
         <Container p="xl" mx="auto">
           <Title
             order={1}

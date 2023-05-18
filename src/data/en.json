@@ -73,5 +73,25 @@
       "role": "Mentor",
       "link": "https://github.com/alehharnizonau"
     }
-  ]
+  ],
+  "sideMenu": {
+    "show": "Show",
+    "hide": "Hide",
+    "schema" : "Schema",
+    "history" : "History",
+    "variables" : "Variables",
+    "settings" : "Settings",
+    "run" : "Execute query"
+  },
+  "modal": {
+    "title": "Settings",
+    "theme": "Theme",
+    "themeAdjust": "Adjust how the interface looks like",
+    "light": "Light",
+    "dark": "Dark",
+    "storage": "Clear storage",
+    "storageText": "Remove all locally stored data and start fresh",
+    "clearData": "Clear data",
+    "cleared": "Cleared"
+  }
 }

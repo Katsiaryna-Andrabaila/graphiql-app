@@ -19,7 +19,7 @@ import { createUser, forgotPassword, signInUser, signInWithGoogleAccount } from 
 import { startSession } from '../utils/storage';
 import { IconAlertCircle, IconBrandGoogle, IconCheck } from '@tabler/icons-react';
 import { AppContext } from '../HOC/Provider';
-import { Notifications, notifications } from '@mantine/notifications';
+import { notifications } from '@mantine/notifications';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -61,6 +61,7 @@ const LoginPage = () => {
           ? `${t('notifications.signUpTittle')}`
           : `${t('notifications.signInTittle')}`,
       message: `${t('notifications.waitMessage')}`,
+      autoClose: false,
     });
 
     setError('');
@@ -96,16 +97,17 @@ const LoginPage = () => {
 
   const signInWithGoogle = async () => {
     notifications.show({
-      id: 'google-log-in',
+      id: 'google',
       loading: true,
       title: `${t('notifications.signInWithGoogleTitle')}`,
       message: `${t('notifications.waitMessage')}`,
+      autoClose: false,
     });
     try {
       const registerResponse = await signInWithGoogleAccount();
       startSession(registerResponse.user);
       notifications.update({
-        id: 'google-log-in',
+        id: 'google',
         title: `${t('notifications.signInTittleComplete')}`,
         message: `${t('notifications.completeMessage')}`,
         icon: <IconCheck size="1rem" />,
@@ -123,7 +125,7 @@ const LoginPage = () => {
   };
 
   const resetPassword = async () => {
-    setError("");
+    setError('');
     if (!email || !validateEmail(email)) {
       setError(`${t('emailError')}`);
       return;
@@ -133,6 +135,7 @@ const LoginPage = () => {
       loading: true,
       title: `${t('notifications.resetTitle')}`,
       message: `${t('notifications.waitMessage')}`,
+      autoClose: false,
     });
     try {
       setError('');
@@ -211,10 +214,14 @@ const LoginPage = () => {
               </>
             )}
             {type === `${t('loginLink')}` && !isReset && (
-              <Anchor component="button" size="sm" onClick={() => {
-                setReset(!isReset)
-                setError("")
-              }}>
+              <Anchor
+                component="button"
+                size="sm"
+                onClick={() => {
+                  setReset(!isReset);
+                  setError('');
+                }}
+              >
                 {t('forgotPassword')}
               </Anchor>
             )}
@@ -245,16 +252,15 @@ const LoginPage = () => {
               td="underline"
               c="blue"
               onClick={() => {
-                setError("");
+                setError('');
                 toggle();
-                setReset(false)
+                setReset(false);
               }}
             >
               {type === `${t('loginLink')}` ? `${t('registerLink')}` : `${t('loginLink')}`}
             </Anchor>
           </Box>
         </Paper>
-        <Notifications position="bottom-right" zIndex={2077} />
       </Container>
     </>
   );
