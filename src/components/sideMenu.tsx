@@ -50,8 +50,8 @@ export const SideMenu = ({
           <Tooltip
             label={
               showVariables
-                ? `${t('sideMenu.hide')} ${t('sideMenu.variables')}`
-                : `${t('sideMenu.show')} ${t('sideMenu.variables')}`
+                ? `${t('sideMenu.show')} ${t('sideMenu.variables')}`
+                : `${t('sideMenu.hide')} ${t('sideMenu.variables')}`
             }
             color="gray"
             position="bottom"

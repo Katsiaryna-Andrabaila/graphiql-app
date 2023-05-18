@@ -98,6 +98,7 @@ const createEditor = (
   options: editor.IStandaloneEditorConstructionOptions
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
+
 const RedactorPage = () => {
   const opsRef = useRef(null);
   const varsRef = useRef(null);
@@ -110,6 +111,7 @@ const RedactorPage = () => {
   const [isOpenSchema, setIsOpenSchema] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
+
   /**
    * Create the models & editors
    */
@@ -134,6 +136,7 @@ const RedactorPage = () => {
           model: variablesModel,
         })
       );
+
     resultsViewer ??
       setResultsViewer(
         createEditor(resultsRef, {
@@ -154,9 +157,10 @@ const RedactorPage = () => {
         localStorage.setItem('variables', variablesModel.getValue());
       })
     );
-
+    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
+    editor.setTheme(themeColor)
     // only run once on mount
-  }, []);
+  }, [colorScheme]);
 
   useEffect(() => {
     queryEditor?.addAction(queryAction);
