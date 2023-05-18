@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { StrictMode, Suspense } from 'react';
 import './App.css';
 import { ErrorBoundary } from 'react-error-boundary';
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
@@ -22,22 +22,22 @@ function App() {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
-    // <StrictMode>
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <Notifications position="bottom-right" zIndex={2077} />
-          <Suspense fallback={<AppLoader />}>
-            <AppProvider>
-              <BrowserRouter>
-                <Routing />
-              </BrowserRouter>
-            </AppProvider>
-          </Suspense>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </ErrorBoundary>
-    // </StrictMode>
+    <StrictMode>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+            <Notifications position="bottom-right" zIndex={2077} />
+            <Suspense fallback={<AppLoader />}>
+              <AppProvider>
+                <BrowserRouter>
+                  <Routing />
+                </BrowserRouter>
+              </AppProvider>
+            </Suspense>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </ErrorBoundary>
+    </StrictMode>
   );
 }
 
