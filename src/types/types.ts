@@ -33,7 +33,11 @@ export interface RequireAuthProps {
 }
 
 export type MembersDataProps = {
-  data: Array<TeamMember>
+  data: Array<TeamMember>;
+};
+
+export interface HeaderResponsiveProps {
+  links: { link: string; label: string }[];
 }
 export type SideMenuProps = {
   isOpenSchema: boolean; 
