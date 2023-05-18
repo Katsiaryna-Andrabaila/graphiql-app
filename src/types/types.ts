@@ -39,6 +39,7 @@ export type MembersDataProps = {
 export interface HeaderResponsiveProps {
   links: { link: string; label: string }[];
 }
+
 export type SideMenuProps = {
   isOpenSchema: boolean; 
   showVariables: boolean;  
