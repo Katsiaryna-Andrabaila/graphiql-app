@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, Suspense, useEffect, useRef, useState } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
@@ -6,7 +6,10 @@ import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import { Button, Stack, UnstyledButton } from '@mantine/core';
-import { Schema } from '../components/Schema';
+//import { Schema } from '../components/Schema';
+import { lazy } from 'react';
+import { AppLoader } from '../components/AppLoader';
+const Schema = lazy(() => import('../components/Schema'));
 
 const fetcher = createGraphiQLFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
@@ -204,7 +207,7 @@ const RedactorPage = () => {
   }, [schema, loading]);
 
   const handleClickSchema = () => {
-    !isOpenSchema ? setIsOpenSchema(true) : setIsOpenSchema(false);
+    setIsOpenSchema((status) => !status);
   };
 
   const variablesHandler = () => {
@@ -235,7 +238,15 @@ const RedactorPage = () => {
         </Stack>
 
         {isOpenSchema && (
-          <Schema query={JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types']} />
+          <section className="schema">
+            <Suspense fallback={<AppLoader />}>
+              {schema !== null && (
+                <Schema
+                  query={JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types']}
+                />
+              )}
+            </Suspense>
+          </section>
         )}
 
         <div id="wrapper">

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Args, Field, QueryType } from '../types/types';
 
-export const Schema = ({ query }: { query: QueryType[] }) => {
+const Schema = ({ query }: { query: QueryType[] }) => {
   const [isQueryOpen, setIsQueryOpen] = useState(false);
   const [isFieldOpen, setIsFieldOpen] = useState(false);
   const [field, setField] = useState<Field | null>(null);
@@ -185,7 +185,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
     !isFieldDetailsOpen;
 
   return (
-    <section className="schema">
+    <>
       {docsOpen ? (
         <>
           <h3>Docs</h3>
@@ -490,6 +490,8 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
           {<p>{scalarType.description}</p>}
         </>
       )}
-    </section>
+    </>
   );
 };
+
+export default Schema;

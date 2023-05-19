@@ -1,4 +1,4 @@
-import { StrictMode, Suspense } from 'react';
+import { StrictMode } from 'react';
 import './App.css';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -9,7 +9,6 @@ import { MantineProvider } from '@mantine/core';
 import { BrowserRouter } from 'react-router-dom';
 import { Routing } from './utils/routes';
 import { AppProvider } from './HOC/Provider';
-import { AppLoader } from './components/AppLoader';
 import { ErrorFallback } from './components/ErrorFallback';
 
 i18n.use(initReactI18next).init({
@@ -34,13 +33,11 @@ function App() {
     <StrictMode>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <MantineProvider withGlobalStyles withNormalizeCSS>
-        <Suspense fallback={<AppLoader />}>
-        <AppProvider>
+          <AppProvider>
             <BrowserRouter>
               <Routing />
             </BrowserRouter>
           </AppProvider>
-        </Suspense>
         </MantineProvider>
       </ErrorBoundary>
     </StrictMode>
