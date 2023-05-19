@@ -78,7 +78,7 @@ export type QueryType = {
   description: string;
   enumValues: null;
   fields: Field[];
-  inputFields: null;
+  inputFields: Field[] | null;
   interfaces: [] | null;
   kind: Kind;
   name: string;
