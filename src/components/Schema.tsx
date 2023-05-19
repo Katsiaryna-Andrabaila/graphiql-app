@@ -77,7 +77,7 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
 
   const handleClickType = (
     event: React.MouseEvent<HTMLAnchorElement>,
-    type?: 'type' | 'nested' | 'scalar'
+    type: 'type' | 'nested' | 'scalar'
   ) => {
     if (event.target instanceof HTMLAnchorElement) {
       const value = event.target.innerText;
@@ -434,8 +434,8 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
               [
               <a
                 onClick={(e) => {
-                  handleClickType(e, 'nested');
-                  setIsNestedTypeOpen(true);
+                  handleClickType(e, 'type');
+                  setIsTypeOpen(true);
                   setIsFieldDetailsOpen(false);
                   setHeader(fieldDetails.name);
                 }}
@@ -459,6 +459,17 @@ export const Schema = ({ query }: { query: QueryType[] }) => {
               </a>
               ]
             </span>
+          ) : fieldDetails.type.kind === 'OBJECT' ? (
+            <a
+              onClick={(e) => {
+                handleClickType(e, 'nested');
+                setIsNestedTypeOpen(true);
+                setIsFieldDetailsOpen(false);
+                setHeader(fieldDetails.name);
+              }}
+            >
+              {fieldDetails.type.name}
+            </a>
           ) : (
             <a
               onClick={(e) => {
