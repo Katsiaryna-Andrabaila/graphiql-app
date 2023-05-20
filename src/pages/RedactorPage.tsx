@@ -2,7 +2,6 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import { Button, Stack, UnstyledButton } from '@mantine/core';
 import { createFetcher } from '../utils/createFetcher';
@@ -66,13 +65,11 @@ const execOperation = async function () {
 
   const result = await fetcher({
     query: operations,
-    variables: JSON.stringify(JSONC.parse(variables)),
+    variables: JSON.parse(variables),
   });
 
-  // @ts-expect-error
-  const data = await result.next();
-
-  resultsModel?.setValue(JSON.stringify(data.value, null, 2));
+  const data = result;
+  resultsModel?.setValue(JSON.stringify(data, null, 2));
 };
 
 const queryAction = {
