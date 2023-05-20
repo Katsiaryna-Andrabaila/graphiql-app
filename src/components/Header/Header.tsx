@@ -18,7 +18,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { AppContext } from '../../HOC/Provider';
 import useStyles, { HEADER_HEIGHT } from './styles';
-// import stickyHeader from '../../utils/stickyHeader';
 import { HeaderResponsiveProps } from '../../types/types';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
@@ -61,13 +60,11 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
   } = useContext(AppContext);
 
   window.addEventListener('scroll', () => {
-    if (document.body.scrollTop > 1 || document.documentElement.scrollTop > 1) {
-      if (rootRef.current) {
+    if (rootRef.current) {
+      if (document.body.scrollTop > 1 || document.documentElement.scrollTop > 1) {
         (rootRef.current! as HTMLElement).style.background = 'rgb(213 214 220 / 62%)';
         (rootRef.current! as HTMLElement).style.boxShadow = '10px 5px 5px rgb(213 214 220 / 62%)';
-      }
-    } else {
-      if (rootRef.current) {
+      } else {
         (rootRef.current! as HTMLElement).style.background = '';
         (rootRef.current! as HTMLElement).style.boxShadow = '';
       }

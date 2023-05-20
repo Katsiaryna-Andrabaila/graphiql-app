@@ -39,10 +39,7 @@ const defaultVariables =
   localStorage.getItem('variables') ??
   `
  {
-     // limit will appear here as autocomplete,
-     // and because the default value is 0, will
-     // complete as such
-     "limit": false
+
  }
 `;
 
