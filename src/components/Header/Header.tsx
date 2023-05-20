@@ -63,7 +63,8 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     if (rootRef.current) {
       if (document.body.scrollTop > 1 || document.documentElement.scrollTop > 1) {
         (rootRef.current! as HTMLElement).style.background = 'rgb(213 214 220 / 62%)';
-        (rootRef.current! as HTMLElement).style.boxShadow = '10px 5px 5px rgb(213 214 220 / 62%)';
+        (rootRef.current! as HTMLElement).style.boxShadow =
+          '0px 10px 0px 0px rgb(213 214 220 / 62%)';
       } else {
         (rootRef.current! as HTMLElement).style.background = '';
         (rootRef.current! as HTMLElement).style.boxShadow = '';
