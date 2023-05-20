@@ -2,12 +2,11 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import { Button, Stack, UnstyledButton } from '@mantine/core';
+import { createFetcher } from '../utils/createFetcher';
 
-const fetcher = createGraphiQLFetcher({
+const fetcher = createFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
 });
 
@@ -40,10 +39,7 @@ const defaultVariables =
   localStorage.getItem('variables') ??
   `
  {
-     // limit will appear here as autocomplete,
-     // and because the default value is 0, will
-     // complete as such
-     "limit": false
+
  }
 `;
 
@@ -66,13 +62,11 @@ const execOperation = async function () {
 
   const result = await fetcher({
     query: operations,
-    variables: JSON.stringify(JSONC.parse(variables)),
+    variables: JSON.parse(variables),
   });
 
-  // @ts-expect-error
-  const data = await result.next();
-
-  resultsModel?.setValue(JSON.stringify(data.value, null, 2));
+  const data = result;
+  resultsModel?.setValue(JSON.stringify(data, null, 2));
 };
 
 const queryAction = {
@@ -86,7 +80,6 @@ const queryAction = {
   ],
   run: execOperation,
 };
-// set these early on so that initial variables with comments don't flash an error
 languages.json.jsonDefaults.setDiagnosticsOptions({
   allowComments: true,
   trailingCommas: 'ignore',
