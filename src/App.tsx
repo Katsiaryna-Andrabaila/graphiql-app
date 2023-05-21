@@ -1,47 +1,41 @@
 import { StrictMode, Suspense } from 'react';
 import './App.css';
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import en from './data/en.json';
-import ru from './data/ru.json';
 import { ErrorBoundary } from 'react-error-boundary';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
 import { BrowserRouter } from 'react-router-dom';
 import { Routing } from './utils/routes';
 import { AppProvider } from './HOC/Provider';
 import { AppLoader } from './components/AppLoader';
 import { ErrorFallback } from './components/ErrorFallback';
-
-i18n.use(initReactI18next).init({
-  resources: {
-    en: {
-      translation: en,
-    },
-    ru: {
-      translation: ru,
-    },
-  },
-  lng: 'en',
-  fallbackLng: 'en',
-
-  interpolation: {
-    escapeValue: false,
-  },
-});
+import { Notifications } from '@mantine/notifications';
+import { useColorScheme, useLocalStorage } from '@mantine/hooks';
+import '../i18next';
 
 function App() {
+  const preferredColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: preferredColorScheme,
+    getInitialValueInEffect: true,
+  });
+
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
     <StrictMode>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <MantineProvider withGlobalStyles withNormalizeCSS>
-        <Suspense fallback={<AppLoader />}>
-        <AppProvider>
-            <BrowserRouter>
-              <Routing />
-            </BrowserRouter>
-          </AppProvider>
-        </Suspense>
-        </MantineProvider>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+            <Notifications position="bottom-right" zIndex={2077} />
+            <Suspense fallback={<AppLoader />}>
+              <AppProvider>
+                <BrowserRouter>
+                  <Routing />
+                </BrowserRouter>
+              </AppProvider>
+            </Suspense>
+          </MantineProvider>
+        </ColorSchemeProvider>
       </ErrorBoundary>
     </StrictMode>
   );

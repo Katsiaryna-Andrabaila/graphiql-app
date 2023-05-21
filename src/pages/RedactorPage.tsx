@@ -3,7 +3,8 @@ import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { debounce } from '../utils/debounce';
-import { Button, Stack, UnstyledButton } from '@mantine/core';
+import { SideMenu } from '../components/sideMenu';
+import { useMantineColorScheme } from '@mantine/core';
 import { createFetcher } from '../utils/createFetcher';
 
 const fetcher = createFetcher({
@@ -90,6 +91,7 @@ const createEditor = (
   options: editor.IStandaloneEditorConstructionOptions
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
+
 const RedactorPage = () => {
   const opsRef = useRef(null);
   const varsRef = useRef(null);
@@ -101,6 +103,7 @@ const RedactorPage = () => {
   const [loading, setLoading] = useState(false);
   const [isOpenSchema, setIsOpenSchema] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
+  const { colorScheme } = useMantineColorScheme();
 
   /**
    * Create the models & editors
@@ -113,7 +116,7 @@ const RedactorPage = () => {
     queryEditor ??
       setQueryEditor(
         createEditor(opsRef, {
-          theme: 'hc-light',
+          theme: colorScheme === 'dark' ? 'vs-dark' : 'hc-light',
           model: queryModel,
           language: 'graphql',
         })
@@ -122,14 +125,15 @@ const RedactorPage = () => {
     variablesEditor ??
       setVariablesEditor(
         createEditor(varsRef, {
-          theme: 'hc-light',
+          theme: colorScheme === 'dark' ? 'vs-dark' : 'hc-light',
           model: variablesModel,
         })
       );
+
     resultsViewer ??
       setResultsViewer(
         createEditor(resultsRef, {
-          theme: 'hc-light',
+          theme: colorScheme === 'dark' ? 'vs-dark' : 'hc-light',
           model: resultsModel,
           readOnly: true,
           smoothScrolling: true,
@@ -146,9 +150,10 @@ const RedactorPage = () => {
         localStorage.setItem('variables', variablesModel.getValue());
       })
     );
-
+    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
+    editor.setTheme(themeColor)
     // only run once on mount
-  }, []);
+  }, [colorScheme]);
 
   useEffect(() => {
     queryEditor?.addAction(queryAction);
@@ -213,27 +218,38 @@ const RedactorPage = () => {
   return (
     <>
       <div className="redactor-wrapper">
-        <Stack>
-          <UnstyledButton onClick={handleClickSchema}>
-            <img src="src/assets/docs.svg" />
-          </UnstyledButton>
-          <Button onClick={execOperation} sx={{ padding: '0' }}>
-            Run
-          </Button>
-          <Button onClick={variablesHandler} sx={{ padding: '0' }}>
-            Variables
-          </Button>
-        </Stack>
+        <SideMenu
+          isOpenSchema={isOpenSchema}
+          showVariables={showVariables}
+          variablesHandler={variablesHandler}
+          handleClickSchema={handleClickSchema}
+          execOperation={execOperation}
+        />
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
-        <div id="wrapper">
+        <div
+          id="wrapper"
+          style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#efe9e9' }}
+        >
           <div id="left-pane" className="pane">
-            <div ref={opsRef} className="ops-editor" />
-            <div ref={varsRef} className="vars-editor">
+            <div
+              ref={opsRef}
+              className="ops-editor"
+              style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#ffffff' }}
+            />
+            <div
+              ref={varsRef}
+              className="vars-editor"
+              style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#ffffff' }}
+            >
               Variables
             </div>
           </div>
           <div id="right-pane" className="pane">
-            <div ref={resultsRef} className="result-editor" />
+            <div
+              ref={resultsRef}
+              className="result-editor"
+              style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#ffffff' }}
+            />
           </div>
         </div>
       </div>

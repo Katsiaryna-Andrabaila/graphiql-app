@@ -14,6 +14,8 @@ export type TypeAppContext = {
   setIsLogin?: (value: React.SetStateAction<boolean>) => void;
   lang: string;
   setLang?: (value: React.SetStateAction<string>) => void;
+  history: Array<string>;
+  setHistory?: (val: never[] | ((prevState: never[]) => never[])) => void;
   handleChangeLanguage?: () => void;
   handleClickLogout?: (cb: Function) => void;
   handleClickRegister?: (cb: Function) => void;
@@ -38,6 +40,15 @@ export type MembersDataProps = {
 
 export interface HeaderResponsiveProps {
   links: { link: string; label: string }[];
+}
+
+
+export type SideMenuProps = {
+  isOpenSchema: boolean; 
+  showVariables: boolean;  
+  variablesHandler: () => void;  
+  handleClickSchema: () => void; 
+  execOperation: () => Promise<void>; 
 }
 
 export type Unsubscribable = {
