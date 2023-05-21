@@ -231,7 +231,7 @@ const LoginPage = () => {
               </Button>
             )}
           </form>
-          {type === `${t('loginLink')}` && !isReset && (
+          {!isReset && (
             <Button
               onClick={signInWithGoogle}
               fullWidth

@@ -112,7 +112,7 @@ const RedactorPage = () => {
     const queryModel = getOrCreateModel('operation.graphql', defaultOperations);
     const variablesModel = getOrCreateModel('variables.json', defaultVariables);
     const resultsModel = getOrCreateModel('results.json', '{}');
-
+    
     queryEditor ??
       setQueryEditor(
         createEditor(opsRef, {

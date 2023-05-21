@@ -12,8 +12,9 @@ import {
   ActionIcon,
   Image,
   SegmentedControl,
+  Flex,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router-dom';
 import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { AppContext } from '../../HOC/Provider';
@@ -29,6 +30,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [active, setActive] = useState('');
   const { classes, cx } = useStyles();
   const rootRef = useRef(null);
+  const mobile = useMediaQuery('(max-width: 48em)');
 
   useEffect(() => {
     setActive(pathname);
@@ -84,14 +86,16 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
           </Group>
         ) : null}
         <Group className={classes.links1}>
-          <SegmentedControl
-            value={lang}
-            onChange={handleChangeLanguage}
-            data={[
-              { label: 'RU', value: 'ru' },
-              { label: 'EN', value: 'en' },
-            ]}
-          />
+          {link === '/' ? null : (
+            <SegmentedControl
+              value={lang}
+              onChange={handleChangeLanguage}
+              data={[
+                { label: 'RU', value: 'ru' },
+                { label: 'EN', value: 'en' },
+              ]}
+            />
+          )}
           {isAuth ? (
             <Button
               onClick={() => {
@@ -130,17 +134,28 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
-              <Group sx={{ justifyContent: 'end' }}>
-                <SegmentedControl
-                  value={lang}
-                  onChange={handleChangeLanguage}
-                  data={[
-                    { label: 'RU', value: 'ru' },
-                    { label: 'EN', value: 'en' },
-                  ]}
-                />
+              {items}
+              <Group
+                spacing={0}
+                sx={{
+                  justifyContent: mobile ? 'center' : 'end',
+                  flexDirection: mobile ? 'column' : 'row',
+                }}
+              >
+                {link === '/' ? null : (
+                  <SegmentedControl
+                    mt={mobile ? '1rem' : ''}
+                    value={lang}
+                    onChange={handleChangeLanguage}
+                    data={[
+                      { label: 'RU', value: 'ru' },
+                      { label: 'EN', value: 'en' },
+                    ]}
+                  />
+                )}
                 {isAuth ? (
                   <Button
+                    m={mobile ? '0.5rem 0' : ''}
                     onClick={() => {
                       if (handleClickLogout) {
                         handleClickLogout(() => navigate('/login'));
@@ -150,7 +165,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                     {t('logOut')}
                   </Button>
                 ) : (
-                  <Group>
+                  <Group m={mobile ? '0.5rem' : ''}>
                     <Button
                       variant="default"
                       onClick={() => {
@@ -173,7 +188,6 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                   </Group>
                 )}
               </Group>
-              {items}
             </Paper>
           )}
         </Transition>
