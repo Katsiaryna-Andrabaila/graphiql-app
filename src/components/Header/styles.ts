@@ -7,7 +7,7 @@ const useStyles = createStyles((theme) => ({
     position: 'sticky',
     zIndex: 1,
     top: '0px',
-    transition: '0.5s',
+    transition: '0.7s',
   },
 
   logo: {

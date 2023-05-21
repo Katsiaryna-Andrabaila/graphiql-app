@@ -18,7 +18,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { AppContext } from '../../HOC/Provider';
 import useStyles, { HEADER_HEIGHT } from './styles';
-import stickyHeader from '../../utils/stickyHeader';
 import { HeaderResponsiveProps } from '../../types/types';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
@@ -60,7 +59,18 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     handleChangeLanguage,
   } = useContext(AppContext);
 
-  window.addEventListener('scroll', () => stickyHeader(rootRef));
+  window.addEventListener('scroll', () => {
+    if (rootRef.current) {
+      if (document.body.scrollTop > 1 || document.documentElement.scrollTop > 1) {
+        (rootRef.current! as HTMLElement).style.background = 'rgb(213 214 220 / 62%)';
+        (rootRef.current! as HTMLElement).style.boxShadow =
+          '0px 10px 0px 0px rgb(213 214 220 / 62%)';
+      } else {
+        (rootRef.current! as HTMLElement).style.background = '';
+        (rootRef.current! as HTMLElement).style.boxShadow = '';
+      }
+    }
+  });
 
   return link === '/login' ? null : (
     <Header height={HEADER_HEIGHT} className={classes.root} ref={rootRef}>
