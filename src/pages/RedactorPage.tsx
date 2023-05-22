@@ -4,15 +4,47 @@ import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { debounce } from '../utils/debounce';
 import { SideMenu } from '../components/sideMenu';
-import { useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { createFetcher } from '../utils/createFetcher';
 
 const fetcher = createFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
 });
 
+const historyArray =
+  localStorage.getItem('history') && JSON.parse(localStorage.getItem('history')!).length > 0
+    ? JSON.parse(localStorage.getItem('history')!)
+    : [
+        {
+          query: `query {
+      characters(page: 2, filter: { name: "rick" }) {
+        info {
+          count
+        }
+        results {
+          name
+        }
+      }
+      location(id: 1) {
+        id
+      }
+      episodesByIds(ids: [1, 2]) {
+        id
+      }
+    }`,
+          variables: `
+    {
+   
+    }
+   `,
+        },
+      ];
+
+console.log('historyArray', historyArray);
+// console.log(localStorage.getItem('operations'));
+
 const defaultOperations =
-  localStorage.getItem('operations') ??
+  (historyArray.length > 0 && historyArray[historyArray.length - 1].query) ||
   `
 # cmd/ctrl + return/enter will execute the op,
 # same in variables editor below
@@ -37,7 +69,7 @@ query {
 `;
 
 const defaultVariables =
-  localStorage.getItem('variables') ??
+  (historyArray.length > 0 && historyArray[historyArray.length - 1].variables) ||
   `
  {
 
@@ -66,6 +98,17 @@ const execOperation = async function () {
     variables: JSON.parse(variables),
   });
 
+  // console.log('operations', historyArray[historyArray.length - 1].query !== operations);
+
+  if (historyArray.length > 0 && historyArray[historyArray.length - 1].query !== operations) {
+    historyArray.push({
+      query: operations,
+      variables: variables,
+    });
+  }
+
+  localStorage.setItem('history', JSON.stringify(historyArray));
+
   const data = result;
   resultsModel?.setValue(JSON.stringify(data, null, 2));
 };
@@ -91,7 +134,6 @@ const createEditor = (
   options: editor.IStandaloneEditorConstructionOptions
 ) => editor.create(ref.current as unknown as HTMLElement, options);
 
-
 const RedactorPage = () => {
   const opsRef = useRef(null);
   const varsRef = useRef(null);
@@ -102,6 +144,7 @@ const RedactorPage = () => {
   const [schema, setSchema] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
   const [isOpenSchema, setIsOpenSchema] = useState(false);
+  const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
 
@@ -150,8 +193,8 @@ const RedactorPage = () => {
         localStorage.setItem('variables', variablesModel.getValue());
       })
     );
-    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
-    editor.setTheme(themeColor)
+    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light';
+    editor.setTheme(themeColor);
     // only run once on mount
   }, [colorScheme]);
 
@@ -202,6 +245,9 @@ const RedactorPage = () => {
   const handleClickSchema = () => {
     !isOpenSchema ? setIsOpenSchema(true) : setIsOpenSchema(false);
   };
+  const handleClickHistory = () => {
+    !isOpenHistory ? setIsOpenHistory(true) : setIsOpenHistory(false);
+  };
 
   const variablesHandler = () => {
     if (varsRef.current) {
@@ -224,8 +270,16 @@ const RedactorPage = () => {
           variablesHandler={variablesHandler}
           handleClickSchema={handleClickSchema}
           execOperation={execOperation}
+          handleClickHistory={handleClickHistory}
         />
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
+        {isOpenHistory && (
+          <div className="history">
+            {historyArray.map((el) => {
+              return <ActionIcon>{el.query}</ActionIcon>;
+            })}
+          </div>
+        )}
         <div
           id="wrapper"
           style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#efe9e9' }}

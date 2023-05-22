@@ -42,14 +42,14 @@ export interface HeaderResponsiveProps {
   links: { link: string; label: string }[];
 }
 
-
 export type SideMenuProps = {
-  isOpenSchema: boolean; 
-  showVariables: boolean;  
-  variablesHandler: () => void;  
-  handleClickSchema: () => void; 
-  execOperation: () => Promise<void>; 
-}
+  isOpenSchema: boolean;
+  showVariables: boolean;
+  variablesHandler: () => void;
+  handleClickSchema: () => void;
+  execOperation: () => Promise<void>;
+  handleClickHistory: () => void;
+};
 
 export type Unsubscribable = {
   unsubscribe: () => void;
