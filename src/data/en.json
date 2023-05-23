@@ -47,7 +47,8 @@
     "title": "GraphiQL",
     "mainText": "GraphiQL is the playground/IDE for graphQL requests",
     "playgroundButton": "Go to Playground",
-    "team": "Developer Team"
+    "team": "Developer Team",
+    "technologies": "Technologies stack integrated in project"
   },
   "footer": {
     "iconText": "GraphQL playground",

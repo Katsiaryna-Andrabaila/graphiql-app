@@ -48,7 +48,8 @@
     "title": "GraphiQL",
     "mainText": "GraphiQL - это песочница для graphQL запросов",
     "playgroundButton": "Перейти в песочницу",
-    "team": "Команда разработчиков"
+    "team": "Команда разработчиков",
+    "technologies": "Технологии стэк примененный в проекте"
   },
   "footer": {
     "iconText": "GraphQL песочница",
