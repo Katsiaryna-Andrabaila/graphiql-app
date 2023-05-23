@@ -42,7 +42,6 @@ export interface HeaderResponsiveProps {
   links: { link: string; label: string }[];
 }
 
-
 export type SideMenuProps = {
   isOpenSchema: boolean; 
   showVariables: boolean;  
@@ -50,6 +49,7 @@ export type SideMenuProps = {
   handleClickSchema: () => void; 
   execOperation: () => Promise<void>; 
   prettify: () => void;
+  handleClickHistory: () => void;
 }
 
 export type Unsubscribable = {
@@ -115,3 +115,8 @@ export type FetcherParams = {
   operationName?: string | null;
   variables?: any;
 };
+export interface HistoryObject {
+  query: string;
+  variables: string;
+  id: string;
+}

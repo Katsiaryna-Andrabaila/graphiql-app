@@ -1,48 +1,40 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState, MouseEvent } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import { debounce } from '../utils/debounce';
 import { SideMenu } from '../components/sideMenu';
-import { useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, Stack, useMantineColorScheme } from '@mantine/core';
 import { createFetcher } from '../utils/createFetcher';
+import { HistoryObject } from '../types/types';
 
 const fetcher = createFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
 });
 
-const defaultOperations =
-  localStorage.getItem('operations') ??
-  `
-# cmd/ctrl + return/enter will execute the op,
-# same in variables editor below
-# also available via context menu & f1 command palette
-
-query {
-  characters(page: 2, filter: { name: "rick" }) {
-    info {
-      count
-    }
-    results {
-      name
-    }
-  }
-  location(id: 1) {
-    id
-  }
-  episodesByIds(ids: [1, 2]) {
-    id
-  }
+export const defaultValues = {
+  query: `query {
+characters(page: 2, filter: { name: "rick" }) {
+info {
+  count
 }
-`;
+results {
+  name
+}
+}
+location(id: 1) {
+id
+}
+episodesByIds(ids: [1, 2]) {
+id
+}
+}`,
+  variables: `
+{
 
-const defaultVariables =
-  localStorage.getItem('variables') ??
-  `
- {
-
- }
-`;
+}
+`,
+  id: '0',
+};
 
 const getSchema = async () =>
   fetcher({
@@ -56,31 +48,6 @@ const getOrCreateModel = (uri: string, value: string) => {
   );
 };
 
-const execOperation = async function () {
-  const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
-  const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
-  const resultsModel = editor.getModel(Uri.file('results.json'));
-
-  const result = await fetcher({
-    query: operations,
-    variables: JSON.parse(variables),
-  });
-
-  const data = result;
-  resultsModel?.setValue(JSON.stringify(data, null, 2));
-};
-
-const queryAction = {
-  id: 'graphql-run',
-  label: 'Run Operation',
-  contextMenuOrder: 0,
-  contextMenuGroupId: 'graphql',
-  keybindings: [
-    // eslint-disable-next-line no-bitwise
-    KeyMod.CtrlCmd | KeyCode.Enter,
-  ],
-  run: execOperation,
-};
 languages.json.jsonDefaults.setDiagnosticsOptions({
   allowComments: true,
   trailingCommas: 'ignore',
@@ -90,7 +57,6 @@ const createEditor = (
   ref: MutableRefObject<null>,
   options: editor.IStandaloneEditorConstructionOptions
 ) => editor.create(ref.current as unknown as HTMLElement, options);
-
 
 const RedactorPage = () => {
   const opsRef = useRef(null);
@@ -102,6 +68,7 @@ const RedactorPage = () => {
   const [schema, setSchema] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
   const [isOpenSchema, setIsOpenSchema] = useState(false);
+  const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
   
@@ -109,9 +76,55 @@ const RedactorPage = () => {
       queryEditor?.getAction('editor.action.formatDocument')?.run()
   }
 
-  /**
-   * Create the models & editors
-   */
+  const [historyArray, setHistoryArray] = useState<HistoryObject[]>(
+    localStorage.getItem('history') && JSON.parse(localStorage.getItem('history')!).length > 0
+      ? JSON.parse(localStorage.getItem('history')!)
+      : [defaultValues]
+  );
+
+  let defaultOperations =
+    (historyArray.length > 0 && historyArray[historyArray.length - 1].query) || defaultValues.query;
+
+  const defaultVariables =
+    (historyArray.length > 0 && historyArray[historyArray.length - 1].variables) ||
+    defaultValues.variables;
+
+  const execOperation = async function () {
+    const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
+    const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
+    const resultsModel = editor.getModel(Uri.file('results.json'));
+
+    const result = await fetcher({
+      query: operations,
+      variables: JSON.parse(variables),
+    });
+
+    if (historyArray[historyArray.length - 1].query !== operations) {
+      setHistoryArray([
+        ...historyArray,
+        {
+          query: operations,
+          variables: variables,
+          id: String(historyArray.length),
+        },
+      ]);
+    }
+
+    localStorage.setItem('history', JSON.stringify(historyArray));
+
+    const data = result;
+    resultsModel?.setValue(JSON.stringify(data, null, 2));
+  };
+
+  const queryAction = {
+    id: 'graphql-run',
+    label: 'Run Operation',
+    contextMenuOrder: 0,
+    contextMenuGroupId: 'graphql',
+    keybindings: [KeyMod.CtrlCmd | KeyCode.Enter],
+    run: execOperation,
+  };
+
   useEffect(() => {
     const queryModel = getOrCreateModel('operation.graphql', defaultOperations);
     const variablesModel = getOrCreateModel('variables.json', defaultVariables);
@@ -142,19 +155,7 @@ const RedactorPage = () => {
           smoothScrolling: true,
         })
       );
-
-    queryModel.onDidChangeContent(
-      debounce(300, () => {
-        localStorage.setItem('operations', queryModel.getValue());
-      })
-    );
-    variablesModel.onDidChangeContent(
-      debounce(300, () => {
-        localStorage.setItem('variables', variablesModel.getValue());
-      })
-    );
-    // only run once on mount
-  }, []);
+    }, []);
 
   useEffect(() => {
     const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
@@ -165,9 +166,7 @@ const RedactorPage = () => {
     queryEditor?.addAction(queryAction);
     variablesEditor?.addAction(queryAction);
   }, [variablesEditor]);
-  /**
-   * Handle the initial schema load
-   */
+
   useEffect(() => {
     if (!schema && !loading) {
       setLoading(true);
@@ -184,7 +183,6 @@ const RedactorPage = () => {
               jsonDiagnosticSettings: {
                 validate: true,
                 schemaValidation: 'error',
-                // set these again, because we are entirely re-setting them here
                 allowComments: true,
                 trailingCommas: 'ignore',
               },
@@ -208,6 +206,9 @@ const RedactorPage = () => {
   const handleClickSchema = () => {
     !isOpenSchema ? setIsOpenSchema(true) : setIsOpenSchema(false);
   };
+  const handleClickHistory = () => {
+    !isOpenHistory ? setIsOpenHistory(true) : setIsOpenHistory(false);
+  };
 
   const variablesHandler = () => {
     if (varsRef.current) {
@@ -221,6 +222,17 @@ const RedactorPage = () => {
     queryEditor && queryEditor.layout();
   };
 
+  const handleHistory = (e: MouseEvent<HTMLButtonElement>) => {
+    const currentObject = historyArray.find(
+      (item) => item.id === (e.target as HTMLButtonElement).id
+    );
+    if (currentObject) {
+      queryEditor && queryEditor.setValue(currentObject.query);
+      variablesEditor && variablesEditor.setValue(currentObject.variables);
+      resultsViewer && resultsViewer.setValue('{}');
+    }
+  };
+
   return (
     <>
       <div className="redactor-wrapper">
@@ -231,8 +243,32 @@ const RedactorPage = () => {
           handleClickSchema={handleClickSchema}
           execOperation={execOperation}
           prettify={prettify}
+          handleClickHistory={handleClickHistory}
         />
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
+        {isOpenHistory && (
+          <Stack sx={{ maxWidth: '25%', width: '25%', padding: '1rem', gap: '0' }}>
+            {historyArray.map((el) => {
+              return (
+                <ActionIcon
+                  onClick={handleHistory}
+                  id={el.id}
+                  key={el.id}
+                  sx={{
+                    justifyContent: 'start',
+                    width: '90%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.75rem',
+                  }}
+                >
+                  {el.query}
+                </ActionIcon>
+              );
+            })}
+          </Stack>
+        )}
         <div
           id="wrapper"
           style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#efe9e9' }}

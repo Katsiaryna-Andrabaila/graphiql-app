@@ -18,7 +18,8 @@ export const SideMenu = ({
   variablesHandler,
   handleClickSchema,
   execOperation,
-  prettify
+  prettify,
+  handleClickHistory
 }: SideMenuProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { t } = useTranslation();
@@ -50,7 +51,7 @@ export const SideMenu = ({
             </ActionIcon>
           </Tooltip>
           <Tooltip label={t('sideMenu.history')} color="gray" position="bottom">
-            <ActionIcon onClick={() => console.log('history')}>
+            <ActionIcon onClick={handleClickHistory}>
               <IconHistory />
             </ActionIcon>
           </Tooltip>
