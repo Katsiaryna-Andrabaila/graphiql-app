@@ -78,8 +78,8 @@ export const Settings = () => {
       </Flex>
       <Flex className={classes.settingsContainer}>
         <Box className={classes.settingsContainer__box}>
-          <Title order={3}>{t('modal.theme')}</Title>
-          <Text>{t('modal.themeAdjust')}</Text>
+          <Title order={3}>{t('modal.language')}</Title>
+          <Text>{t('modal.languageText')}</Text>
         </Box>
         <Box>
           <SegmentedControl
