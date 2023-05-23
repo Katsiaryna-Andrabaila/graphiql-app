@@ -3,13 +3,11 @@ import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import * as JSONC from 'jsonc-parser';
 import { debounce } from '../utils/debounce';
 import { Button, Stack, UnstyledButton } from '@mantine/core';
-//import { Schema } from '../components/Schema';
 import { lazy } from 'react';
 import { AppLoader } from '../components/AppLoader';
-const Schema = lazy(() => import('../components/Schema'));
+const Documentation = lazy(() => import('../components/docs/Documentation'));
 
 const fetcher = createGraphiQLFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
@@ -70,7 +68,7 @@ const execOperation = async function () {
 
   const result = await fetcher({
     query: operations,
-    variables: JSON.stringify(JSONC.parse(variables)),
+    variables: JSON.parse(variables),
   });
 
   // @ts-expect-error
@@ -110,7 +108,7 @@ const RedactorPage = () => {
   const [resultsViewer, setResultsViewer] = useState<editor.IStandaloneCodeEditor | null>(null);
   const [schema, setSchema] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
-  const [isOpenSchema, setIsOpenSchema] = useState(false);
+  const [isOpenDocs, setIsOpenDocs] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
 
   /**
@@ -206,8 +204,8 @@ const RedactorPage = () => {
     console.log(schema);
   }, [schema, loading]);
 
-  const handleClickSchema = () => {
-    setIsOpenSchema((status) => !status);
+  const handleClickDocs = () => {
+    setIsOpenDocs((status) => !status);
   };
 
   const variablesHandler = () => {
@@ -226,7 +224,7 @@ const RedactorPage = () => {
     <>
       <div className="redactor-wrapper">
         <Stack>
-          <UnstyledButton onClick={handleClickSchema}>
+          <UnstyledButton onClick={handleClickDocs}>
             <img src="src/assets/docs.svg" />
           </UnstyledButton>
           <Button onClick={execOperation} sx={{ padding: '0' }}>
@@ -237,11 +235,11 @@ const RedactorPage = () => {
           </Button>
         </Stack>
 
-        {isOpenSchema && (
+        {isOpenDocs && (
           <section className="schema">
             <Suspense fallback={<AppLoader />}>
               {schema !== null && (
-                <Schema
+                <Documentation
                   query={JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types']}
                 />
               )}

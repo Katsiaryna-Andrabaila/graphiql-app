@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Args, Field, QueryType } from '../types/types';
+import { Args, Field, QueryType } from '../../types/types';
 
-const Schema = ({ query }: { query: QueryType[] }) => {
+const Documentation = ({ query }: { query: QueryType[] }) => {
   const [isQueryOpen, setIsQueryOpen] = useState(false);
   const [isFieldOpen, setIsFieldOpen] = useState(false);
   const [field, setField] = useState<Field | null>(null);
@@ -18,9 +18,15 @@ const Schema = ({ query }: { query: QueryType[] }) => {
     switch (header) {
       case 'Docs':
         setIsQueryOpen(false);
+        setIsFieldOpen(false);
+        setIsTypeOpen(false);
+        setIsNestedTypeOpen(false);
+        setIsFieldDetailsOpen(false);
         break;
       case query[0].name:
         setIsFieldOpen(false);
+        setIsTypeOpen(false);
+        setIsNestedTypeOpen(false);
         setIsQueryOpen(true);
         setType(null);
         setNestedType(null);
@@ -157,10 +163,12 @@ const Schema = ({ query }: { query: QueryType[] }) => {
       const value = event.target.innerText;
 
       if (type) {
-        const details = type.inputFields
-          ? type.inputFields.find((el) => el.name === value)
-          : type.fields.find((el) => el.name === value);
+        const details =
+          type.inputFields !== null
+            ? type.inputFields.find((el) => el.name === value)
+            : type.fields.find((el) => el.name === value);
         details && setFieldDetails(details);
+        return;
       }
       if (nestedType) {
         const details = nestedType.inputFields
@@ -365,6 +373,7 @@ const Schema = ({ query }: { query: QueryType[] }) => {
                         handleClickDetails(e);
                         setIsTypeOpen(false);
                         setIsNestedTypeOpen(false);
+                        setIsFieldOpen(false);
                         setIsFieldDetailsOpen(true);
                         setHeader(nestedType.name);
                       }}
@@ -494,4 +503,4 @@ const Schema = ({ query }: { query: QueryType[] }) => {
   );
 };
 
-export default Schema;
+export default Documentation;
