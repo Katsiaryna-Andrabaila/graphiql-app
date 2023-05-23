@@ -13,6 +13,7 @@ import {
   Image,
   SegmentedControl,
   Flex,
+  useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,6 +21,7 @@ import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { AppContext } from '../../HOC/Provider';
 import useStyles, { HEADER_HEIGHT } from './styles';
 import { HeaderResponsiveProps } from '../../types/types';
+import { IconSun, IconMoonStars } from '@tabler/icons-react';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
@@ -28,6 +30,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     ? links.filter((el) => el.link === link)[0].link
     : '';
   const [active, setActive] = useState('');
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes, cx } = useStyles();
   const rootRef = useRef(null);
   const mobile = useMediaQuery('(max-width: 48em)');
@@ -87,14 +90,34 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
         ) : null}
         <Group className={classes.links1}>
           {link === '/' ? null : (
-            <SegmentedControl
-              value={lang}
-              onChange={handleChangeLanguage}
-              data={[
-                { label: 'RU', value: 'ru' },
-                { label: 'EN', value: 'en' },
-              ]}
-            />
+            <>
+              <SegmentedControl
+                value={lang}
+                onChange={handleChangeLanguage}
+                data={[
+                  { label: 'RU', value: 'ru' },
+                  { label: 'EN', value: 'en' },
+                ]}
+              />
+              <Group position="center" my="xl">
+                <ActionIcon
+                  onClick={() => toggleColorScheme()}
+                  size="lg"
+                  sx={(theme) => ({
+                    backgroundColor:
+                      theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                    color:
+                      theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.blue[6],
+                  })}
+                >
+                  {colorScheme === 'dark' ? (
+                    <IconSun size="1.2rem" />
+                  ) : (
+                    <IconMoonStars size="1.2rem" />
+                  )}
+                </ActionIcon>
+              </Group>
+            </>
           )}
           {isAuth ? (
             <Button
@@ -143,15 +166,34 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                 }}
               >
                 {link === '/' ? null : (
-                  <SegmentedControl
-                    mt={mobile ? '1rem' : ''}
-                    value={lang}
-                    onChange={handleChangeLanguage}
-                    data={[
-                      { label: 'RU', value: 'ru' },
-                      { label: 'EN', value: 'en' },
-                    ]}
-                  />
+                 <>
+                 <Group position="center" my="sm">
+                   <ActionIcon
+                     onClick={() => toggleColorScheme()}
+                     size="lg"
+                     sx={(theme) => ({
+                       backgroundColor:
+                         theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                       color:
+                         theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.blue[6],
+                     })}
+                   >
+                     {colorScheme === 'dark' ? (
+                       <IconSun size="1.2rem" />
+                     ) : (
+                       <IconMoonStars size="1.2rem" />
+                     )}
+                   </ActionIcon>
+                 </Group>
+                 <SegmentedControl
+                   value={lang}
+                   onChange={handleChangeLanguage}
+                   data={[
+                     { label: 'RU', value: 'ru' },
+                     { label: 'EN', value: 'en' },
+                   ]}
+                 />
+               </>
                 )}
                 {isAuth ? (
                   <Button
