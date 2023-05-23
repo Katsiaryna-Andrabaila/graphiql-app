@@ -149,11 +149,13 @@ const RedactorPage = () => {
         localStorage.setItem('variables', variablesModel.getValue());
       })
     );
+    // only run once on mount
+  }, []);
+
+  useEffect(() => {
     const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
     editor.setTheme(themeColor)
-    // only run once on mount
   }, [colorScheme]);
-  
 
   useEffect(() => {
     queryEditor?.addAction(queryAction);
