@@ -114,3 +114,8 @@ export type FetcherParams = {
   operationName?: string | null;
   variables?: any;
 };
+export interface HistoryObject {
+  query: string;
+  variables: string;
+  id: string;
+}

@@ -46,10 +46,6 @@ body {
   width: 40%;
   padding: 1rem;
 }
-.history {
-  width: 40%;
-  padding: 1rem;
-}
 
 #wrapper {
   display: flex;
