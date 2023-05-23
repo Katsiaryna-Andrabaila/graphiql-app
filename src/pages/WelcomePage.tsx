@@ -9,45 +9,18 @@ import {
   createStyles,
   Box,
   useMantineColorScheme,
-  Image,
-  rem,
-  em,
-  ActionIcon,
-  Anchor,
-  Flex,
 } from '@mantine/core';
 import { Link, useNavigate } from 'react-router-dom';
 import { TeamDescription } from '../components/TeamDescription';
 import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
 import { TeamMember } from '../types/types';
+import { Technologies } from '../components/technologies';
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   button: {
     '&:hover': {
       color: 'white',
-    },
-  },
-
-  technology: {
-    width: '8rem',
-    height: '8rem',
-
-    [theme.fn.smallerThan('lg')]: {
-      width: '8rem',
-      height: '8rem',
-    },
-    [theme.fn.smallerThan('md')]: {
-      width: '7rem',
-      height: '7rem',
-    },
-    [theme.fn.smallerThan('sm')]: {
-      width: '6rem',
-      height: '6rem',
-    },
-    [theme.fn.smallerThan('xs')]: {
-      width: '5rem',
-      height: '5rem',
     },
   },
 }));
@@ -113,59 +86,16 @@ const WelcomePage = () => {
               </Group>
             )}
           </Center>
-          <Title order={2} pb="1rem">{t('welcomePage.team')}</Title>
+          <Title order={2} pb="1rem">
+            {t('welcomePage.team')}
+          </Title>
           <TeamDescription data={data} />
         </Container>
         <Container>
-          <Title order={2} pb="1rem">{t('welcomePage.technologies')}</Title>
-        <Flex
-          gap="3.2rem"
-          justify="center"
-          align="center"
-          wrap="wrap"
-          pb="3rem"
-        >
-          <Box className={classes.technology}>
-            <Anchor href='https://react.dev/'>
-              <Image caption="React" src="src/assets/logos/react.png"></Image>
-            </Anchor>
-          </Box>
-          <Box className={classes.technology}>
-            <Anchor href='https://reactrouter.com/'>
-              <Image src="src/assets/logos/router.png" caption="React Router"></Image>
-            </Anchor>
-          </Box>
-          <Box className={classes.technology}>
-            <Anchor href='https://www.typescriptlang.org/'>
-              <Image src="src/assets/logos/typescript.png" caption="Typescript"></Image>
-            </Anchor>
-          </Box>
-          <Box className={classes.technology}>
-            <Anchor href='https://vitejs.dev/'>
-              <Image src="src/assets/logos/vite.png" caption="Vite"></Image>
-            </Anchor>
-          </Box>
-          <Box className={classes.technology}>
-            <Anchor href='https://mantine.dev/'>
-              <Image src="src/assets/logos/mantine.png" caption="Mantine"></Image>
-            </Anchor>
-          </Box>
-          <Box className={classes.technology}>
-            <Anchor href='https://firebase.google.com/'>
-              <Image src="src/assets/logos/firebase.png" caption="Firebase"></Image>
-            </Anchor>
-          </Box>
-          <Box className={classes.technology}>
-            <Anchor href='https://graphql.org/'> 
-              <Image src="src/assets/logos/graphql.png" caption="Graphql"></Image>
-            </Anchor>
-          </Box>
-          <Box className={classes.technology}>
-            <Anchor href='https://www.i18next.com/'>
-              <Image src="src/assets/logos/inext.png" caption="i18Next" ></Image>
-            </Anchor>
-          </Box>
-        </Flex>
+          <Title order={2} pb="1rem">
+            {t('welcomePage.technologies')}
+          </Title>
+          <Technologies />
         </Container>
       </Box>
     </>
