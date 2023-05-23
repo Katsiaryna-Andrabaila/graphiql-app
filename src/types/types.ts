@@ -49,6 +49,7 @@ export type SideMenuProps = {
   variablesHandler: () => void;  
   handleClickSchema: () => void; 
   execOperation: () => Promise<void>; 
+  prettify: () => void;
 }
 
 export type Unsubscribable = {

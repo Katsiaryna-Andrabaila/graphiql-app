@@ -104,6 +104,10 @@ const RedactorPage = () => {
   const [isOpenSchema, setIsOpenSchema] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
+  
+  const prettify = () => {
+      queryEditor?.getAction('editor.action.formatDocument')?.run()
+  }
 
   /**
    * Create the models & editors
@@ -226,6 +230,7 @@ const RedactorPage = () => {
           variablesHandler={variablesHandler}
           handleClickSchema={handleClickSchema}
           execOperation={execOperation}
+          prettify={prettify}
         />
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
         <div
