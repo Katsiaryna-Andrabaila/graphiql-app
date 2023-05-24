@@ -157,6 +157,7 @@ const RedactorPage = () => {
       );
     }, []);
 
+    
   useEffect(() => {
     const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
     editor.setTheme(themeColor)
