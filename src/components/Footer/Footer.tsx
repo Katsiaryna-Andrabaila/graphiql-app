@@ -1,7 +1,6 @@
 import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import GraphQLIcon from '../../assets/graphql-ar21.svg'
 import { MembersData } from './MembersLinks';
 
 import { TeamMember } from '../../types/types';
@@ -84,7 +83,7 @@ export function Footer() {
       <Container className={classes.inner}>
         <div className={classes.logo}>
           <ActionIcon component={Link} to="/" className={classes.footerLogo}>
-            <Image src={GraphQLIcon} alt="GraphQL icon" />
+            <Image src="./graphql-ar21.svg" alt="GraphQL icon" />
           </ActionIcon>
           <Text size="xs" color="dimmed" className={classes.description}>
             {t('footer.iconText')}

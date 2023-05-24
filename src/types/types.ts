@@ -26,6 +26,7 @@ export type TeamMember = {
   name: string;
   role: string;
   link: string;
+  src: string;
 };
 
 export interface RequireAuthProps {

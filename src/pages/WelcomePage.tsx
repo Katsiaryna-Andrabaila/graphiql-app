@@ -16,6 +16,7 @@ import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
 import { TeamMember } from '../types/types';
 import { Technologies } from '../components/technologies/technologies';
+import { useMediaQuery } from '@mantine/hooks';
 
 const useStyles = createStyles(() => ({
   button: {
@@ -32,11 +33,12 @@ const WelcomePage = () => {
   const navigate = useNavigate();
   const { isAuth, handleClickLogin, handleClickRegister } = useContext(AppContext);
   const { colorScheme } = useMantineColorScheme();
+  const smallScreen = useMediaQuery('(max-width: 48em)');
 
   return (
     <>
       <Box
-        p="xl"
+        p={smallScreen ? "xs" : "xl"}
         sx={{
           background:
             colorScheme === 'light'
@@ -49,14 +51,14 @@ const WelcomePage = () => {
             order={1}
             variant="gradient"
             gradient={{ from: 'indigo', to: 'red', deg: 45 }}
-            mb={40}
+            mb={smallScreen ? 20 : 40}
           >
             {t('welcomePage.title')}
           </Title>
-          <Text fz="xl" ta="center" align="center" mx="auto" mb={30} fw={600}>
+          <Text fz="xl" ta="center" align="center" mx="auto"             mb={smallScreen ? 20 : 30} fw={600}>
             {t('welcomePage.mainText')}
           </Text>
-          <Center mb={30}>
+          <Center             mb={smallScreen ? 20 : 30}>
             {isAuth ? (
               <Button component={Link} to="/redactor" className={classes.button}>
                 {t('welcomePage.playgroundButton')}

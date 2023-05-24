@@ -11,8 +11,8 @@ export const TeamDescription = ({data}: MembersDataProps) => {
         <Title order={4} fw={600}>
           {member.role}
         </Title>
-        <Image maw={240} mx="auto" radius="md" src="./" alt="Team member photo" />
         <Text></Text>
+        <Image mx="auto" radius="100%" width="7rem" height="7rem" src={member.src} alt="Team member photo" withPlaceholder />
       </Container>
     );
   });
