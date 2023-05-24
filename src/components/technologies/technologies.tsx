@@ -1,5 +1,5 @@
 import { Anchor, Box, createStyles, Flex, Image } from '@mantine/core';
-import data from '../data/techlogies.json';
+import data from './technologies.json';
 
 const useStyles = createStyles((theme) => ({
   technology: {

@@ -5,32 +5,13 @@ import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../HOC/Provider';
 import { ButtonClear } from './clearButton';
+import { settingsStyle } from './settingsStyle';
 
-const useStyles = createStyles((theme) => ({
-  settingsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1.5rem 0',
-    borderTop: '1px solid #A6A7AB',
-    [theme.fn.smallerThan('xs')]: {
-      flexDirection: 'column',
-    },
-  },
-
-  settingsContainer__box: {
-    width: '100%',
-    margin: '0 2rem 0 0',
-    [theme.fn.smallerThan('xs')]: {
-      margin: '0 0 1rem 0',
-    },
-  },
-}));
 
 export const Settings = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { t } = useTranslation();
-  const { classes } = useStyles();
+  const { classes } = settingsStyle();
   const { lang, handleChangeLanguage } = useContext(AppContext);
 
   return (

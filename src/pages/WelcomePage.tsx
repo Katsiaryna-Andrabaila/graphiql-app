@@ -15,7 +15,7 @@ import { TeamDescription } from '../components/TeamDescription';
 import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
 import { TeamMember } from '../types/types';
-import { Technologies } from '../components/technologies';
+import { Technologies } from '../components/technologies/technologies';
 
 const useStyles = createStyles(() => ({
   button: {
