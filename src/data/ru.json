@@ -74,5 +74,13 @@
       "role": "Ментор",
       "link": "https://github.com/alehharnizonau"
     }
-  ]
+  ],
+  "documentation": {
+    "docs": "Докуметация",
+    "docsDescription": "Схема GraphQL предоставляет корневой тип для каждого вида операций.",
+    "rootTypes": "Корневые типы",
+    "fields": "Поля",
+    "type": "Тип",
+    "arguments": "Аргументы"
+  }
 }

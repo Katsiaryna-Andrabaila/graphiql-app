@@ -84,3 +84,17 @@ export type QueryType = {
   name: string;
   possibleTypes: null;
 };
+
+export type DocsState = {
+  isQueryOpen: boolean;
+  isFieldOpen: boolean;
+  field: Field | null;
+  header: string | Field | QueryType;
+  type: QueryType | null;
+  isTypeOpen: boolean;
+  nestedType: QueryType | null;
+  isNestedTypeOpen: boolean;
+  scalarType: QueryType | null;
+  fieldDetails: Field | null;
+  isFieldDetailsOpen: boolean;
+};
