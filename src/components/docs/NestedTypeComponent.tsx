@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Dispatch, SetStateAction } from 'react';
 import { DocsState, Field } from '../../types/types';
+import { IconSquareDot } from '@tabler/icons-react';
 
 type Props = {
   parentState: DocsState;
@@ -59,22 +60,33 @@ const NestedTypeComponent = ({
         <h4>{nestedType.name}</h4>
         {fields ? (
           <>
-            <p>{`▪ ${t('documentation.fields')}`}</p>
+            <p className="header">
+              <IconSquareDot size="1rem" stroke={2.3} /> {t('documentation.fields')}
+            </p>
             {fields.map((el: Field) => (
               <div key={el.name}>
                 <p>
                   <a onClick={(e) => handleDetails(e)}>{el.name}</a>:{' '}
                   {el.type.kind === 'NON_NULL' ? (
                     <span>
-                      [<a onClick={(e) => handleClick(e, 'nested')}>{el.type.ofType.ofType.name}</a>
+                      [
+                      <a className="info-link" onClick={(e) => handleClick(e, 'nested')}>
+                        {el.type.ofType.ofType.name}
+                      </a>
                       ]!
                     </span>
                   ) : el.type.kind === 'LIST' ? (
                     <span>
-                      [<a onClick={(e) => handleClick(e, 'nested')}>{el.type.ofType.name}</a>]
+                      [
+                      <a className="info-link" onClick={(e) => handleClick(e, 'nested')}>
+                        {el.type.ofType.name}
+                      </a>
+                      ]
                     </span>
                   ) : (
-                    <a onClick={(e) => handleClick(e, 'scalar')}>{el.type.name}</a>
+                    <a className="info-link" onClick={(e) => handleClick(e, 'scalar')}>
+                      {el.type.name}
+                    </a>
                   )}
                 </p>
                 <p>{el.description}</p>

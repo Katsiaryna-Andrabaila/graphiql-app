@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Dispatch, SetStateAction } from 'react';
 import { DocsState, QueryType } from '../../types/types';
 import Arguments from './Arguments';
+import { IconCircleDot, IconSquareDot } from '@tabler/icons-react';
 
 type Props = {
   parentState: DocsState;
@@ -35,7 +36,10 @@ const CurrentField = ({ parentState, setParentState, query, handleClickType }: P
       <>
         <h4>{field.name}</h4>
         <p>{field.description}</p>
-        <p>{`▪ ${t('documentation.type')}`}</p>
+        <p className="header">
+          <IconCircleDot size="1rem" stroke={2.3} />
+          {t('documentation.type')}
+        </p>
         {field.type.kind === 'LIST' ? (
           <span>
             [<a onClick={(e) => handleClick(e, 'type')}>{field.type.ofType.name}</a>]
@@ -43,7 +47,9 @@ const CurrentField = ({ parentState, setParentState, query, handleClickType }: P
         ) : (
           <a onClick={(e) => handleClick(e, 'type')}>{field.type.name}</a>
         )}
-        <p>{`▪ ${t('documentation.arguments')}`}</p>
+        <p className="header">
+          <IconSquareDot size="1rem" stroke={2.3} /> {t('documentation.arguments')}
+        </p>
         <Arguments
           args={field.args}
           position="type"

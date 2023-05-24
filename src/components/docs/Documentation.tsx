@@ -6,6 +6,7 @@ import CurrentField from './CurrentField';
 import TypeComponent from './TypeComponent';
 import NestedTypeComponent from './NestedTypeComponent';
 import FieldDetailsComponent from './FieldDetailsComponent';
+import { IconArrowBack } from '@tabler/icons-react';
 
 const initialState: DocsState = {
   isQueryOpen: false,
@@ -180,14 +181,17 @@ const Documentation = ({ query }: { query: QueryType[] }) => {
     !isNestedTypeOpen &&
     !scalarType &&
     !isFieldDetailsOpen;
-  console.log(fieldDetails, type);
+
   return (
     <>
       {docsOpen ? (
         <InitialComponent parentState={state} setParentState={setState} query={query} />
       ) : (
         <>
-          <a onClick={handleClickHeader}>{`< ${header}`}</a>
+          <a className="link-back" onClick={handleClickHeader}>
+            <IconArrowBack />
+            {`${header}`}
+          </a>
         </>
       )}
 

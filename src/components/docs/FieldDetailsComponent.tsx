@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Dispatch, SetStateAction } from 'react';
 import { DocsState } from '../../types/types';
+import { IconCircleDot } from '@tabler/icons-react';
 
 type Props = {
   parentState: DocsState;
@@ -33,11 +34,15 @@ const FieldDetailsComponent = ({ parentState, setParentState, handleClickType }:
       <>
         <h4>{fieldDetails.name}</h4>
         {fieldDetails.description && <p>{fieldDetails.description}</p>}
-        <p>{`▪ ${t('documentation.type')}`}</p>
+        <p className="header">
+          <IconCircleDot size="1rem" stroke={2.3} />
+          {t('documentation.type')}
+        </p>
         {fieldDetails.type.kind === 'NON_NULL' ? (
           <span>
             [
             <a
+              className="info-link"
               onClick={(e) => {
                 handleClick(e, 'type');
                 setParentState((prev) => ({
@@ -54,6 +59,7 @@ const FieldDetailsComponent = ({ parentState, setParentState, handleClickType }:
           <span>
             [
             <a
+              className="info-link"
               onClick={(e) => {
                 handleClick(e, 'nested');
                 setParentState((prev) => ({
@@ -68,6 +74,7 @@ const FieldDetailsComponent = ({ parentState, setParentState, handleClickType }:
           </span>
         ) : fieldDetails.type.kind === 'OBJECT' ? (
           <a
+            className="info-link"
             onClick={(e) => {
               handleClick(e, 'nested');
               setParentState((prev) => ({
@@ -79,7 +86,9 @@ const FieldDetailsComponent = ({ parentState, setParentState, handleClickType }:
             {fieldDetails.type.name}
           </a>
         ) : (
-          <a onClick={(e) => handleClick(e, 'scalar')}>{fieldDetails.type.name}</a>
+          <a className="info-link" onClick={(e) => handleClick(e, 'scalar')}>
+            {fieldDetails.type.name}
+          </a>
         )}
       </>
     )

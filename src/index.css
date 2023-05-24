@@ -85,6 +85,31 @@ body {
   border-bottom: 1px solid #e4e0e0;
 }
 
+.docs {
+  margin-top: 0;
+}
+
+.argument-name {
+  color: #ff6b8b;
+}
+
+.info-link {
+  color: #eb9c00;
+}
+
+.link-back {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 #wrapper {
   display: flex;
   flex-direction: row;

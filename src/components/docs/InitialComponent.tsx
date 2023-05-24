@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Dispatch, SetStateAction } from 'react';
 import { DocsState, QueryType } from '../../types/types';
+import { IconCircleCheck } from '@tabler/icons-react';
 
 type Props = {
   parentState: DocsState;
@@ -14,9 +15,12 @@ const InitialComponent = ({ parentState, setParentState, query }: Props) => {
 
   return (
     <>
-      <h3>{t('documentation.docs')}</h3>
+      <h3 className="docs">{t('documentation.docs')}</h3>
       <p>{t('documentation.docsDescription')}</p>
-      <p>{`~ ${t('documentation.rootTypes')}`}</p>
+      <p className="header">
+        <IconCircleCheck size="1rem" stroke={2.3} />
+        {` ${t('documentation.rootTypes')}`}
+      </p>
       <p>
         query:{' '}
         <a onClick={() => setParentState((prev) => ({ ...prev, isQueryOpen: !isQueryOpen }))}>

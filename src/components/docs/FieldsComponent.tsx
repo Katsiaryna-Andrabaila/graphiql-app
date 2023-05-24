@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Dispatch, SetStateAction } from 'react';
 import { DocsState, Field, QueryType } from '../../types/types';
 import Arguments from './Arguments';
+import { IconSquareDot } from '@tabler/icons-react';
 
 type Props = {
   parentState: DocsState;
@@ -39,7 +40,9 @@ const FieldsComponent = ({
   return (
     <div>
       <p>{query[0].name}</p>
-      <p>{`▪ ${t('documentation.fields')}`}</p>
+      <p className="header">
+        <IconSquareDot size="1rem" stroke={2.3} /> {t('documentation.fields')}
+      </p>
       {query[0].fields.map((el: Field) => (
         <div key={el.name} className="type">
           <a onClick={() => handleClickField(el)}>{el.name}</a>(
@@ -54,10 +57,16 @@ const FieldsComponent = ({
           ):{' '}
           {el.type.kind === 'LIST' ? (
             <span>
-              [<a onClick={(e) => handleClick(e, 'type')}>{el.type.ofType.name}</a>]
+              [
+              <a className="info-link" onClick={(e) => handleClick(e, 'type')}>
+                {el.type.ofType.name}
+              </a>
+              ]
             </span>
           ) : (
-            <a onClick={(e) => handleClick(e, 'type')}>{el.type.name}</a>
+            <a className="info-link" onClick={(e) => handleClick(e, 'type')}>
+              {el.type.name}
+            </a>
           )}
           <p>{el.description}</p>
         </div>

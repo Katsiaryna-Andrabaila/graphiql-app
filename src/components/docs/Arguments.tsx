@@ -34,20 +34,29 @@ const Arguments = ({
 
   const result = args.map((item) => (
     <div key={item.name} className="argument">
-      <span>{item.name}</span>:{' '}
+      <span className="argument-name">{item.name}</span>:{' '}
       {item.type.kind === 'NON_NULL' && item.name !== 'ids' ? (
         <span>
-          <a onClick={(e) => handleClick(e, 'scalar')}>{item.type.ofType.name}</a>!
+          <a className="info-link" onClick={(e) => handleClick(e, 'scalar')}>
+            {item.type.ofType.name}
+          </a>
+          !
         </span>
       ) : item.type.kind === 'NON_NULL' && item.name === 'ids' ? (
         <span>
-          [<a onClick={(e) => handleClick(e, 'scalar')}>{item.type.ofType.ofType.ofType.name}</a>
+          [
+          <a className="info-link" onClick={(e) => handleClick(e, 'scalar')}>
+            {item.type.ofType.ofType.ofType.name}
+          </a>
           !]!
         </span>
       ) : item.type.kind === 'SCALAR' ? (
-        <a onClick={(e) => handleClick(e, 'scalar')}>{item.type.name}</a>
+        <a className="info-link" onClick={(e) => handleClick(e, 'scalar')}>
+          {item.type.name}
+        </a>
       ) : (
         <a
+          className="info-link"
           onClick={(e) => {
             handleClick(e, 'nested');
             setParentState((prev) => ({ ...prev, isNestedTypeOpen: true }));
