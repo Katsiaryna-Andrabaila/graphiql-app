@@ -1,4 +1,5 @@
-import { MutableRefObject, useEffect, useRef, useState, MouseEvent } from 'react';
+import { lazy } from 'react';
+import { MutableRefObject, Suspense, useEffect, useRef, useState, MouseEvent } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
@@ -6,6 +7,8 @@ import { SideMenu } from '../components/sideMenu';
 import { ActionIcon, Stack, useMantineColorScheme } from '@mantine/core';
 import { createFetcher } from '../utils/createFetcher';
 import { HistoryObject } from '../types/types';
+import { AppLoader } from '../components/AppLoader';
+const Documentation = lazy(() => import('../components/docs/Documentation'));
 
 const fetcher = createFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
@@ -67,7 +70,7 @@ const RedactorPage = () => {
   const [resultsViewer, setResultsViewer] = useState<editor.IStandaloneCodeEditor | null>(null);
   const [schema, setSchema] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
-  const [isOpenSchema, setIsOpenSchema] = useState(false);
+  const [isOpenDocs, setIsOpenDocs] = useState(false);
   const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
@@ -202,10 +205,11 @@ const RedactorPage = () => {
         })
         .then(() => setLoading(false));
     }
+    console.log(schema);
   }, [schema, loading]);
 
-  const handleClickSchema = () => {
-    !isOpenSchema ? setIsOpenSchema(true) : setIsOpenSchema(false);
+  const handleClickDocs = () => {
+    setIsOpenDocs((status) => !status);
   };
   const handleClickHistory = () => {
     !isOpenHistory ? setIsOpenHistory(true) : setIsOpenHistory(false);
@@ -238,15 +242,25 @@ const RedactorPage = () => {
     <>
       <div className="redactor-wrapper">
         <SideMenu
-          isOpenSchema={isOpenSchema}
+          isOpenSchema={isOpenDocs}
           showVariables={showVariables}
           variablesHandler={variablesHandler}
-          handleClickSchema={handleClickSchema}
+          handleClickSchema={handleClickDocs}
           execOperation={execOperation}
           prettify={prettify}
           handleClickHistory={handleClickHistory}
         />
-        {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
+        {isOpenDocs && (
+          <section className="schema">
+            <Suspense fallback={<AppLoader />}>
+              {schema !== null && (
+                <Documentation
+                  query={JSON.parse(JSON.stringify(schema, null, '\t'))['__schema']['types']}
+                />
+              )}
+            </Suspense>
+          </section>
+        )}
         {isOpenHistory && (
           <Stack sx={{ maxWidth: '25%', width: '25%', padding: '1rem', gap: '0' }}>
             {historyArray.map((el) => {

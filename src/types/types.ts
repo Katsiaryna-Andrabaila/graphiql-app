@@ -43,6 +43,67 @@ export interface HeaderResponsiveProps {
   links: { link: string; label: string }[];
 }
 
+type Kind = 'OBJECT' | 'SCALAR' | 'ENUM' | 'INPUT_OBJECT' | 'LIST' | 'NON_NULL';
+
+type Type = {
+  kind: Kind;
+  name: string | null;
+  ofType: {
+    kind: Kind;
+    name: string | null;
+    ofType: Type;
+  };
+};
+
+export type Args = {
+  defaultValue: null;
+  description: string;
+  name: string;
+  type: {
+    kind: Kind;
+    name: string | null;
+    ofType: Type;
+  };
+};
+
+export type Field = {
+  args: Args[];
+  deprecationReason: null;
+  description: string;
+  isDeprecated: boolean;
+  name: string;
+  type: {
+    kind: Kind;
+    name: string | null;
+    ofType: Type;
+  };
+};
+
+export type QueryType = {
+  description: string;
+  enumValues: null;
+  fields: Field[];
+  inputFields: Field[] | null;
+  interfaces: [] | null;
+  kind: Kind;
+  name: string;
+  possibleTypes: null;
+};
+
+export type DocsState = {
+  isQueryOpen: boolean;
+  isFieldOpen: boolean;
+  field: Field | null;
+  header: string | Field | QueryType;
+  type: QueryType | null;
+  isTypeOpen: boolean;
+  nestedType: QueryType | null;
+  isNestedTypeOpen: boolean;
+  scalarType: QueryType | null;
+  fieldDetails: Field | null;
+  isFieldDetailsOpen: boolean;
+};
+
 export type SideMenuProps = {
   isOpenSchema: boolean; 
   showVariables: boolean;  

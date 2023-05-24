@@ -81,6 +81,15 @@
       "src": "aleh.jpg"
     }
   ],
+
+  "documentation": {
+    "docs": "Docs",
+    "docsDescription": "A GraphQL schema provides a root type for each kind of operation.",
+    "rootTypes": "Root types",
+    "fields": "Fields",
+    "type": "Type",
+    "arguments": "Arguments"
+  },
   "sideMenu": {
     "show": "Show",
     "hide": "Hide",
