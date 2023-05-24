@@ -10,7 +10,6 @@ import { HistoryObject } from '../types/types';
 import { AppLoader } from '../components/AppLoader';
 const Documentation = lazy(() => import('../components/docs/Documentation'));
 
-
 const fetcher = createFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
 });
@@ -236,10 +235,10 @@ const RedactorPage = () => {
     <>
       <div className="redactor-wrapper">
         <SideMenu
-          isOpenSchema={isOpenSchema}
+          isOpenSchema={isOpenDocs}
           showVariables={showVariables}
           variablesHandler={variablesHandler}
-          handleClickSchema={handleClickSchema}
+          handleClickSchema={handleClickDocs}
           execOperation={execOperation}
           handleClickHistory={handleClickHistory}
         />
