@@ -6,9 +6,7 @@ import { Layout } from '../components/layout';
 import { RequireAuth } from '../HOC/Private';
 import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
-import { lazy } from 'react';
-const RedactorPage = lazy(() => import('../pages/RedactorPage'));
-
+import RedactorPage from '../pages/RedactorPage';
 
 export const Routing = () => {
   const { isAuth } = useContext(AppContext);

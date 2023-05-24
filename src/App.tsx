@@ -1,11 +1,10 @@
-import { StrictMode, Suspense } from 'react';
+import { StrictMode } from 'react';
 import './App.css';
 import { ErrorBoundary } from 'react-error-boundary';
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
 import { BrowserRouter } from 'react-router-dom';
 import { Routing } from './utils/routes';
 import { AppProvider } from './HOC/Provider';
-import { AppLoader } from './components/AppLoader';
 import { ErrorFallback } from './components/ErrorFallback';
 import { Notifications } from '@mantine/notifications';
 import { useColorScheme, useLocalStorage } from '@mantine/hooks';
@@ -40,13 +39,11 @@ function App() {
             withNormalizeCSS
           >
             <Notifications position="bottom-right" zIndex={2077} />
-            <Suspense fallback={<AppLoader />}>
               <AppProvider>
                 <BrowserRouter>
                   <Routing />
                 </BrowserRouter>
               </AppProvider>
-            </Suspense>
           </MantineProvider>
         </ColorSchemeProvider>
       </ErrorBoundary>
