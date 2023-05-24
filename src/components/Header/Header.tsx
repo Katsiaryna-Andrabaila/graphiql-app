@@ -12,7 +12,6 @@ import {
   ActionIcon,
   Image,
   SegmentedControl,
-  Flex,
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
