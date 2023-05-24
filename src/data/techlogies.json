@@ -1,42 +1,42 @@
 {
 "data": [
   {
-    "src": "src/assets/logos/react.png",
+    "src": "react.png",
     "title": "React",
     "link": "https://react.dev/"
 },
   {
-    "src": "src/assets/logos/router.png",
+    "src": "router.png",
     "title": "React Router",
     "link": "https://reactrouter.com/"
 },
   {
-    "src": "src/assets/logos/typescript.png",
+    "src": "typescript.png",
     "title": "Typescript",
     "link": "https://www.typescriptlang.org/"
 },
   {
-    "src": "src/assets/logos/vite.png",
+    "src": "vite.png",
     "title": "Vite",
     "link": "https://vitejs.dev/"
 },
   {
-    "src": "src/assets/logos/mantine.png",
+    "src": "mantine.png",
     "title": "Mantine",
     "link": "https://mantine.dev/"
 },
   {
-    "src": "src/assets/logos/firebase.png",
+    "src": "firebase.png",
     "title": "Firebase",
     "link": "https://firebase.google.com/"
 },
   {
-    "src": "src/assets/logos/graphql.png",
+    "src": "graphql.png",
     "title": "Graphql",
     "link": "https://graphql.org/"
 },
   {
-    "src": "src/assets/logos/inext.png",
+    "src": "inext.png",
     "title": "i18Next",
     "link": "https://www.i18next.com/"
 }
