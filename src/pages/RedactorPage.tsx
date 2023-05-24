@@ -85,6 +85,65 @@ const RedactorPage = () => {
       : [defaultValues]
   );
 
+  const adaptiveEditor = () => {
+    var x = window.matchMedia('(max-width: 700px)');
+    if (x.matches) {
+      const lineHeightQueryEditor =
+        (queryEditor && queryEditor.getOption(editor.EditorOption.lineHeight)) || 20;
+      const lineCountQueryEditor = (queryEditor && queryEditor!.getModel()?.getLineCount()) || 1;
+      const heightQueryEditor = lineHeightQueryEditor * lineCountQueryEditor + 20;
+
+      if (opsRef.current) {
+        (opsRef.current as HTMLElement).style.width = '85vw';
+        (opsRef.current as HTMLElement).style.height = `${heightQueryEditor}px`;
+        queryEditor && queryEditor.layout();
+      }
+      if (varsRef.current) {
+        (varsRef.current as HTMLElement).style.width = '85vw';
+        (varsRef.current as HTMLElement).style.height = '150px';
+        variablesEditor && variablesEditor.layout();
+      }
+      if (resultsRef.current) {
+        (resultsRef.current as HTMLElement).style.width = '85vw';
+
+        resultsViewer && resultsViewer.layout();
+      }
+    } else {
+      if (opsRef.current) {
+        (opsRef.current as HTMLElement).style.width = '100%';
+        (opsRef.current as HTMLElement).style.height = '';
+        queryEditor && queryEditor.layout();
+      }
+      if (varsRef.current) {
+        (varsRef.current as HTMLElement).style.width = '100%';
+        (varsRef.current as HTMLElement).style.height = '';
+        variablesEditor && variablesEditor.layout();
+      }
+      if (resultsRef.current) {
+        (resultsRef.current as HTMLElement).style.width = '100%';
+        (resultsRef.current as HTMLElement).style.height = '';
+        resultsViewer && resultsViewer.layout();
+      }
+    }
+  };
+  let prevHeight = 0;
+
+  const updateEditorHeight = () => {
+    const editorElement = resultsViewer!.getDomNode();
+    if (!editorElement) {
+      return;
+    }
+    const lineHeight = resultsViewer!.getOption(editor.EditorOption.lineHeight);
+
+    const lineCount = resultsViewer!.getModel()?.getLineCount() || 1;
+    const height = resultsViewer!.getTopForLineNumber(lineCount + 1) + lineHeight;
+    if (prevHeight !== height) {
+      prevHeight = height;
+      editorElement.style.height = `${height}px`;
+      resultsViewer!.layout();
+    }
+  };
+
   let defaultOperations =
     (historyArray.length > 0 && historyArray[historyArray.length - 1].query) || defaultValues.query;
 
@@ -117,6 +176,11 @@ const RedactorPage = () => {
 
     const data = result;
     resultsModel?.setValue(JSON.stringify(data, null, 2));
+    resultsViewer &&
+      resultsViewer.onDidContentSizeChange(() => {
+        updateEditorHeight(); // typing
+        requestAnimationFrame(updateEditorHeight); // folding
+      });
   };
 
   const queryAction = {
@@ -238,6 +302,7 @@ const RedactorPage = () => {
     }
   };
 
+  window.addEventListener(`resize`, adaptiveEditor);
   return (
     <>
       <div className="redactor-wrapper">

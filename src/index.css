@@ -119,6 +119,7 @@ body {
   border-radius: 1rem;
 }
 
+
 .pane {
   height: 100%;
   width: 50%;
@@ -127,6 +128,7 @@ body {
   align-self: stretch;
   text-align: start;
   border-radius: 1rem;
+  gap: 10px;
 }
 
 .ops-editor,
@@ -182,4 +184,13 @@ body::-webkit-scrollbar-thumb,
 .result-editor::-webkit-scrollbar-thumb {
   background-color: #4a677d66;
   cursor: pointer;
+}
+@media only screen and (max-width: 700px) {
+  #wrapper {
+    flex-direction: column;
+    height: auto
+  }
+  .pane{
+    width: 100%;
+  }
 }
