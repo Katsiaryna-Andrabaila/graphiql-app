@@ -3,6 +3,7 @@ import { SegmentedControl } from '@mantine/core';
 import { IconMoon, IconSun } from '@tabler/icons-react';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { availableLanguages } from '../../constants/constants';
 import { AppContext } from '../../HOC/Provider';
 import { ButtonClear } from './clearButton';
 import { settingsStyle } from './settingsStyle';
@@ -66,10 +67,7 @@ export const Settings = () => {
           <SegmentedControl
             value={lang}
             onChange={handleChangeLanguage}
-            data={[
-              { label: 'RU', value: 'ru' },
-              { label: 'EN', value: 'en' },
-            ]}
+            data={availableLanguages}
           />
         </Box>
       </Flex>

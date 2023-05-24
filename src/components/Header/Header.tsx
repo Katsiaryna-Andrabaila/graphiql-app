@@ -21,6 +21,7 @@ import { AppContext } from '../../HOC/Provider';
 import useStyles, { HEADER_HEIGHT } from './styles';
 import { HeaderResponsiveProps } from '../../types/types';
 import { IconSun, IconMoonStars } from '@tabler/icons-react';
+import { availableLanguages } from '../../constants/constants';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
@@ -93,10 +94,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
               <SegmentedControl
                 value={lang}
                 onChange={handleChangeLanguage}
-                data={[
-                  { label: 'RU', value: 'ru' },
-                  { label: 'EN', value: 'en' },
-                ]}
+                data={availableLanguages}
               />
               <Group position="center" my="xl">
                 <ActionIcon
@@ -187,10 +185,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                  <SegmentedControl
                    value={lang}
                    onChange={handleChangeLanguage}
-                   data={[
-                     { label: 'RU', value: 'ru' },
-                     { label: 'EN', value: 'en' },
-                   ]}
+                   data={availableLanguages}
                  />
                </>
                 )}
