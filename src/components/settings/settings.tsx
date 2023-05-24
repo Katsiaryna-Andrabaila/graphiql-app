@@ -1,4 +1,4 @@
-import { Box, Center, createStyles, Flex, Text, Title, useMantineColorScheme } from '@mantine/core';
+import { Box, Center, Flex, Text, Title, useMantineColorScheme } from '@mantine/core';
 import { SegmentedControl } from '@mantine/core';
 import { IconMoon, IconSun } from '@tabler/icons-react';
 import { useContext } from 'react';
