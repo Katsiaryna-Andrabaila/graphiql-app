@@ -5,7 +5,7 @@ export const TeamDescription = ({data}: MembersDataProps) => {
   const membersJSX = data.map((member, index) => {
     return (
       <Container key={index}>
-        <Title order={3} color="#311C87" fw={700}>
+        <Title order={3} color="#311C87" fw={700} truncate={true} >
           {member.name}
         </Title>
         <Title order={4} fw={600}>
@@ -18,7 +18,7 @@ export const TeamDescription = ({data}: MembersDataProps) => {
   });
   return (
     <Flex
-      direction={{ base: 'column', sm: 'row' }}
+      direction={{ base: 'column', md: 'row' }}
       gap={{ base: 'sm', sm: 'lg' }}
       justify={{ sm: 'space-between' }}
     >

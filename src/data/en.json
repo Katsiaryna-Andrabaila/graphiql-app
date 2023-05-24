@@ -47,7 +47,8 @@
     "title": "GraphiQL",
     "mainText": "GraphiQL is the playground/IDE for graphQL requests",
     "playgroundButton": "Go to Playground",
-    "team": "Developer Team"
+    "team": "Developer Team",
+    "technologies": "Technologies stack integrated in project"
   },
   "footer": {
     "iconText": "GraphQL playground",
@@ -82,7 +83,8 @@
     "history" : "History",
     "variables" : "Variables",
     "settings" : "Settings",
-    "run" : "Execute query"
+    "run" : "Execute query",
+    "pretty": "Prettify query"
   },
   "modal": {
     "title": "Settings",
@@ -93,6 +95,8 @@
     "storage": "Clear storage",
     "storageText": "Remove all locally stored data and start fresh",
     "clearData": "Clear data",
-    "cleared": "Cleared"
+    "cleared": "Cleared",
+    "language": "Language",
+    "languageText": "Change language of interface"
   }
 }

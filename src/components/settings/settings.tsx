@@ -1,26 +1,24 @@
 import { Box, Center, Flex, Text, Title, useMantineColorScheme } from '@mantine/core';
 import { SegmentedControl } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { IconMoon, IconSun } from '@tabler/icons-react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { availableLanguages } from '../../constants/constants';
+import { AppContext } from '../../HOC/Provider';
 import { ButtonClear } from './clearButton';
+import { settingsStyle } from './settingsStyle';
+
 
 export const Settings = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const mobile = useMediaQuery('(max-width: 36em)');
   const { t } = useTranslation();
+  const { classes } = settingsStyle();
+  const { lang, handleChangeLanguage } = useContext(AppContext);
 
   return (
     <>
-      <Flex
-        direction={mobile ? 'column' : 'row'}
-        justify="space-between"
-        align="center"
-        pt="1.5rem"
-        pb="1.5rem"
-        sx={{ borderTop: '1px solid #A6A7AB' }}
-      >
-        <Box w="100%" mb={mobile ? '1rem' : ''} mr={mobile ? '' : '2rem'}>
+      <Flex className={classes.settingsContainer}>
+        <Box className={classes.settingsContainer__box}>
           <Title order={3}>{t('modal.theme')}</Title>
           <Text>{t('modal.themeAdjust')}</Text>
         </Box>
@@ -51,20 +49,26 @@ export const Settings = () => {
           />
         </Box>
       </Flex>
-      <Flex
-        direction={mobile ? 'column' : 'row'}
-        justify="space-between"
-        align="center"
-        pt="1.5rem"
-        pb="1.5rem"
-        sx={{ borderTop: '1px solid #A6A7AB' }}
-      >
-        <Box w="100%" mb={mobile ? '1rem' : ''} mr={mobile ? '' : '2rem'}>
+      <Flex className={classes.settingsContainer}>
+        <Box className={classes.settingsContainer__box}>
           <Title order={3}>{t('modal.storage')}</Title>
           <Text>{t('modal.storageText')}</Text>
         </Box>
         <Box>
           <ButtonClear />
+        </Box>
+      </Flex>
+      <Flex className={classes.settingsContainer}>
+        <Box className={classes.settingsContainer__box}>
+          <Title order={3}>{t('modal.language')}</Title>
+          <Text>{t('modal.languageText')}</Text>
+        </Box>
+        <Box>
+          <SegmentedControl
+            value={lang}
+            onChange={handleChangeLanguage}
+            data={availableLanguages}
+          />
         </Box>
       </Flex>
     </>

@@ -12,13 +12,16 @@ import {
   ActionIcon,
   Image,
   SegmentedControl,
+  useMantineColorScheme,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router-dom';
 import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { AppContext } from '../../HOC/Provider';
 import useStyles, { HEADER_HEIGHT } from './styles';
 import { HeaderResponsiveProps } from '../../types/types';
+import { IconSun, IconMoonStars } from '@tabler/icons-react';
+import { availableLanguages } from '../../constants/constants';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
@@ -27,8 +30,10 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     ? links.filter((el) => el.link === link)[0].link
     : '';
   const [active, setActive] = useState('');
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes, cx } = useStyles();
   const rootRef = useRef(null);
+  const mobile = useMediaQuery('(max-width: 48em)');
 
   useEffect(() => {
     setActive(pathname);
@@ -84,14 +89,33 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
           </Group>
         ) : null}
         <Group className={classes.links1}>
-          <SegmentedControl
-            value={lang}
-            onChange={handleChangeLanguage}
-            data={[
-              { label: 'RU', value: 'ru' },
-              { label: 'EN', value: 'en' },
-            ]}
-          />
+          {link === '/' ? null : (
+            <>
+              <SegmentedControl
+                value={lang}
+                onChange={handleChangeLanguage}
+                data={availableLanguages}
+              />
+              <Group position="center" my="xl">
+                <ActionIcon
+                  onClick={() => toggleColorScheme()}
+                  size="lg"
+                  sx={(theme) => ({
+                    backgroundColor:
+                      theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                    color:
+                      theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.blue[6],
+                  })}
+                >
+                  {colorScheme === 'dark' ? (
+                    <IconSun size="1.2rem" />
+                  ) : (
+                    <IconMoonStars size="1.2rem" />
+                  )}
+                </ActionIcon>
+              </Group>
+            </>
+          )}
           {isAuth ? (
             <Button
               onClick={() => {
@@ -130,17 +154,44 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
-              <Group sx={{ justifyContent: 'end' }}>
-                <SegmentedControl
-                  value={lang}
-                  onChange={handleChangeLanguage}
-                  data={[
-                    { label: 'RU', value: 'ru' },
-                    { label: 'EN', value: 'en' },
-                  ]}
-                />
+              {items}
+              <Group
+                spacing={0}
+                sx={{
+                  justifyContent: mobile ? 'center' : 'end',
+                  flexDirection: mobile ? 'column' : 'row',
+                }}
+              >
+                {link === '/' ? null : (
+                 <>
+                 <Group position="center" my="sm">
+                   <ActionIcon
+                     onClick={() => toggleColorScheme()}
+                     size="lg"
+                     sx={(theme) => ({
+                       backgroundColor:
+                         theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                       color:
+                         theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.blue[6],
+                     })}
+                   >
+                     {colorScheme === 'dark' ? (
+                       <IconSun size="1.2rem" />
+                     ) : (
+                       <IconMoonStars size="1.2rem" />
+                     )}
+                   </ActionIcon>
+                 </Group>
+                 <SegmentedControl
+                   value={lang}
+                   onChange={handleChangeLanguage}
+                   data={availableLanguages}
+                 />
+               </>
+                )}
                 {isAuth ? (
                   <Button
+                    m={mobile ? '0.5rem 0' : ''}
                     onClick={() => {
                       if (handleClickLogout) {
                         handleClickLogout(() => navigate('/login'));
@@ -150,7 +201,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                     {t('logOut')}
                   </Button>
                 ) : (
-                  <Group>
+                  <Group m={mobile ? '0.5rem' : ''}>
                     <Button
                       variant="default"
                       onClick={() => {
@@ -173,7 +224,6 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                   </Group>
                 )}
               </Group>
-              {items}
             </Paper>
           )}
         </Transition>

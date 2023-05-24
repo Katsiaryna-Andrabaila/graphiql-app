@@ -1,6 +1,7 @@
 import { ActionIcon, Box, Flex, Modal, Stack, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
+  IconBrush,
   IconHistory,
   IconPlayerPlay,
   IconSchema,
@@ -17,6 +18,7 @@ export const SideMenu = ({
   variablesHandler,
   handleClickSchema,
   execOperation,
+  prettify,
   handleClickHistory
 }: SideMenuProps) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -41,6 +43,11 @@ export const SideMenu = ({
           <Tooltip label={t('sideMenu.run')} color="gray" position="bottom">
             <ActionIcon onClick={execOperation}>
               <IconPlayerPlay />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label={t('sideMenu.pretty')} color="gray" position="bottom">
+            <ActionIcon onClick={prettify}>
+              <IconBrush />
             </ActionIcon>
           </Tooltip>
           <Tooltip label={t('sideMenu.history')} color="gray" position="bottom">

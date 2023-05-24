@@ -25,7 +25,20 @@ function App() {
     <StrictMode>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-          <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+          <MantineProvider
+            theme={{
+              colorScheme,
+              fontSizes: {
+                xs: '0.7rem',
+                sm: '0.9rem',
+                md: '1.1rem',
+                lg: '1.3rem',
+                xl: '1.5rem',
+              },
+            }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
             <Notifications position="bottom-right" zIndex={2077} />
             <Suspense fallback={<AppLoader />}>
               <AppProvider>

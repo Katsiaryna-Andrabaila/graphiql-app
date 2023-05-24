@@ -15,6 +15,7 @@ import { TeamDescription } from '../components/TeamDescription';
 import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
 import { TeamMember } from '../types/types';
+import { Technologies } from '../components/technologies/technologies';
 
 const useStyles = createStyles(() => ({
   button: {
@@ -85,8 +86,16 @@ const WelcomePage = () => {
               </Group>
             )}
           </Center>
-          <Title>{t('welcomePage.team')}</Title>
+          <Title order={2} pb="1rem">
+            {t('welcomePage.team')}
+          </Title>
           <TeamDescription data={data} />
+        </Container>
+        <Container>
+          <Title order={2} pb="1rem">
+            {t('welcomePage.technologies')}
+          </Title>
+          <Technologies />
         </Container>
       </Box>
     </>

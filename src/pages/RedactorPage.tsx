@@ -71,6 +71,11 @@ const RedactorPage = () => {
   const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
+  
+  const prettify = () => {
+      queryEditor?.getAction('editor.action.formatDocument')?.run()
+  }
+
   const [historyArray, setHistoryArray] = useState<HistoryObject[]>(
     localStorage.getItem('history') && JSON.parse(localStorage.getItem('history')!).length > 0
       ? JSON.parse(localStorage.getItem('history')!)
@@ -124,7 +129,6 @@ const RedactorPage = () => {
     const queryModel = getOrCreateModel('operation.graphql', defaultOperations);
     const variablesModel = getOrCreateModel('variables.json', defaultVariables);
     const resultsModel = getOrCreateModel('results.json', '{}');
-
     queryEditor ??
       setQueryEditor(
         createEditor(opsRef, {
@@ -151,9 +155,12 @@ const RedactorPage = () => {
           smoothScrolling: true,
         })
       );
+    }, []);
 
-    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light';
-    editor.setTheme(themeColor);
+    
+  useEffect(() => {
+    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
+    editor.setTheme(themeColor)
   }, [colorScheme]);
 
   useEffect(() => {
@@ -236,6 +243,7 @@ const RedactorPage = () => {
           variablesHandler={variablesHandler}
           handleClickSchema={handleClickSchema}
           execOperation={execOperation}
+          prettify={prettify}
           handleClickHistory={handleClickHistory}
         />
         {isOpenSchema && <div className="schema">{JSON.stringify(schema, null, '\t')}</div>}
