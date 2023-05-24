@@ -8,9 +8,9 @@ import { TeamMember } from '../../types/types';
 
 const useStyles = createStyles((theme) => ({
   footer: {
-    marginTop: rem(120),
-    paddingTop: `calc(${theme.spacing.xl} * 2)`,
-    paddingBottom: `calc(${theme.spacing.xl} * 2)`,
+    marginTop: rem(0),
+    paddingTop: `calc(${theme.spacing.xs} * 1)`,
+    paddingBottom: `calc(${theme.spacing.xs} * 1)`,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderTop: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
@@ -19,7 +19,6 @@ const useStyles = createStyles((theme) => ({
 
   logo: {
     maxWidth: rem(200),
-
     [theme.fn.smallerThan('sm')]: {
       display: 'flex',
       flexDirection: 'column',
@@ -38,6 +37,7 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       marginTop: theme.spacing.xs,
       textAlign: 'center',
+      marginBottom: rem(10)
     },
   },
 
@@ -51,29 +51,13 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  wrapper: {
-    width: rem(180),
-  },
-
-  link: {
-    display: 'inline',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[6],
-    fontSize: theme.fontSizes.sm,
-    paddingTop: rem(3),
-    paddingBottom: rem(3),
-
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-
   afterFooter: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: theme.spacing.xl,
-    paddingTop: theme.spacing.xl,
-    paddingBottom: theme.spacing.xl,
+    marginTop: theme.spacing.xs,
+    paddingTop: theme.spacing.xs,
+    paddingBottom: theme.spacing.xs,
     borderTop: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
     }`,
@@ -85,7 +69,7 @@ const useStyles = createStyles((theme) => ({
 
   social: {
     [theme.fn.smallerThan('sm')]: {
-      marginTop: theme.spacing.xs,
+      // marginTop: theme.spacing.xs,
     },
   },
 }));

@@ -1,53 +1,44 @@
-import { MutableRefObject, Suspense, useEffect, useRef, useState } from 'react';
+import { lazy } from 'react';
+import { MutableRefObject, Suspense, useEffect, useRef, useState, MouseEvent } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import { debounce } from '../utils/debounce';
-import { Button, Stack, UnstyledButton } from '@mantine/core';
-import { lazy } from 'react';
+import { SideMenu } from '../components/sideMenu';
+import { ActionIcon, Stack, useMantineColorScheme } from '@mantine/core';
+import { createFetcher } from '../utils/createFetcher';
+import { HistoryObject } from '../types/types';
 import { AppLoader } from '../components/AppLoader';
 const Documentation = lazy(() => import('../components/docs/Documentation'));
 
-const fetcher = createGraphiQLFetcher({
+
+const fetcher = createFetcher({
   url: 'https://rickandmortyapi.com/graphql/',
 });
 
-const defaultOperations =
-  localStorage.getItem('operations') ??
-  `
-# cmd/ctrl + return/enter will execute the op,
-# same in variables editor below
-# also available via context menu & f1 command palette
-
-query {
-  characters(page: 2, filter: { name: "rick" }) {
-    info {
-      count
-    }
-    results {
-      name
-    }
-  }
-  location(id: 1) {
-    id
-  }
-  episodesByIds(ids: [1, 2]) {
-    id
-  }
+export const defaultValues = {
+  query: `query {
+characters(page: 2, filter: { name: "rick" }) {
+info {
+  count
 }
-`;
+results {
+  name
+}
+}
+location(id: 1) {
+id
+}
+episodesByIds(ids: [1, 2]) {
+id
+}
+}`,
+  variables: `
+{
 
-const defaultVariables =
-  localStorage.getItem('variables') ??
-  `
- {
-     // limit will appear here as autocomplete,
-     // and because the default value is 0, will
-     // complete as such
-     "limit": false
- }
-`;
+}
+`,
+  id: '0',
+};
 
 const getSchema = async () =>
   fetcher({
@@ -61,34 +52,6 @@ const getOrCreateModel = (uri: string, value: string) => {
   );
 };
 
-const execOperation = async function () {
-  const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
-  const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
-  const resultsModel = editor.getModel(Uri.file('results.json'));
-
-  const result = await fetcher({
-    query: operations,
-    variables: JSON.parse(variables),
-  });
-
-  // @ts-expect-error
-  const data = await result.next();
-
-  resultsModel?.setValue(JSON.stringify(data.value, null, 2));
-};
-
-const queryAction = {
-  id: 'graphql-run',
-  label: 'Run Operation',
-  contextMenuOrder: 0,
-  contextMenuGroupId: 'graphql',
-  keybindings: [
-    // eslint-disable-next-line no-bitwise
-    KeyMod.CtrlCmd | KeyCode.Enter,
-  ],
-  run: execOperation,
-};
-// set these early on so that initial variables with comments don't flash an error
 languages.json.jsonDefaults.setDiagnosticsOptions({
   allowComments: true,
   trailingCommas: 'ignore',
@@ -109,11 +72,58 @@ const RedactorPage = () => {
   const [schema, setSchema] = useState<unknown | null>(null);
   const [loading, setLoading] = useState(false);
   const [isOpenDocs, setIsOpenDocs] = useState(false);
+  const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
+  const { colorScheme } = useMantineColorScheme();
+  const [historyArray, setHistoryArray] = useState<HistoryObject[]>(
+    localStorage.getItem('history') && JSON.parse(localStorage.getItem('history')!).length > 0
+      ? JSON.parse(localStorage.getItem('history')!)
+      : [defaultValues]
+  );
 
-  /**
-   * Create the models & editors
-   */
+  let defaultOperations =
+    (historyArray.length > 0 && historyArray[historyArray.length - 1].query) || defaultValues.query;
+
+  const defaultVariables =
+    (historyArray.length > 0 && historyArray[historyArray.length - 1].variables) ||
+    defaultValues.variables;
+
+  const execOperation = async function () {
+    const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
+    const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
+    const resultsModel = editor.getModel(Uri.file('results.json'));
+
+    const result = await fetcher({
+      query: operations,
+      variables: JSON.parse(variables),
+    });
+
+    if (historyArray[historyArray.length - 1].query !== operations) {
+      setHistoryArray([
+        ...historyArray,
+        {
+          query: operations,
+          variables: variables,
+          id: String(historyArray.length),
+        },
+      ]);
+    }
+
+    localStorage.setItem('history', JSON.stringify(historyArray));
+
+    const data = result;
+    resultsModel?.setValue(JSON.stringify(data, null, 2));
+  };
+
+  const queryAction = {
+    id: 'graphql-run',
+    label: 'Run Operation',
+    contextMenuOrder: 0,
+    contextMenuGroupId: 'graphql',
+    keybindings: [KeyMod.CtrlCmd | KeyCode.Enter],
+    run: execOperation,
+  };
+
   useEffect(() => {
     const queryModel = getOrCreateModel('operation.graphql', defaultOperations);
     const variablesModel = getOrCreateModel('variables.json', defaultVariables);
@@ -122,7 +132,7 @@ const RedactorPage = () => {
     queryEditor ??
       setQueryEditor(
         createEditor(opsRef, {
-          theme: 'hc-light',
+          theme: colorScheme === 'dark' ? 'vs-dark' : 'hc-light',
           model: queryModel,
           language: 'graphql',
         })
@@ -131,41 +141,30 @@ const RedactorPage = () => {
     variablesEditor ??
       setVariablesEditor(
         createEditor(varsRef, {
-          theme: 'hc-light',
+          theme: colorScheme === 'dark' ? 'vs-dark' : 'hc-light',
           model: variablesModel,
         })
       );
+
     resultsViewer ??
       setResultsViewer(
         createEditor(resultsRef, {
-          theme: 'hc-light',
+          theme: colorScheme === 'dark' ? 'vs-dark' : 'hc-light',
           model: resultsModel,
           readOnly: true,
           smoothScrolling: true,
         })
       );
 
-    queryModel.onDidChangeContent(
-      debounce(300, () => {
-        localStorage.setItem('operations', queryModel.getValue());
-      })
-    );
-    variablesModel.onDidChangeContent(
-      debounce(300, () => {
-        localStorage.setItem('variables', variablesModel.getValue());
-      })
-    );
-
-    // only run once on mount
-  }, []);
+    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light';
+    editor.setTheme(themeColor);
+  }, [colorScheme]);
 
   useEffect(() => {
     queryEditor?.addAction(queryAction);
     variablesEditor?.addAction(queryAction);
   }, [variablesEditor]);
-  /**
-   * Handle the initial schema load
-   */
+
   useEffect(() => {
     if (!schema && !loading) {
       setLoading(true);
@@ -182,7 +181,6 @@ const RedactorPage = () => {
               jsonDiagnosticSettings: {
                 validate: true,
                 schemaValidation: 'error',
-                // set these again, because we are entirely re-setting them here
                 allowComments: true,
                 trailingCommas: 'ignore',
               },
@@ -207,6 +205,9 @@ const RedactorPage = () => {
   const handleClickDocs = () => {
     setIsOpenDocs((status) => !status);
   };
+  const handleClickHistory = () => {
+    !isOpenHistory ? setIsOpenHistory(true) : setIsOpenHistory(false);
+  };
 
   const variablesHandler = () => {
     if (varsRef.current) {
@@ -220,21 +221,28 @@ const RedactorPage = () => {
     queryEditor && queryEditor.layout();
   };
 
+  const handleHistory = (e: MouseEvent<HTMLButtonElement>) => {
+    const currentObject = historyArray.find(
+      (item) => item.id === (e.target as HTMLButtonElement).id
+    );
+    if (currentObject) {
+      queryEditor && queryEditor.setValue(currentObject.query);
+      variablesEditor && variablesEditor.setValue(currentObject.variables);
+      resultsViewer && resultsViewer.setValue('{}');
+    }
+  };
+
   return (
     <>
       <div className="redactor-wrapper">
-        <Stack>
-          <UnstyledButton onClick={handleClickDocs}>
-            <img src="src/assets/docs.svg" />
-          </UnstyledButton>
-          <Button onClick={execOperation} sx={{ padding: '0' }}>
-            Run
-          </Button>
-          <Button onClick={variablesHandler} sx={{ padding: '0' }}>
-            Variables
-          </Button>
-        </Stack>
-
+        <SideMenu
+          isOpenSchema={isOpenSchema}
+          showVariables={showVariables}
+          variablesHandler={variablesHandler}
+          handleClickSchema={handleClickSchema}
+          execOperation={execOperation}
+          handleClickHistory={handleClickHistory}
+        />
         {isOpenDocs && (
           <section className="schema">
             <Suspense fallback={<AppLoader />}>
@@ -246,16 +254,53 @@ const RedactorPage = () => {
             </Suspense>
           </section>
         )}
-
-        <div id="wrapper">
+        {isOpenHistory && (
+          <Stack sx={{ maxWidth: '25%', width: '25%', padding: '1rem', gap: '0' }}>
+            {historyArray.map((el) => {
+              return (
+                <ActionIcon
+                  onClick={handleHistory}
+                  id={el.id}
+                  key={el.id}
+                  sx={{
+                    justifyContent: 'start',
+                    width: '90%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.75rem',
+                  }}
+                >
+                  {el.query}
+                </ActionIcon>
+              );
+            })}
+          </Stack>
+        )}
+        <div
+          id="wrapper"
+          style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#efe9e9' }}
+        >
           <div id="left-pane" className="pane">
-            <div ref={opsRef} className="ops-editor" />
-            <div ref={varsRef} className="vars-editor">
+            <div
+              ref={opsRef}
+              className="ops-editor"
+              style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#ffffff' }}
+            />
+            <div
+              ref={varsRef}
+              className="vars-editor"
+              style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#ffffff' }}
+            >
               Variables
             </div>
           </div>
           <div id="right-pane" className="pane">
-            <div ref={resultsRef} className="result-editor" />
+            <div
+              ref={resultsRef}
+              className="result-editor"
+              style={{ backgroundColor: colorScheme === 'dark' ? '#1e1e1e' : '#ffffff' }}
+            />
           </div>
         </div>
       </div>

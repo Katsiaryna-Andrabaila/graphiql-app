@@ -1,18 +1,20 @@
 import { createStyles, Text, rem, Anchor, Flex } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IconBrandGithub } from '@tabler/icons-react';
 import { MembersDataProps } from '../../types/types';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    width: rem(180),
+    // width: rem(180),
   },
 
   link: {
     display: 'inline',
     color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[6],
     fontSize: theme.fontSizes.sm,
-    paddingTop: rem(3),
-    paddingBottom: rem(3),
+    paddingTop: rem(2),
+    paddingBottom: rem(2),
+    whiteSpace: 'nowrap',
 
     '&:hover': {
       textDecoration: 'underline',
@@ -20,8 +22,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const MembersData = ({data}: MembersDataProps) => {
+export const MembersData = ({ data }: MembersDataProps) => {
   const { classes } = useStyles();
+  const mobile = useMediaQuery('(max-width: 48em)');
   const membersJSX = data.map((member, index) => {
     return (
       <Anchor color="black" href={member.link} className={classes.link} key={index}>
@@ -38,7 +41,7 @@ export const MembersData = ({data}: MembersDataProps) => {
       gap="md"
       justify="center"
       align="flex-start"
-      direction="column"
+      direction={mobile ? "row" : "column"}
       wrap="wrap"
     >
       {membersJSX}

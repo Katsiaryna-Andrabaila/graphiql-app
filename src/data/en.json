@@ -2,8 +2,9 @@
   "loginPage": "Login page",
   "redactor": "redactor page",
   "404Page": {
-    "notFound": "Page not found. Come back to the ",
-    "mainPage": "Main page"
+    "title": "You have found a secret place",
+    "notFound": "Unfortunately, this is only a 404 page. You may have mistyped the address, or the page has been moved to another URL",
+    "mainPage": "Take me back to home page"
   },
   "error": "Something went wrong",
   "homeLink": "Home",
@@ -74,6 +75,7 @@
       "link": "https://github.com/alehharnizonau"
     }
   ],
+
   "documentation": {
     "docs": "Docs",
     "docsDescription": "A GraphQL schema provides a root type for each kind of operation.",
@@ -81,5 +83,25 @@
     "fields": "Fields",
     "type": "Type",
     "arguments": "Arguments"
+  },
+  "sideMenu": {
+    "show": "Show",
+    "hide": "Hide",
+    "schema" : "Schema",
+    "history" : "History",
+    "variables" : "Variables",
+    "settings" : "Settings",
+    "run" : "Execute query"
+  },
+  "modal": {
+    "title": "Settings",
+    "theme": "Theme",
+    "themeAdjust": "Adjust how the interface looks like",
+    "light": "Light",
+    "dark": "Dark",
+    "storage": "Clear storage",
+    "storageText": "Remove all locally stored data and start fresh",
+    "clearData": "Clear data",
+    "cleared": "Cleared"
   }
 }
