@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { endSession } from '../utils/storage';
 import { TypeAppContext } from '../types/types';
 import { useLocalStorage } from '@mantine/hooks';
+import { DEFAULT_VALUES } from '../constants/constants';
 
 const initialContext = { isAuth: false, isLogin: false, lang: 'en', history: [] };
 export const AppContext = createContext<TypeAppContext>(initialContext);
@@ -19,7 +20,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   });
   const [history, setHistory] = useLocalStorage({
     key: 'history',
-    defaultValue: [],
+    defaultValue: DEFAULT_VALUES,
     getInitialValueInEffect: true,
   });
 

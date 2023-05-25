@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, useContext } from 'react';
 import { MutableRefObject, Suspense, useEffect, useRef, useState, MouseEvent } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
@@ -7,11 +7,11 @@ import { initializeMode } from 'monaco-graphql/esm/initializeMode';
 import { SideMenu } from '../../components/sideMenu';
 import { ActionIcon, Stack, useMantineColorScheme } from '@mantine/core';
 import { createFetcher } from '../../utils/createFetcher';
-import { HistoryObject } from '../../types/types';
 import { AppLoader } from '../../components/AppLoader';
-import { BASE_URL, DEFAULT_VALUES, SCHEMA_ERROR } from '../../constants/constants';
+import { BASE_URL, SCHEMA_ERROR } from '../../constants/constants';
 
 import { historyButtonsStyles, historyStyles } from './styles';
+import { AppContext } from '../../HOC/Provider';
 
 const Documentation = lazy(() => import('../../components/docs/Documentation'));
 
@@ -58,12 +58,7 @@ const RedactorPage = () => {
   const prettify = () => {
     queryEditor?.getAction('editor.action.formatDocument')?.run();
   };
-
-  const [historyArray, setHistoryArray] = useState<HistoryObject[]>(
-    localStorage.getItem('history') && JSON.parse(localStorage.getItem('history')!).length > 0
-      ? JSON.parse(localStorage.getItem('history')!)
-      : [DEFAULT_VALUES]
-  );
+  const { history, setHistory } = useContext(AppContext);
 
   const adaptiveEditor = () => {
     var x = window.matchMedia('(max-width: 700px)');
@@ -124,14 +119,6 @@ const RedactorPage = () => {
     }
   };
 
-  let defaultOperations =
-    (historyArray.length > 0 && historyArray[historyArray.length - 1].query) ||
-    DEFAULT_VALUES.query;
-
-  const defaultVariables =
-    (historyArray.length > 0 && historyArray[historyArray.length - 1].variables) ||
-    DEFAULT_VALUES.variables;
-
   const execOperation = async function () {
     const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
     const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
@@ -142,18 +129,19 @@ const RedactorPage = () => {
       variables: JSON.parse(variables),
     });
 
-    if (historyArray[historyArray.length - 1].query !== operations) {
-      setHistoryArray([
-        ...historyArray,
-        {
-          query: operations,
-          variables: variables,
-          id: String(historyArray.length),
-        },
-      ]);
+    if (history[history.length - 1].query !== operations) {
+      setHistory &&
+        setHistory([
+          ...history,
+          {
+            query: operations,
+            variables: variables,
+            id: String(history.length),
+          },
+        ]);
     }
 
-    localStorage.setItem('history', JSON.stringify(historyArray));
+    localStorage.setItem('history', JSON.stringify(history));
 
     const data = result;
     resultsModel?.setValue(JSON.stringify(data, null, 2));
@@ -175,8 +163,11 @@ const RedactorPage = () => {
   };
 
   useEffect(() => {
-    const queryModel = getOrCreateModel('operation.graphql', defaultOperations);
-    const variablesModel = getOrCreateModel('variables.json', defaultVariables);
+    const queryModel = getOrCreateModel('operation.graphql', history[history.length - 1].query);
+    const variablesModel = getOrCreateModel(
+      'variables.json',
+      history[history.length - 1].variables
+    );
     const resultsModel = getOrCreateModel('results.json', '{}');
     queryEditor ??
       setQueryEditor(
@@ -274,9 +265,7 @@ const RedactorPage = () => {
   };
 
   const handleHistory = (e: MouseEvent<HTMLButtonElement>) => {
-    const currentObject = historyArray.find(
-      (item) => item.id === (e.target as HTMLButtonElement).id
-    );
+    const currentObject = history.find((item) => item.id === (e.target as HTMLButtonElement).id);
     if (currentObject) {
       queryEditor && queryEditor.setValue(currentObject.query);
       variablesEditor && variablesEditor.setValue(currentObject.variables);
@@ -311,7 +300,7 @@ const RedactorPage = () => {
         )}
         {isOpenHistory && (
           <Stack sx={historyStyles}>
-            {historyArray.map((el) => {
+            {history.map((el) => {
               return (
                 <ActionIcon
                   onClick={handleHistory}
