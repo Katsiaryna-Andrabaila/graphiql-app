@@ -16,7 +16,6 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Link, useNavigate } from 'react-router-dom';
-import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { AppContext } from '../../HOC/Provider';
 import useStyles, { HEADER_HEIGHT } from './styles';
 import { HeaderResponsiveProps } from '../../types/types';
@@ -81,7 +80,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
     <Header height={HEADER_HEIGHT} className={classes.root} ref={rootRef}>
       <Container className={classes.header}>
         <ActionIcon component={Link} to="/" className={classes.logo}>
-          <Image src={GraphQLIcon} alt="GraphQL icon" />
+          <Image src="./graphql-ar21.svg" alt="GraphQL icon" />
         </ActionIcon>
         {isAuth ? (
           <Group spacing={5} className={classes.links}>

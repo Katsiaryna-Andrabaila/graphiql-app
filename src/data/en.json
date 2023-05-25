@@ -58,22 +58,27 @@
     {
       "name": "Katsiaryna Andrabaila",
       "role": "Team Lead",
-      "link": "https://github.com/Katsiaryna-Andrabaila"
+      "link": "https://github.com/Katsiaryna-Andrabaila",
+      "src": "kat.jpeg"
+      
     },
     {
       "name": "Alexander Kotov",
       "role": "Developer",
-      "link": "https://github.com/Sashkakotov"
+      "link": "https://github.com/Sashkakotov",
+      "src": "sasha.jpeg"
     },
     {
       "name": "Denis Mezhenin",
       "role": "Developer",
-      "link": "https://github.com/denismezhenin"
+      "link": "https://github.com/denismezhenin",
+      "src": "denis.jpg"
     },
     {
       "name": "Aleh Harnizonau",
       "role": "Mentor",
-      "link": "https://github.com/alehharnizonau"
+      "link": "https://github.com/alehharnizonau",
+      "src": "aleh.jpg"
     }
   ],
 
