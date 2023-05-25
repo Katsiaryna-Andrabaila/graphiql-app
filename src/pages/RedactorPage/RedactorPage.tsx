@@ -3,41 +3,21 @@ import { MutableRefObject, Suspense, useEffect, useRef, useState, MouseEvent } f
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import { SideMenu } from '../components/sideMenu';
+
+import { SideMenu } from '../../components/sideMenu';
 import { ActionIcon, Stack, useMantineColorScheme } from '@mantine/core';
-import { createFetcher } from '../utils/createFetcher';
-import { HistoryObject } from '../types/types';
-import { AppLoader } from '../components/AppLoader';
-const Documentation = lazy(() => import('../components/docs/Documentation'));
+import { createFetcher } from '../../utils/createFetcher';
+import { HistoryObject } from '../../types/types';
+import { AppLoader } from '../../components/AppLoader';
+import { BASE_URL, DEFAULT_VALUES, SCHEMA_ERROR } from '../../constants/constants';
+
+import { historyButtonsStyles, historyStyles } from './styles';
+
+const Documentation = lazy(() => import('../../components/docs/Documentation'));
 
 const fetcher = createFetcher({
-  url: 'https://rickandmortyapi.com/graphql/',
+  url: BASE_URL,
 });
-
-export const defaultValues = {
-  query: `query {
-characters(page: 2, filter: { name: "rick" }) {
-info {
-  count
-}
-results {
-  name
-}
-}
-location(id: 1) {
-id
-}
-episodesByIds(ids: [1, 2]) {
-id
-}
-}`,
-  variables: `
-{
-
-}
-`,
-  id: '0',
-};
 
 const getSchema = async () =>
   fetcher({
@@ -74,15 +54,15 @@ const RedactorPage = () => {
   const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
-  
+
   const prettify = () => {
-      queryEditor?.getAction('editor.action.formatDocument')?.run()
-  }
+    queryEditor?.getAction('editor.action.formatDocument')?.run();
+  };
 
   const [historyArray, setHistoryArray] = useState<HistoryObject[]>(
     localStorage.getItem('history') && JSON.parse(localStorage.getItem('history')!).length > 0
       ? JSON.parse(localStorage.getItem('history')!)
-      : [defaultValues]
+      : [DEFAULT_VALUES]
   );
 
   const adaptiveEditor = () => {
@@ -126,9 +106,9 @@ const RedactorPage = () => {
       }
     }
   };
-  let prevHeight = 0;
 
   const updateEditorHeight = () => {
+    let prevHeight = 0;
     const editorElement = resultsViewer!.getDomNode();
     if (!editorElement) {
       return;
@@ -145,11 +125,12 @@ const RedactorPage = () => {
   };
 
   let defaultOperations =
-    (historyArray.length > 0 && historyArray[historyArray.length - 1].query) || defaultValues.query;
+    (historyArray.length > 0 && historyArray[historyArray.length - 1].query) ||
+    DEFAULT_VALUES.query;
 
   const defaultVariables =
     (historyArray.length > 0 && historyArray[historyArray.length - 1].variables) ||
-    defaultValues.variables;
+    DEFAULT_VALUES.variables;
 
   const execOperation = async function () {
     const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
@@ -176,10 +157,11 @@ const RedactorPage = () => {
 
     const data = result;
     resultsModel?.setValue(JSON.stringify(data, null, 2));
+
     resultsViewer &&
       resultsViewer.onDidContentSizeChange(() => {
-        updateEditorHeight(); // typing
-        requestAnimationFrame(updateEditorHeight); // folding
+        updateEditorHeight();
+        requestAnimationFrame(updateEditorHeight);
       });
   };
 
@@ -222,12 +204,11 @@ const RedactorPage = () => {
           smoothScrolling: true,
         })
       );
-    }, []);
+  }, []);
 
-    
   useEffect(() => {
-    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
-    editor.setTheme(themeColor)
+    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light';
+    editor.setTheme(themeColor);
   }, [colorScheme]);
 
   useEffect(() => {
@@ -241,7 +222,7 @@ const RedactorPage = () => {
       getSchema()
         .then((data) => {
           if (!('data' in data)) {
-            throw Error('this demo does not support subscriptions or http multipart yet');
+            throw Error(SCHEMA_ERROR);
           }
           initializeMode({
             diagnosticSettings: {
@@ -269,14 +250,15 @@ const RedactorPage = () => {
         })
         .then(() => setLoading(false));
     }
-    console.log(schema);
   }, [schema, loading]);
 
   const handleClickDocs = () => {
+    isOpenHistory && setIsOpenHistory(false);
     setIsOpenDocs((status) => !status);
   };
   const handleClickHistory = () => {
-    !isOpenHistory ? setIsOpenHistory(true) : setIsOpenHistory(false);
+    isOpenDocs && setIsOpenDocs(false);
+    setIsOpenHistory((status) => !status);
   };
 
   const variablesHandler = () => {
@@ -303,6 +285,7 @@ const RedactorPage = () => {
   };
 
   window.addEventListener(`resize`, adaptiveEditor);
+
   return (
     <>
       <div className="redactor-wrapper">
@@ -327,21 +310,14 @@ const RedactorPage = () => {
           </section>
         )}
         {isOpenHistory && (
-          <Stack sx={{ maxWidth: '25%', width: '25%', padding: '1rem', gap: '0' }}>
+          <Stack sx={historyStyles}>
             {historyArray.map((el) => {
               return (
                 <ActionIcon
                   onClick={handleHistory}
                   id={el.id}
                   key={el.id}
-                  sx={{
-                    justifyContent: 'start',
-                    width: '90%',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    fontSize: '0.75rem',
-                  }}
+                  sx={historyButtonsStyles}
                 >
                   {el.query}
                 </ActionIcon>

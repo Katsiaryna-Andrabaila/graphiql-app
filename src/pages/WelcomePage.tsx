@@ -58,7 +58,7 @@ const WelcomePage = () => {
           </Text>
           <Center mb={30}>
             {isAuth ? (
-              <Button component={Link} to="/redactor" className={classes.button}>
+              <Button component={Link} to="/" className={classes.button}>
                 {t('welcomePage.playgroundButton')}
               </Button>
             ) : (

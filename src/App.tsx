@@ -21,7 +21,7 @@ function App() {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
-    <StrictMode>
+  
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
           <MantineProvider
@@ -47,7 +47,7 @@ function App() {
           </MantineProvider>
         </ColorSchemeProvider>
       </ErrorBoundary>
-    </StrictMode>
+    
   );
 }
 
