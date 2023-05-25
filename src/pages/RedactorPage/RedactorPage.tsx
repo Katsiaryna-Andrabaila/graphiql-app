@@ -68,6 +68,12 @@ const RedactorPage = () => {
       const lineCountQueryEditor = (queryEditor && queryEditor!.getModel()?.getLineCount()) || 1;
       const heightQueryEditor = lineHeightQueryEditor * lineCountQueryEditor + 20;
 
+      const lineHeightresultsViewer =
+        (resultsViewer && resultsViewer.getOption(editor.EditorOption.lineHeight)) || 20;
+      const lineCountresultsViewer =
+        (resultsViewer && resultsViewer!.getModel()?.getLineCount()) || 1;
+      const heightresultsViewer = lineHeightresultsViewer * lineCountresultsViewer + 20;
+
       if (opsRef.current) {
         (opsRef.current as HTMLElement).style.width = '85vw';
         (opsRef.current as HTMLElement).style.height = `${heightQueryEditor}px`;
@@ -80,7 +86,7 @@ const RedactorPage = () => {
       }
       if (resultsRef.current) {
         (resultsRef.current as HTMLElement).style.width = '85vw';
-
+        (resultsRef.current as HTMLElement).style.height = `${heightresultsViewer}px`;
         resultsViewer && resultsViewer.layout();
       }
     } else {
@@ -101,10 +107,12 @@ const RedactorPage = () => {
       }
     }
   };
+  let prevHeight = 0;
 
   const updateEditorHeight = () => {
-    let prevHeight = 0;
     const editorElement = resultsViewer!.getDomNode();
+    console.log('12');
+
     if (!editorElement) {
       return;
     }
@@ -114,8 +122,11 @@ const RedactorPage = () => {
     const height = resultsViewer!.getTopForLineNumber(lineCount + 1) + lineHeight;
     if (prevHeight !== height) {
       prevHeight = height;
-      editorElement.style.height = `${height}px`;
-      resultsViewer!.layout();
+      console.log(height);
+      if (resultsRef.current) {
+        (resultsRef.current as HTMLElement).style.height = `${height}px`;
+        resultsViewer!.layout();
+      }
     }
   };
 
@@ -148,6 +159,8 @@ const RedactorPage = () => {
 
     resultsViewer &&
       resultsViewer.onDidContentSizeChange(() => {
+        console.log('dsa');
+
         updateEditorHeight();
         requestAnimationFrame(updateEditorHeight);
       });

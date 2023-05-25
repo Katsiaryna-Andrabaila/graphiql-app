@@ -189,6 +189,9 @@ body::-webkit-scrollbar-thumb,
     flex-direction: column;
     height: auto;
   }
+  .redactor-wrapper {
+    height: auto;
+  }
   .pane {
     width: 100%;
   }
@@ -198,5 +201,11 @@ body::-webkit-scrollbar-thumb,
     width: 100%;
     background: rgba(213, 214, 220, 0.906);
     margin-left: 48px;
+  }
+  .ops-editor {
+    height: 380px;
+  }
+  .vars-editor {
+    height: 150px;
   }
 }
