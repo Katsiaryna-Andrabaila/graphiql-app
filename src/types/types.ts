@@ -14,8 +14,14 @@ export type TypeAppContext = {
   setIsLogin?: (value: React.SetStateAction<boolean>) => void;
   lang: string;
   setLang?: (value: React.SetStateAction<string>) => void;
-  history: Array<string>;
-  setHistory?: (val: never[] | ((prevState: never[]) => never[])) => void;
+  history: Array<{ query: string; variables: string; id: string }>;
+  setHistory?: (
+    val:
+      | { query: string; variables: string; id: string }[]
+      | ((
+          prevState: { query: string; variables: string; id: string }[]
+        ) => { query: string; variables: string; id: string }[])
+  ) => void;
   handleChangeLanguage?: () => void;
   handleClickLogout?: (cb: Function) => void;
   handleClickRegister?: (cb: Function) => void;
@@ -105,14 +111,14 @@ export type DocsState = {
 };
 
 export type SideMenuProps = {
-  isOpenSchema: boolean; 
-  showVariables: boolean;  
-  variablesHandler: () => void;  
-  handleClickSchema: () => void; 
-  execOperation: () => Promise<void>; 
+  isOpenSchema: boolean;
+  showVariables: boolean;
+  variablesHandler: () => void;
+  handleClickSchema: () => void;
+  execOperation: () => Promise<void>;
   prettify: () => void;
   handleClickHistory: () => void;
-}
+};
 
 export type Unsubscribable = {
   unsubscribe: () => void;

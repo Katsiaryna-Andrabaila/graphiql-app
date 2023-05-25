@@ -3,6 +3,7 @@ import { IconTrash, IconCheck } from '@tabler/icons-react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from '../../HOC/Provider';
+import { DEFAULT_VALUES } from '../../constants/constants';
 
 export function ButtonClear() {
   const [isDone, setDone] = useState(false);
@@ -11,7 +12,7 @@ export function ButtonClear() {
 
   const handleClickClean = () => {
     setDone(true);
-    setHistory && setHistory([]);
+    setHistory && setHistory(DEFAULT_VALUES);
   };
 
   return (

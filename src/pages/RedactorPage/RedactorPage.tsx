@@ -1,43 +1,23 @@
-import { lazy } from 'react';
+import { lazy, useContext } from 'react';
 import { MutableRefObject, Suspense, useEffect, useRef, useState, MouseEvent } from 'react';
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-import { SideMenu } from '../components/sideMenu';
+
+import { SideMenu } from '../../components/sideMenu';
 import { ActionIcon, Stack, useMantineColorScheme } from '@mantine/core';
-import { createFetcher } from '../utils/createFetcher';
-import { HistoryObject } from '../types/types';
-import { AppLoader } from '../components/AppLoader';
-const Documentation = lazy(() => import('../components/docs/Documentation'));
+import { createFetcher } from '../../utils/createFetcher';
+import { AppLoader } from '../../components/AppLoader';
+import { BASE_URL, SCHEMA_ERROR } from '../../constants/constants';
+
+import { historyButtonsStyles, historyStyles } from './styles';
+import { AppContext } from '../../HOC/Provider';
+
+const Documentation = lazy(() => import('../../components/docs/Documentation'));
 
 const fetcher = createFetcher({
-  url: 'https://rickandmortyapi.com/graphql/',
+  url: BASE_URL,
 });
-
-export const defaultValues = {
-  query: `query {
-characters(page: 2, filter: { name: "rick" }) {
-info {
-  count
-}
-results {
-  name
-}
-}
-location(id: 1) {
-id
-}
-episodesByIds(ids: [1, 2]) {
-id
-}
-}`,
-  variables: `
-{
-
-}
-`,
-  id: '0',
-};
 
 const getSchema = async () =>
   fetcher({
@@ -74,23 +54,81 @@ const RedactorPage = () => {
   const [isOpenHistory, setIsOpenHistory] = useState(false);
   const [showVariables, setShowVariables] = useState(false);
   const { colorScheme } = useMantineColorScheme();
-  
+
   const prettify = () => {
-      queryEditor?.getAction('editor.action.formatDocument')?.run()
-  }
+    queryEditor?.getAction('editor.action.formatDocument')?.run();
+  };
+  const { history, setHistory } = useContext(AppContext);
 
-  const [historyArray, setHistoryArray] = useState<HistoryObject[]>(
-    localStorage.getItem('history') && JSON.parse(localStorage.getItem('history')!).length > 0
-      ? JSON.parse(localStorage.getItem('history')!)
-      : [defaultValues]
-  );
+  const adaptiveEditor = () => {
+    var x = window.matchMedia('(max-width: 700px)');
+    if (x.matches) {
+      const lineHeightQueryEditor =
+        (queryEditor && queryEditor.getOption(editor.EditorOption.lineHeight)) || 20;
+      const lineCountQueryEditor = (queryEditor && queryEditor!.getModel()?.getLineCount()) || 1;
+      const heightQueryEditor = lineHeightQueryEditor * lineCountQueryEditor + 20;
 
-  let defaultOperations =
-    (historyArray.length > 0 && historyArray[historyArray.length - 1].query) || defaultValues.query;
+      const lineHeightresultsViewer =
+        (resultsViewer && resultsViewer.getOption(editor.EditorOption.lineHeight)) || 20;
+      const lineCountresultsViewer =
+        (resultsViewer && resultsViewer!.getModel()?.getLineCount()) || 1;
+      const heightresultsViewer = lineHeightresultsViewer * lineCountresultsViewer + 20;
 
-  const defaultVariables =
-    (historyArray.length > 0 && historyArray[historyArray.length - 1].variables) ||
-    defaultValues.variables;
+      if (opsRef.current) {
+        (opsRef.current as HTMLElement).style.width = '85vw';
+        (opsRef.current as HTMLElement).style.height = `${heightQueryEditor}px`;
+        queryEditor && queryEditor.layout();
+      }
+      if (varsRef.current) {
+        (varsRef.current as HTMLElement).style.width = '85vw';
+        (varsRef.current as HTMLElement).style.height = '150px';
+        variablesEditor && variablesEditor.layout();
+      }
+      if (resultsRef.current) {
+        (resultsRef.current as HTMLElement).style.width = '85vw';
+        (resultsRef.current as HTMLElement).style.height = `${heightresultsViewer}px`;
+        resultsViewer && resultsViewer.layout();
+      }
+    } else {
+      if (opsRef.current) {
+        (opsRef.current as HTMLElement).style.width = '100%';
+        (opsRef.current as HTMLElement).style.height = '';
+        queryEditor && queryEditor.layout();
+      }
+      if (varsRef.current) {
+        (varsRef.current as HTMLElement).style.width = '100%';
+        (varsRef.current as HTMLElement).style.height = '';
+        variablesEditor && variablesEditor.layout();
+      }
+      if (resultsRef.current) {
+        (resultsRef.current as HTMLElement).style.width = '100%';
+        (resultsRef.current as HTMLElement).style.height = '';
+        resultsViewer && resultsViewer.layout();
+      }
+    }
+  };
+  let prevHeight = 0;
+
+  const updateEditorHeight = () => {
+    const editorElement = resultsViewer!.getDomNode();
+    console.log('12');
+
+    if (!editorElement) {
+      return;
+    }
+    const lineHeight = resultsViewer!.getOption(editor.EditorOption.lineHeight);
+
+    const lineCount = resultsViewer!.getModel()?.getLineCount() || 1;
+    const height = resultsViewer!.getTopForLineNumber(lineCount + 1) + lineHeight;
+    if (prevHeight !== height) {
+      prevHeight = height;
+      console.log(height);
+      if (resultsRef.current) {
+        (resultsRef.current as HTMLElement).style.height = `${height}px`;
+        resultsViewer!.layout();
+      }
+    }
+  };
 
   const execOperation = async function () {
     const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
@@ -102,21 +140,30 @@ const RedactorPage = () => {
       variables: JSON.parse(variables),
     });
 
-    if (historyArray[historyArray.length - 1].query !== operations) {
-      setHistoryArray([
-        ...historyArray,
-        {
-          query: operations,
-          variables: variables,
-          id: String(historyArray.length),
-        },
-      ]);
+    if (history[history.length - 1].query !== operations) {
+      setHistory &&
+        setHistory([
+          ...history,
+          {
+            query: operations,
+            variables: variables,
+            id: String(history.length),
+          },
+        ]);
     }
 
-    localStorage.setItem('history', JSON.stringify(historyArray));
+    localStorage.setItem('history', JSON.stringify(history));
 
     const data = result;
     resultsModel?.setValue(JSON.stringify(data, null, 2));
+
+    resultsViewer &&
+      resultsViewer.onDidContentSizeChange(() => {
+        console.log('dsa');
+
+        updateEditorHeight();
+        requestAnimationFrame(updateEditorHeight);
+      });
   };
 
   const queryAction = {
@@ -129,8 +176,11 @@ const RedactorPage = () => {
   };
 
   useEffect(() => {
-    const queryModel = getOrCreateModel('operation.graphql', defaultOperations);
-    const variablesModel = getOrCreateModel('variables.json', defaultVariables);
+    const queryModel = getOrCreateModel('operation.graphql', history[history.length - 1].query);
+    const variablesModel = getOrCreateModel(
+      'variables.json',
+      history[history.length - 1].variables
+    );
     const resultsModel = getOrCreateModel('results.json', '{}');
     queryEditor ??
       setQueryEditor(
@@ -158,12 +208,11 @@ const RedactorPage = () => {
           smoothScrolling: true,
         })
       );
-    }, []);
+  }, []);
 
-    
   useEffect(() => {
-    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light'
-    editor.setTheme(themeColor)
+    const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light';
+    editor.setTheme(themeColor);
   }, [colorScheme]);
 
   useEffect(() => {
@@ -177,7 +226,7 @@ const RedactorPage = () => {
       getSchema()
         .then((data) => {
           if (!('data' in data)) {
-            throw Error('this demo does not support subscriptions or http multipart yet');
+            throw Error(SCHEMA_ERROR);
           }
           initializeMode({
             diagnosticSettings: {
@@ -205,14 +254,15 @@ const RedactorPage = () => {
         })
         .then(() => setLoading(false));
     }
-    console.log(schema);
   }, [schema, loading]);
 
   const handleClickDocs = () => {
+    isOpenHistory && setIsOpenHistory(false);
     setIsOpenDocs((status) => !status);
   };
   const handleClickHistory = () => {
-    !isOpenHistory ? setIsOpenHistory(true) : setIsOpenHistory(false);
+    isOpenDocs && setIsOpenDocs(false);
+    setIsOpenHistory((status) => !status);
   };
 
   const variablesHandler = () => {
@@ -228,15 +278,15 @@ const RedactorPage = () => {
   };
 
   const handleHistory = (e: MouseEvent<HTMLButtonElement>) => {
-    const currentObject = historyArray.find(
-      (item) => item.id === (e.target as HTMLButtonElement).id
-    );
+    const currentObject = history.find((item) => item.id === (e.target as HTMLButtonElement).id);
     if (currentObject) {
       queryEditor && queryEditor.setValue(currentObject.query);
       variablesEditor && variablesEditor.setValue(currentObject.variables);
       resultsViewer && resultsViewer.setValue('{}');
     }
   };
+
+  window.addEventListener(`resize`, adaptiveEditor);
 
   return (
     <>
@@ -262,21 +312,14 @@ const RedactorPage = () => {
           </section>
         )}
         {isOpenHistory && (
-          <Stack sx={{ maxWidth: '25%', width: '25%', padding: '1rem', gap: '0' }}>
-            {historyArray.map((el) => {
+          <Stack sx={historyStyles}>
+            {history.map((el) => {
               return (
                 <ActionIcon
                   onClick={handleHistory}
                   id={el.id}
                   key={el.id}
-                  sx={{
-                    justifyContent: 'start',
-                    width: '90%',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    fontSize: '0.75rem',
-                  }}
+                  sx={historyButtonsStyles}
                 >
                   {el.query}
                 </ActionIcon>

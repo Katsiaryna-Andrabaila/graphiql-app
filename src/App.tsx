@@ -39,11 +39,11 @@ function App() {
             withNormalizeCSS
           >
             <Notifications position="bottom-right" zIndex={2077} />
-              <AppProvider>
-                <BrowserRouter>
-                  <Routing />
-                </BrowserRouter>
-              </AppProvider>
+            <AppProvider>
+              <BrowserRouter>
+                <Routing />
+              </BrowserRouter>
+            </AppProvider>
           </MantineProvider>
         </ColorSchemeProvider>
       </ErrorBoundary>
