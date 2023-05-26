@@ -1,5 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
+  signOut,
+} from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -11,7 +19,7 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 export const createUser = async (email: string, password: string) => {
   return createUserWithEmailAndPassword(getAuth(app), email, password);
@@ -22,11 +30,15 @@ export const signInUser = async (email: string, password: string) => {
 };
 
 export const signInWithGoogleAccount = async () => {
-  const provider = new GoogleAuthProvider()
-  return signInWithPopup(getAuth(app), provider)
-}
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(getAuth(app), provider);
+};
 
 export const forgotPassword = async (email: string) => {
-// change url before production
-return sendPasswordResetEmail(getAuth(app), email, {url: 'http://localhost:3000/login'})
-}
+  // change url before production
+  return sendPasswordResetEmail(getAuth(app), email, { url: 'http://localhost:3000/login' });
+};
+
+export const logOut = async () => {
+  return signOut(getAuth(app));
+};
