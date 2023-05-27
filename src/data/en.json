@@ -44,15 +44,15 @@
   "repeatPasswordError": "Please repeat your password carefully",
   "playground": "Go to Playground",
   "welcomePage": {
-    "title": "GraphiQL",
-    "mainText": "GraphiQL is the playground/IDE for graphQL requests",
+    "title": "Rick&Morty GraphiQL",
+    "mainText": "Rick&Morty GraphiQL is the playground/IDE for graphQL requests",
     "playgroundButton": "Go to Playground",
     "team": "Developer Team",
     "technologies": "Technologies stack integrated in project"
   },
   "footer": {
     "iconText": "GraphQL playground",
-    "rightsText": "© 2023  GraphiQL React. All rights reserved."
+    "rightsText": "© 2023  Rick&Morty GraphiQL React. All rights reserved."
   },
   "teamArray": [
     {
@@ -60,7 +60,6 @@
       "role": "Team Lead",
       "link": "https://github.com/Katsiaryna-Andrabaila",
       "src": "kat.jpeg"
-      
     },
     {
       "name": "Alexander Kotov",
@@ -93,11 +92,11 @@
   "sideMenu": {
     "show": "Show",
     "hide": "Hide",
-    "schema" : "Schema",
-    "history" : "History",
-    "variables" : "Variables",
-    "settings" : "Settings",
-    "run" : "Execute query",
+    "schema": "Schema",
+    "history": "History",
+    "variables": "Variables",
+    "settings": "Settings",
+    "run": "Execute query",
     "pretty": "Prettify query"
   },
   "modal": {

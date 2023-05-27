@@ -45,15 +45,15 @@
   "passwordError": "Неверный формат пароля",
   "repeatPasswordError": "Пожалуйста, внимательно повторите свой пароль",
   "welcomePage": {
-    "title": "GraphiQL",
-    "mainText": "GraphiQL - это песочница для graphQL запросов",
+    "title": "Rick&Morty GraphiQL",
+    "mainText": "Rick&Morty GraphiQL - это песочница для graphQL запросов",
     "playgroundButton": "Перейти в песочницу",
     "team": "Команда разработчиков",
     "technologies": "Технологический стек, примененный в проекте"
   },
   "footer": {
     "iconText": "GraphQL песочница",
-    "rightsText": "© 2023  GraphiQL React. Все права защищены."
+    "rightsText": "© 2023  Rick&Morty GraphiQL React. Все права защищены."
   },
   "teamArray": [
     {
