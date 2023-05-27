@@ -1,5 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
+} from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -22,11 +29,12 @@ export const signInUser = async (email: string, password: string) => {
 };
 
 export const signInWithGoogleAccount = async () => {
-  const provider = new GoogleAuthProvider()
-  return signInWithPopup(getAuth(app), provider)
-}
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(getAuth(app), provider);
+};
 
 export const forgotPassword = async (email: string) => {
-// change url before production
-return sendPasswordResetEmail(getAuth(app), email, {url: 'http://localhost:3000/login'})
-}
+  return sendPasswordResetEmail(getAuth(app), email, {
+    url: 'https://qraphiql-app-react-rsschool.netlify.app/',
+  });
+};
