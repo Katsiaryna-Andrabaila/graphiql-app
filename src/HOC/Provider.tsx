@@ -21,22 +21,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     onIdTokenChanged(auth, async () => {
       token.current = await user?.getIdToken(true);
-      /* if (token) {
-        setIsAuth(true);
-      } else {
-        setIsAuth(false);
-        //localStorage.removeItem('authToken');
-      } */
+      setIsAuth(token.current ? true : false);
     });
-  });
-
-  useCallback(() => {
-    setIsAuth(token.current ? true : false);
   }, [isAuth]);
+
+  /* useCallback(() => {
+    setIsAuth(token.current ? true : false);
+  }, [isAuth]); */
 
   useEffect(() => {
     console.log(isAuth);
-  });
+  }, [isAuth]);
 
   const [isLogin, setIsLogin] = useState(true);
   const { i18n } = useTranslation();
