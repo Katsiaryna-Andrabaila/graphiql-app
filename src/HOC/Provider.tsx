@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useState, ReactNode, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { endSession, isLoggedIn } from '../utils/storage';
 import { TypeAppContext } from '../types/types';
@@ -15,19 +15,23 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const { currentUser } = auth;
   const [user] = useAuthState(auth);
   const authStatus = localStorage.getItem('authToken') ? true : false;
-  //let token: string | undefined | null = localStorage.getItem('authToken');
+  const token = useRef<string | undefined>();
   const [isAuth, setIsAuth] = useState(authStatus);
 
   useEffect(() => {
     onIdTokenChanged(auth, async () => {
-      const token = await user?.getIdToken(true);
-      if (token) {
+      token.current = await user?.getIdToken(true);
+      /* if (token) {
         setIsAuth(true);
       } else {
         setIsAuth(false);
         //localStorage.removeItem('authToken');
-      }
+      } */
     });
+  });
+
+  useCallback(() => {
+    setIsAuth(token.current ? true : false);
   }, [isAuth]);
 
   useEffect(() => {
