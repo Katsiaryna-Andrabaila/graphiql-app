@@ -17,7 +17,7 @@ module.exports = {
     'no-restricted-modules': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
     'no-debugger': 'off',
-    'no-console': 0,
+    'no-console': 2,
     'no-underscore-dangle': 0,
     'class-methods-use-this': 'off',
     '@typescript-eslint/no-var-requires': 2,
