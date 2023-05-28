@@ -87,11 +87,6 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Group className={classes.links1}>
           {link === '/' ? null : (
             <>
-              <SegmentedControl
-                value={lang}
-                onChange={handleChangeLanguage}
-                data={availableLanguages}
-              />
               <Group position="center" my="xl">
                 <ActionIcon
                   onClick={() => toggleColorScheme()}

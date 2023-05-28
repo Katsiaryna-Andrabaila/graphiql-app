@@ -85,7 +85,6 @@ const LoginPage = () => {
     } catch (error) {
       if (error instanceof Error) {
         notifications.clean();
-        console.error(error.message);
         setError(error.message);
       }
     }
@@ -113,7 +112,6 @@ const LoginPage = () => {
     } catch (error) {
       if (error instanceof Error) {
         notifications.clean();
-        console.error(error.message);
         setError(error.message);
       }
     }
@@ -145,7 +143,6 @@ const LoginPage = () => {
     } catch (error) {
       if (error instanceof Error) {
         notifications.clean();
-        console.error(error.message);
         setError(error.message);
       }
     }
