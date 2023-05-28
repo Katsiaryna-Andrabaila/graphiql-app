@@ -3,16 +3,15 @@ import { MutableRefObject, Suspense, useEffect, useRef, useState, MouseEvent } f
 import { getIntrospectionQuery, IntrospectionQuery } from 'graphql';
 import { Uri, editor, KeyMod, KeyCode, languages } from 'monaco-editor';
 import { initializeMode } from 'monaco-graphql/esm/initializeMode';
-
 import { SideMenu } from '../../components/sideMenu';
 import { ActionIcon, Stack, useMantineColorScheme } from '@mantine/core';
 import { createFetcher } from '../../utils/createFetcher';
 import { AppLoader } from '../../components/AppLoader';
 import { BASE_URL, SCHEMA_ERROR } from '../../constants/constants';
-
 import { historyButtonsStyles, historyStyles } from './styles';
+import { notifications } from '@mantine/notifications';
 import { AppContext } from '../../HOC/Provider';
-
+import { IconExclamationMark } from '@tabler/icons-react';
 const Documentation = lazy(() => import('../../components/docs/Documentation'));
 
 const fetcher = createFetcher({
@@ -111,8 +110,6 @@ const RedactorPage = () => {
 
   const updateEditorHeight = () => {
     const editorElement = resultsViewer!.getDomNode();
-    console.log('12');
-
     if (!editorElement) {
       return;
     }
@@ -122,7 +119,6 @@ const RedactorPage = () => {
     const height = resultsViewer!.getTopForLineNumber(lineCount + 1) + lineHeight;
     if (prevHeight !== height) {
       prevHeight = height;
-      console.log(height);
       if (resultsRef.current) {
         (resultsRef.current as HTMLElement).style.height = `${height}px`;
         resultsViewer!.layout();
@@ -131,39 +127,50 @@ const RedactorPage = () => {
   };
 
   const execOperation = async function () {
-    const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
-    const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
-    const resultsModel = editor.getModel(Uri.file('results.json'));
+    try {
+      notifications.clean();
+      const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
+      const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
+      const resultsModel = editor.getModel(Uri.file('results.json'));
 
-    const result = await fetcher({
-      query: operations,
-      variables: JSON.parse(variables),
-    });
-
-    if (history[history.length - 1].query !== operations) {
-      setHistory &&
-        setHistory([
-          ...history,
-          {
-            query: operations,
-            variables: variables,
-            id: String(history.length),
-          },
-        ]);
-    }
-
-    localStorage.setItem('history', JSON.stringify(history));
-
-    const data = result;
-    resultsModel?.setValue(JSON.stringify(data, null, 2));
-
-    resultsViewer &&
-      resultsViewer.onDidContentSizeChange(() => {
-        console.log('dsa');
-
-        updateEditorHeight();
-        requestAnimationFrame(updateEditorHeight);
+      const result = await fetcher({
+        query: operations,
+        variables: JSON.parse(variables),
       });
+
+      if (history[history.length - 1].query !== operations) {
+        setHistory &&
+          setHistory([
+            ...history,
+            {
+              query: operations,
+              variables: variables,
+              id: String(history.length),
+            },
+          ]);
+      }
+
+      localStorage.setItem('history', JSON.stringify(history));
+
+      const data = result;
+      resultsModel?.setValue(JSON.stringify(data, null, 2));
+
+      resultsViewer &&
+        resultsViewer.onDidContentSizeChange(() => {
+          updateEditorHeight();
+          requestAnimationFrame(updateEditorHeight);
+        });
+    } catch (e) {
+      notifications.show({
+        id: 'api-error',
+        loading: false,
+        message: `${e}`,
+        color: 'red',
+        icon: <IconExclamationMark size="3rem" color="black" />,
+        autoClose: false,
+        style: { backgroundColor: '#fa5252' },
+      });
+    }
   };
 
   const queryAction = {
@@ -225,30 +232,34 @@ const RedactorPage = () => {
       setLoading(true);
       getSchema()
         .then((data) => {
-          if (!('data' in data)) {
-            throw Error(SCHEMA_ERROR);
-          }
-          initializeMode({
-            diagnosticSettings: {
-              validateVariablesJSON: {
-                [Uri.file('operation.graphql').toString()]: [Uri.file('variables.json').toString()],
+          if (data) {
+            if (!('data' in data)) {
+              throw Error(SCHEMA_ERROR);
+            }
+            initializeMode({
+              diagnosticSettings: {
+                validateVariablesJSON: {
+                  [Uri.file('operation.graphql').toString()]: [
+                    Uri.file('variables.json').toString(),
+                  ],
+                },
+                jsonDiagnosticSettings: {
+                  validate: true,
+                  schemaValidation: 'error',
+                  allowComments: true,
+                  trailingCommas: 'ignore',
+                },
               },
-              jsonDiagnosticSettings: {
-                validate: true,
-                schemaValidation: 'error',
-                allowComments: true,
-                trailingCommas: 'ignore',
-              },
-            },
-            schemas: [
-              {
-                introspectionJSON: data.data as unknown as IntrospectionQuery,
-                uri: 'myschema.graphql',
-              },
-            ],
-          });
+              schemas: [
+                {
+                  introspectionJSON: data.data as unknown as IntrospectionQuery,
+                  uri: 'myschema.graphql',
+                },
+              ],
+            });
 
-          setSchema(data.data);
+            setSchema(data.data);
+          }
 
           return;
         })
