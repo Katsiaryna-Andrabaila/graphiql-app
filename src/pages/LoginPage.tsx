@@ -22,7 +22,7 @@ import { notifications } from '@mantine/notifications';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const { isLogin, setIsAuth } = useContext(AppContext);
+  const { isLogin } = useContext(AppContext);
 
   const [type, toggle] = !isLogin
     ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
@@ -81,7 +81,6 @@ const LoginPage = () => {
         icon: <IconCheck size="1rem" />,
         autoClose: 2000,
       });
-      setIsAuth && setIsAuth(true);
       navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
@@ -109,7 +108,7 @@ const LoginPage = () => {
         icon: <IconCheck size="1rem" />,
         autoClose: 2000,
       });
-      setIsAuth && setIsAuth(true);
+
       navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
