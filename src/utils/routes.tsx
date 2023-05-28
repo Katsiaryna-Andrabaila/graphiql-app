@@ -5,34 +5,24 @@ import WelcomePage from '../pages/WelcomePage';
 import { Layout } from '../components/layout';
 import { RequireAuth } from '../HOC/Private';
 import { AppContext } from '../HOC/Provider';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext } from 'react';
 import RedactorPage from '../pages/RedactorPage';
-import { getAuth, onAuthStateChanged, onIdTokenChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 export const Routing = () => {
-  const { isAuth, setIsAuth } = useContext(AppContext);
+  const { setIsAuth } = useContext(AppContext);
   const auth = getAuth(app);
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
-  //useEffect(() => {
   onAuthStateChanged(auth, async () => {
-    //const token = useRef<string | undefined>();
-    //await user?.getIdToken(true);
     if (!user) {
       setIsAuth && setIsAuth(false);
-      //localStorage.removeItem('authToken');
     } else {
       setIsAuth && setIsAuth(true);
-      //localStorage.setItem('authToken', token);
     }
   });
-  //});
-
-  /* useEffect(() => {
-    console.log(isAuth, loading);
-  }, [isAuth]); */
 
   return (
     <Routes>

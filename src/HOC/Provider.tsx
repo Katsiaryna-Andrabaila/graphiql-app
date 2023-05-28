@@ -1,9 +1,9 @@
-import { createContext, useState, ReactNode, useEffect, useRef } from 'react';
+import { createContext, useState, ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { endSession } from '../utils/storage';
 import { TypeAppContext } from '../types/types';
 import { useLocalStorage } from '@mantine/hooks';
-import { getAuth, onIdTokenChanged } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { app } from '../utils/firebase';
 
@@ -12,32 +12,9 @@ export const AppContext = createContext<TypeAppContext>(initialContext);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const auth = getAuth(app);
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const [isAuth, setIsAuth] = useState(!!user);
-
-  //useEffect(() => {
-  /* onIdTokenChanged(auth, async () => {
-    //const token = useRef<string | undefined>();
-    const token = await user?.getIdToken(true);
-    if (!token) {
-      setIsAuth(false);
-      //localStorage.removeItem('authToken');
-    } else {
-      setIsAuth(true);
-      //localStorage.setItem('authToken', token);
-    }
-  }); */
-  //}, [isAuth]);
-
-  /* useEffect(() => {
-    onIdTokenChanged(auth, async () => {
-      token.current = await user?.getIdToken(true);
-      if (!token.current) {
-        setIsAuth(false);
-      }
-    });
-  }, [isAuth]); */
 
   const [isLogin, setIsLogin] = useState(true);
   const { i18n } = useTranslation();
