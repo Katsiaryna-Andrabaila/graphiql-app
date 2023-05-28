@@ -1,10 +1,9 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { endSession } from '../utils/storage';
 import { TypeAppContext } from '../types/types';
 import { useLocalStorage } from '@mantine/hooks';
 import { getAuth } from 'firebase/auth';
-import { app } from '../utils/firebase';
+import { app, logOut } from '../utils/firebase';
 import { DEFAULT_VALUES } from '../constants/constants';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -45,7 +44,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleClickLogout = async (cb: Function) => {
-    await endSession();
+    await logOut();
     setIsAuth && setIsAuth(false);
     setIsLogin && setIsLogin(true);
     cb();
