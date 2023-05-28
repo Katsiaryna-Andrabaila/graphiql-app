@@ -6,23 +6,17 @@ import { Layout } from '../components/layout';
 import { RequireAuth } from '../HOC/Private';
 import { AppContext } from '../HOC/Provider';
 import { useContext } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { app } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import RedactorPage from '../pages/RedactorPage/RedactorPage';
 
 export const Routing = () => {
-  const { setIsAuth } = useContext(AppContext);
-  const auth = getAuth(app);
+  const { isAuth, setIsAuth } = useContext(AppContext);
+
   const [user] = useAuthState(auth);
 
-  onAuthStateChanged(auth, async () => {
-    if (!user) {
-      setIsAuth && setIsAuth(false);
-    } else {
-      setIsAuth && setIsAuth(true);
-    }
-  });
+  onAuthStateChanged(auth, async () => setIsAuth && setIsAuth(!!user));
 
   return (
     <Routes>
@@ -30,7 +24,7 @@ export const Routing = () => {
         <Route
           index
           element={
-            <RequireAuth redirect={!user}>
+            <RequireAuth redirect={!isAuth}>
               <RedactorPage />
             </RequireAuth>
           }
@@ -39,7 +33,7 @@ export const Routing = () => {
         <Route
           path="login"
           element={
-            <RequireAuth redirectPath="/" redirect={!!user}>
+            <RequireAuth redirectPath="/" redirect={isAuth}>
               <LoginPage />
             </RequireAuth>
           }
