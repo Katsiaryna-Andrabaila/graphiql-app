@@ -34,7 +34,6 @@ export const signInWithGoogleAccount = async () => {
 };
 
 export const forgotPassword = async (email: string) => {
-  return sendPasswordResetEmail(getAuth(app), email, {
-    url: 'https://qraphiql-app-react-rsschool.netlify.app/',
-  });
-};
+  return sendPasswordResetEmail(getAuth(app), email, {url: 'https://qraphiql-app-react-rsschool.netlify.app/login'})
+}
+
