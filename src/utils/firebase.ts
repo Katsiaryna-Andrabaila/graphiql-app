@@ -28,5 +28,5 @@ export const signInWithGoogleAccount = async () => {
 
 export const forgotPassword = async (email: string) => {
 // change url before production
-return sendPasswordResetEmail(getAuth(app), email, {url: 'http://localhost:3000/login'})
+return sendPasswordResetEmail(getAuth(app), email, {url: 'https://qraphiql-app-react-rsschool.netlify.app/login'})
 }

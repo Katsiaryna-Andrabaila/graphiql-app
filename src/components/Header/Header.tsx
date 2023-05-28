@@ -90,11 +90,6 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Group className={classes.links1}>
           {link === '/' ? null : (
             <>
-              <SegmentedControl
-                value={lang}
-                onChange={handleChangeLanguage}
-                data={availableLanguages}
-              />
               <Group position="center" my="xl">
                 <ActionIcon
                   onClick={() => toggleColorScheme()}
@@ -115,6 +110,11 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
               </Group>
             </>
           )}
+          <SegmentedControl
+            value={lang}
+            onChange={handleChangeLanguage}
+            data={availableLanguages}
+          />
           {isAuth ? (
             <Button
               onClick={() => {
@@ -181,13 +181,14 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                      )}
                    </ActionIcon>
                  </Group>
-                 <SegmentedControl
-                   value={lang}
-                   onChange={handleChangeLanguage}
-                   data={availableLanguages}
-                 />
                </>
                 )}
+                <SegmentedControl
+                  value={lang}
+                  onChange={handleChangeLanguage}
+                  data={availableLanguages}
+                />
+
                 {isAuth ? (
                   <Button
                     m={mobile ? '0.5rem 0' : ''}
