@@ -127,6 +127,7 @@ body {
   align-self: stretch;
   text-align: start;
   border-radius: 1rem;
+  gap: 10px;
 }
 
 .ops-editor,
@@ -134,7 +135,7 @@ body {
 .result-editor {
   padding: 0.5rem;
   overflow: auto;
-  overflow-y: hidden;
+  overflow: hidden;
   /* background-color: #ffffff; */
   /* background-color: #1e1e1e; */
   box-shadow: 0px 6px 20px #3b4c6a21;
@@ -182,4 +183,29 @@ body::-webkit-scrollbar-thumb,
 .result-editor::-webkit-scrollbar-thumb {
   background-color: #4a677d66;
   cursor: pointer;
+}
+@media only screen and (max-width: 700px) {
+  #wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+  .redactor-wrapper {
+    height: auto;
+  }
+  .pane {
+    width: 100%;
+  }
+  .schema {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    background: rgba(213, 214, 220, 0.906);
+    margin-left: 48px;
+  }
+  .ops-editor {
+    height: 380px;
+  }
+  .vars-editor {
+    height: 150px;
+  }
 }

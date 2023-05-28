@@ -14,8 +14,14 @@ export type TypeAppContext = {
   setIsLogin?: (value: React.SetStateAction<boolean>) => void;
   lang: string;
   setLang?: (value: React.SetStateAction<string>) => void;
-  history: Array<string>;
-  setHistory?: (val: never[] | ((prevState: never[]) => never[])) => void;
+  history: Array<{ query: string; variables: string; id: string }>;
+  setHistory?: (
+    val:
+      | { query: string; variables: string; id: string }[]
+      | ((
+          prevState: { query: string; variables: string; id: string }[]
+        ) => { query: string; variables: string; id: string }[])
+  ) => void;
   handleChangeLanguage?: () => void;
   handleClickLogout?: (cb: Function) => void;
   handleClickRegister?: (cb: Function) => void;
@@ -26,6 +32,7 @@ export type TeamMember = {
   name: string;
   role: string;
   link: string;
+  src: string;
 };
 
 export interface RequireAuthProps {
