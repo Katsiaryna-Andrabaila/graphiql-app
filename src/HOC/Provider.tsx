@@ -1,16 +1,14 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { endSession } from '../utils/storage';
 import { TypeAppContext } from '../types/types';
 import { useLocalStorage } from '@mantine/hooks';
+import { logOut } from '../utils/firebase';
 import { DEFAULT_VALUES } from '../constants/constants';
 
-const initialContext = { isAuth: false, isLogin: false, lang: 'en', history: [] };
+const initialContext = { isLogin: false, lang: 'en', history: [] };
 export const AppContext = createContext<TypeAppContext>(initialContext);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const hasToken = localStorage.getItem('authToken') ? true : false;
-  const [isAuth, setIsAuth] = useState(hasToken);
   const [isLogin, setIsLogin] = useState(true);
   const { i18n } = useTranslation();
   const [lang, setLang] = useLocalStorage({
@@ -38,9 +36,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     cb();
   };
 
-  const handleClickLogout = (cb: Function) => {
-    endSession();
-    setIsAuth && setIsAuth(false);
+  const handleClickLogout = async (cb: Function) => {
+    await logOut();
     setIsLogin && setIsLogin(true);
     cb();
   };
@@ -54,8 +51,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const value = {
-    isAuth,
-    setIsAuth,
     isLogin,
     lang,
     history,

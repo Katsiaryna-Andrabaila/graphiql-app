@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
+  signOut,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -18,22 +19,28 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
 
 export const createUser = async (email: string, password: string) => {
-  return createUserWithEmailAndPassword(getAuth(app), email, password);
+  return createUserWithEmailAndPassword(auth, email, password);
 };
 
 export const signInUser = async (email: string, password: string) => {
-  return signInWithEmailAndPassword(getAuth(app), email, password);
+  return signInWithEmailAndPassword(auth, email, password);
 };
 
 export const signInWithGoogleAccount = async () => {
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(getAuth(app), provider);
+  return signInWithPopup(auth, provider);
 };
 
 export const forgotPassword = async (email: string) => {
-  return sendPasswordResetEmail(getAuth(app), email, {url: 'https://qraphiql-app-react-rsschool.netlify.app/login'})
-}
+  // change url before production
+  return sendPasswordResetEmail(auth, email, { url: 'http://localhost:3000/login' });
+};
 
+export const logOut = async () => {
+  return signOut(auth);
+};

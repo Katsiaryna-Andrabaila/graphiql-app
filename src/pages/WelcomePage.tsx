@@ -17,6 +17,8 @@ import { useContext } from 'react';
 import { TeamMember } from '../types/types';
 import { Technologies } from '../components/technologies/technologies';
 import { useMediaQuery } from '@mantine/hooks';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../utils/firebase';
 
 const useStyles = createStyles(() => ({
   button: {
@@ -27,18 +29,19 @@ const useStyles = createStyles(() => ({
 }));
 
 const WelcomePage = () => {
+  const [user] = useAuthState(auth);
   const { t } = useTranslation();
   const { classes } = useStyles();
   const data: Array<TeamMember> = t('teamArray', { returnObjects: true });
   const navigate = useNavigate();
-  const { isAuth, handleClickLogin, handleClickRegister } = useContext(AppContext);
+  const { handleClickLogin, handleClickRegister } = useContext(AppContext);
   const { colorScheme } = useMantineColorScheme();
   const smallScreen = useMediaQuery('(max-width: 48em)');
 
   return (
     <>
       <Box
-        p={smallScreen ? "xs" : "xl"}
+        p={smallScreen ? 'xs' : 'xl'}
         sx={{
           background:
             colorScheme === 'light'
@@ -55,11 +58,11 @@ const WelcomePage = () => {
           >
             {t('welcomePage.title')}
           </Title>
-          <Text fz="xl" ta="center" align="center" mx="auto"             mb={smallScreen ? 20 : 30} fw={600}>
+          <Text fz="xl" ta="center" align="center" mx="auto" mb={smallScreen ? 20 : 30} fw={600}>
             {t('welcomePage.mainText')}
           </Text>
-          <Center             mb={smallScreen ? 20 : 30}>
-            {isAuth ? (
+          <Center mb={smallScreen ? 20 : 30}>
+            {user ? (
               <Button component={Link} to="/" className={classes.button}>
                 {t('welcomePage.playgroundButton')}
               </Button>

@@ -21,8 +21,11 @@ import useStyles, { HEADER_HEIGHT } from './styles';
 import { HeaderResponsiveProps } from '../../types/types';
 import { IconSun, IconMoonStars } from '@tabler/icons-react';
 import { availableLanguages } from '../../constants/constants';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../utils/firebase';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
+  const [user] = useAuthState(auth);
   const [opened, { toggle, close }] = useDisclosure(false);
   const link = String(location.pathname);
   const pathname = links.find((el) => el.link === link)
@@ -54,14 +57,8 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const {
-    isAuth,
-    lang,
-    handleClickLogin,
-    handleClickRegister,
-    handleClickLogout,
-    handleChangeLanguage,
-  } = useContext(AppContext);
+  const { lang, handleClickLogin, handleClickRegister, handleClickLogout, handleChangeLanguage } =
+    useContext(AppContext);
 
   window.addEventListener('scroll', () => {
     if (rootRef.current) {
@@ -82,7 +79,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <ActionIcon component={Link} to="/" className={classes.logo}>
           <Image src="./graphql-ar21.svg" alt="GraphQL icon" />
         </ActionIcon>
-        {isAuth ? (
+        {user ? (
           <Group spacing={5} className={classes.links}>
             {items}
           </Group>
@@ -110,12 +107,7 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
               </Group>
             </>
           )}
-          <SegmentedControl
-            value={lang}
-            onChange={handleChangeLanguage}
-            data={availableLanguages}
-          />
-          {isAuth ? (
+          {user ? (
             <Button
               onClick={() => {
                 if (handleClickLogout) {
@@ -162,34 +154,37 @@ function HeaderResponsive({ links }: HeaderResponsiveProps) {
                 }}
               >
                 {link === '/' ? null : (
-                 <>
-                 <Group position="center" my="sm">
-                   <ActionIcon
-                     onClick={() => toggleColorScheme()}
-                     size="lg"
-                     sx={(theme) => ({
-                       backgroundColor:
-                         theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                       color:
-                         theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.blue[6],
-                     })}
-                   >
-                     {colorScheme === 'dark' ? (
-                       <IconSun size="1.2rem" />
-                     ) : (
-                       <IconMoonStars size="1.2rem" />
-                     )}
-                   </ActionIcon>
-                 </Group>
-               </>
+                  <>
+                    <Group position="center" my="sm">
+                      <ActionIcon
+                        onClick={() => toggleColorScheme()}
+                        size="lg"
+                        sx={(theme) => ({
+                          backgroundColor:
+                            theme.colorScheme === 'dark'
+                              ? theme.colors.dark[6]
+                              : theme.colors.gray[0],
+                          color:
+                            theme.colorScheme === 'dark'
+                              ? theme.colors.yellow[4]
+                              : theme.colors.blue[6],
+                        })}
+                      >
+                        {colorScheme === 'dark' ? (
+                          <IconSun size="1.2rem" />
+                        ) : (
+                          <IconMoonStars size="1.2rem" />
+                        )}
+                      </ActionIcon>
+                    </Group>
+                    <SegmentedControl
+                      value={lang}
+                      onChange={handleChangeLanguage}
+                      data={availableLanguages}
+                    />
+                  </>
                 )}
-                <SegmentedControl
-                  value={lang}
-                  onChange={handleChangeLanguage}
-                  data={availableLanguages}
-                />
-
-                {isAuth ? (
+                {user ? (
                   <Button
                     m={mobile ? '0.5rem 0' : ''}
                     onClick={() => {

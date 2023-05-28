@@ -2,7 +2,6 @@ import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@m
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MembersData } from './MembersLinks';
-
 import { TeamMember } from '../../types/types';
 
 const useStyles = createStyles((theme) => ({
@@ -36,7 +35,7 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('sm')]: {
       marginTop: theme.spacing.xs,
       textAlign: 'center',
-      marginBottom: rem(10)
+      marginBottom: rem(10),
     },
   },
 
@@ -76,7 +75,7 @@ const useStyles = createStyles((theme) => ({
 export function Footer() {
   const { t } = useTranslation();
   const { classes } = useStyles();
-  const data: Array<TeamMember> = t('teamArray', { returnObjects: true })
+  const data: Array<TeamMember> = t('teamArray', { returnObjects: true });
 
   return (
     <footer className={classes.footer}>
@@ -96,7 +95,7 @@ export function Footer() {
           {t('footer.rightsText')}
         </Text>
         <Group className={classes.social} position="right">
-          <ActionIcon size="xl" component={Link} to="https://rs.school/react/">
+          <ActionIcon size="xl" component={Link} to="https://rs.school/react/" target="_blank">
             <Image src="https://rs.school/images/rs_school_js.svg" alt="Rs school icon" />
           </ActionIcon>
         </Group>

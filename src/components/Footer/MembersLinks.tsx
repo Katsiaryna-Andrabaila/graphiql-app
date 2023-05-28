@@ -27,7 +27,7 @@ export const MembersData = ({ data }: MembersDataProps) => {
   const mobile = useMediaQuery('(max-width: 48em)');
   const membersJSX = data.map((member, index) => {
     return (
-      <Anchor color="black" href={member.link} className={classes.link} key={index}>
+      <Anchor color="black" href={member.link} target="_blank" className={classes.link} key={index}>
         <Flex justify="center" align="center">
           <IconBrandGithub />
           <Text>{member.name}</Text>
@@ -41,7 +41,7 @@ export const MembersData = ({ data }: MembersDataProps) => {
       gap="md"
       justify="center"
       align="flex-start"
-      direction={mobile ? "row" : "column"}
+      direction={mobile ? 'row' : 'column'}
       wrap="wrap"
     >
       {membersJSX}

@@ -16,14 +16,13 @@ import { upperFirst, useToggle } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from '../utils/validate';
 import { createUser, forgotPassword, signInUser, signInWithGoogleAccount } from '../utils/firebase';
-import { startSession } from '../utils/storage';
 import { IconAlertCircle, IconBrandGoogle, IconCheck } from '@tabler/icons-react';
 import { AppContext } from '../HOC/Provider';
 import { notifications } from '@mantine/notifications';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const { isLogin, setIsAuth } = useContext(AppContext);
+  const { isLogin } = useContext(AppContext);
 
   const [type, toggle] = !isLogin
     ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
@@ -68,11 +67,9 @@ const LoginPage = () => {
 
     try {
       if (type === `${t('registerLink')}`) {
-        const registerResponse = await createUser(email, password);
-        startSession(registerResponse.user);
+        await createUser(email, password);
       } else {
-        const loginResponse = await signInUser(email, password);
-        startSession(loginResponse.user);
+        await signInUser(email, password);
       }
       notifications.update({
         id: type === `${t('registerLink')}` ? `sign-up` : `sign-in`,
@@ -84,7 +81,6 @@ const LoginPage = () => {
         icon: <IconCheck size="1rem" />,
         autoClose: 2000,
       });
-      setIsAuth && setIsAuth(true);
       navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
@@ -103,8 +99,7 @@ const LoginPage = () => {
       autoClose: false,
     });
     try {
-      const registerResponse = await signInWithGoogleAccount();
-      startSession(registerResponse.user);
+      await signInWithGoogleAccount();
       notifications.update({
         id: 'google',
         title: `${t('notifications.signInTittleComplete')}`,
@@ -112,7 +107,7 @@ const LoginPage = () => {
         icon: <IconCheck size="1rem" />,
         autoClose: 2000,
       });
-      setIsAuth && setIsAuth(true);
+
       navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
