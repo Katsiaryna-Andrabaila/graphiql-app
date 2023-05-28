@@ -11,8 +11,6 @@ import RedactorPage from '../pages/RedactorPage/RedactorPage';
 export const Routing = () => {
   const [user] = useAuthState(auth);
 
-  //onAuthStateChanged(auth, async () => setIsAuth && setIsAuth(!!user));
-
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
