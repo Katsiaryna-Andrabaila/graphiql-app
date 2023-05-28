@@ -1,9 +1,9 @@
-import { createContext, useState, ReactNode, useEffect, useRef, useCallback } from 'react';
+import { createContext, useState, ReactNode, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { endSession, isLoggedIn } from '../utils/storage';
+import { endSession } from '../utils/storage';
 import { TypeAppContext } from '../types/types';
 import { useLocalStorage } from '@mantine/hooks';
-import { getIdToken, getAuth, onAuthStateChanged, onIdTokenChanged } from 'firebase/auth';
+import { getAuth, onIdTokenChanged } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { app } from '../utils/firebase';
 
@@ -12,26 +12,32 @@ export const AppContext = createContext<TypeAppContext>(initialContext);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const auth = getAuth(app);
-  const { currentUser } = auth;
-  const [user] = useAuthState(auth);
-  const authStatus = localStorage.getItem('authToken') ? true : false;
-  const token = useRef<string | undefined>();
-  const [isAuth, setIsAuth] = useState(authStatus);
+  const [user, loading] = useAuthState(auth);
 
-  useEffect(() => {
+  const [isAuth, setIsAuth] = useState(!!user);
+
+  //useEffect(() => {
+  /* onIdTokenChanged(auth, async () => {
+    //const token = useRef<string | undefined>();
+    const token = await user?.getIdToken(true);
+    if (!token) {
+      setIsAuth(false);
+      //localStorage.removeItem('authToken');
+    } else {
+      setIsAuth(true);
+      //localStorage.setItem('authToken', token);
+    }
+  }); */
+  //}, [isAuth]);
+
+  /* useEffect(() => {
     onIdTokenChanged(auth, async () => {
       token.current = await user?.getIdToken(true);
-      setIsAuth(token.current ? true : false);
+      if (!token.current) {
+        setIsAuth(false);
+      }
     });
-  }, [isAuth]);
-
-  /* useCallback(() => {
-    setIsAuth(token.current ? true : false);
   }, [isAuth]); */
-
-  useEffect(() => {
-    console.log(isAuth);
-  }, [isAuth]);
 
   const [isLogin, setIsLogin] = useState(true);
   const { i18n } = useTranslation();

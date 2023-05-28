@@ -104,14 +104,14 @@ export type DocsState = {
 };
 
 export type SideMenuProps = {
-  isOpenSchema: boolean; 
-  showVariables: boolean;  
-  variablesHandler: () => void;  
-  handleClickSchema: () => void; 
-  execOperation: () => Promise<void>; 
+  isOpenSchema: boolean;
+  showVariables: boolean;
+  variablesHandler: () => void;
+  handleClickSchema: () => void;
+  execOperation: () => Promise<void>;
   prettify: () => void;
   handleClickHistory: () => void;
-}
+};
 
 export type Unsubscribable = {
   unsubscribe: () => void;

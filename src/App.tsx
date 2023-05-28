@@ -21,33 +21,33 @@ function App() {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   return (
-    //<StrictMode>
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider
-          theme={{
-            colorScheme,
-            fontSizes: {
-              xs: '0.7rem',
-              sm: '0.9rem',
-              md: '1.1rem',
-              lg: '1.3rem',
-              xl: '1.5rem',
-            },
-          }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <Notifications position="bottom-right" zIndex={2077} />
-          <AppProvider>
-            <BrowserRouter>
-              <Routing />
-            </BrowserRouter>
-          </AppProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </ErrorBoundary>
-    //</StrictMode>
+    <StrictMode>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider
+            theme={{
+              colorScheme,
+              fontSizes: {
+                xs: '0.7rem',
+                sm: '0.9rem',
+                md: '1.1rem',
+                lg: '1.3rem',
+                xl: '1.5rem',
+              },
+            }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <Notifications position="bottom-right" zIndex={2077} />
+            <AppProvider>
+              <BrowserRouter>
+                <Routing />
+              </BrowserRouter>
+            </AppProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </ErrorBoundary>
+    </StrictMode>
   );
 }
 
