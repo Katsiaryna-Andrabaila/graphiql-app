@@ -101,7 +101,7 @@ const RedactorPage = () => {
       }
       if (resultsRef.current) {
         (resultsRef.current as HTMLElement).style.width = '100%';
-        (resultsRef.current as HTMLElement).style.height = '';
+        (resultsRef.current as HTMLElement).style.height = '97.6vw';
         resultsViewer && resultsViewer.layout();
       }
     }
@@ -155,11 +155,13 @@ const RedactorPage = () => {
       const data = result;
       resultsModel?.setValue(JSON.stringify(data, null, 2));
 
-      resultsViewer &&
-        resultsViewer.onDidContentSizeChange(() => {
-          updateEditorHeight();
-          requestAnimationFrame(updateEditorHeight);
-        });
+      if (window.innerWidth < 750) {
+        resultsViewer &&
+          resultsViewer.onDidContentSizeChange(() => {
+            updateEditorHeight();
+            requestAnimationFrame(updateEditorHeight);
+          });
+      }
     } catch (e) {
       notifications.show({
         id: 'api-error',

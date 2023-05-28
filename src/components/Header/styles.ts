@@ -5,7 +5,7 @@ export const HEADER_HEIGHT = rem(60);
 const useStyles = createStyles((theme) => ({
   root: {
     position: 'sticky',
-    zIndex: 1,
+    zIndex: 4,
     top: '0px',
     transition: '0.7s',
   },
@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
     top: HEADER_HEIGHT,
     left: 0,
     right: 0,
-    zIndex: 0,
+    zIndex: 4,
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderTopWidth: 0,

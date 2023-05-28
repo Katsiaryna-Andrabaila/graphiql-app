@@ -39,7 +39,7 @@ body {
 .redactor-wrapper {
   display: flex;
   align-items: flex-start;
-
+  overflow-x: scroll;
   height: 97.7vh;
 }
 
@@ -114,7 +114,7 @@ body {
   display: flex;
   flex-direction: row;
   height: 97.7vh;
-  width: 100%;
+  width: calc(100% - 48px);
   /* background-color: #efe9e9; */
   border-radius: 1rem;
 }

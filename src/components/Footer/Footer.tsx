@@ -6,6 +6,9 @@ import { TeamMember } from '../../types/types';
 
 const useStyles = createStyles((theme) => ({
   footer: {
+    zIndex: 5,
+    width: 'inherit',
+    position: 'absolute',
     marginTop: rem(0),
     paddingTop: `calc(${theme.spacing.xs} * 1)`,
     paddingBottom: `calc(${theme.spacing.xs} * 1)`,
