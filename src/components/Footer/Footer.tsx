@@ -1,7 +1,6 @@
 import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import GraphQLIcon from '../../assets/graphql-ar21.svg';
 import { MembersData } from './MembersLinks';
 import { TeamMember } from '../../types/types';
 
