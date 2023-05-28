@@ -59,22 +59,26 @@
     {
       "name": "Екатерина Андробайло",
       "role": "Тим лид",
-      "link": "https://github.com/Katsiaryna-Andrabaila"
+      "link": "https://github.com/Katsiaryna-Andrabaila",
+      "src": "kat.jpeg"
     },
     {
       "name": "Александр Котов",
       "role": "Разработчик",
-      "link": "https://github.com/Sashkakotov"
+      "link": "https://github.com/Sashkakotov",
+      "src": "sasha.jpeg"
     },
     {
       "name": "Денис Меженин",
       "role": "Разработчик",
-      "link": "https://github.com/denismezhenin"
+      "link": "https://github.com/denismezhenin",
+      "src": "denis.jpg"
     },
     {
       "name": "Олег Горнизонов",
       "role": "Ментор",
-      "link": "https://github.com/alehharnizonau"
+      "link": "https://github.com/alehharnizonau",
+      "src": "aleh.jpg"
     }
   ],
 
