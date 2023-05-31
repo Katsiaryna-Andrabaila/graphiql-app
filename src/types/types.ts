@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactElement } from 'react';
 import type { Client, ClientOptions, ExecutionResult } from 'graphql-ws';
 import { DocumentNode, IntrospectionQuery } from 'graphql';
@@ -124,7 +126,7 @@ export type Unsubscribable = {
 export type Observable<T> = {
   subscribe(opts: {
     next: (value: T) => void;
-    error: (error: any) => void;
+    error: (error: Error) => void;
     complete: () => void;
   }): Unsubscribable;
   subscribe(
@@ -134,7 +136,7 @@ export type Observable<T> = {
   ): Unsubscribable;
   subscribe(
     next?: (value: T) => void,
-    error?: (error: any) => void,
+    error?: (error: Error) => void,
     complete?: () => void
   ): Unsubscribable;
 };
@@ -162,13 +164,13 @@ export type Fetcher = (graphQLParams: FetcherParams, opts?: FetcherOpts) => Fetc
 export type ExecutionResultPayload =
   | {
       data: IntrospectionQuery;
-      errors?: Array<any>;
+      errors?: Array<Error>;
     }
-  | { data?: any; errors?: Array<any> }
-  | { data?: any; errors?: Array<any>; hasNext: boolean }
+  | { data?: any; errors?: Array<Error> }
+  | { data?: any; errors?: Array<Error>; hasNext: boolean }
   | {
       data?: any;
-      errors?: any[];
+      errors?: Error[];
       path: (string | number)[];
       hasNext: boolean;
     };
