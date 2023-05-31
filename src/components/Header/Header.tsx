@@ -21,11 +21,10 @@ import useStyles, { HEADER_HEIGHT } from './styles';
 import { HeaderResponsiveProps } from '../../types/types';
 import { IconSun, IconMoonStars } from '@tabler/icons-react';
 import { availableLanguages } from '../../constants/constants';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../../utils/firebase';
+import { useAuth } from '../../utils/firebase';
 
 function HeaderResponsive({ links }: HeaderResponsiveProps) {
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
   const [opened, { toggle, close }] = useDisclosure(false);
   const link = String(location.pathname);
   const pathname = links.find((el) => el.link === link)
