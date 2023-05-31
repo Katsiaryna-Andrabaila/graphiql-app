@@ -7,12 +7,10 @@ import { TeamMember } from '../../types/types';
 const useStyles = createStyles((theme) => ({
   footer: {
     zIndex: 5,
-    width: 'inherit',
-    position: 'absolute',
+    width: '100%',
     marginTop: rem(0),
     paddingTop: `calc(${theme.spacing.xs} * 1)`,
     paddingBottom: `calc(${theme.spacing.xs} * 1)`,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderTop: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
