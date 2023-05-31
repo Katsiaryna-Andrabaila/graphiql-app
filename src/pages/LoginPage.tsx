@@ -24,9 +24,11 @@ const LoginPage = () => {
   const { t } = useTranslation();
   const { isLogin } = useContext(AppContext);
 
-  const [type, toggle] = !isLogin
-    ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
-    : useToggle([`${t('loginLink')}`, `${t('registerLink')}`]);
+  const [type, toggle] = useToggle(
+    !isLogin
+      ? [`${t('registerLink')}`, `${t('loginLink')}`]
+      : [`${t('loginLink')}`, `${t('registerLink')}`]
+  );
 
   const [isReset, setReset] = useState(false);
   const [error, setError] = useState('');

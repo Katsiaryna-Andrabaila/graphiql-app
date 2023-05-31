@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TypeAppContext } from '../types/types';
@@ -24,7 +25,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     i18n.changeLanguage(lang);
-  }, [lang]);
+  }, [lang, i18n]);
 
   const handleClickLogin = (cb: Function) => {
     setIsLogin && setIsLogin(true);

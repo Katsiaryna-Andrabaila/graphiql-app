@@ -8,7 +8,6 @@ import { AppContext } from '../../HOC/Provider';
 import { ButtonClear } from './clearButton';
 import { settingsStyle } from './settingsStyle';
 
-
 export const Settings = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { t } = useTranslation();

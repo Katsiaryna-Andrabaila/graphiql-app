@@ -60,7 +60,7 @@ const RedactorPage = () => {
   const { history, setHistory } = useContext(AppContext);
 
   const adaptiveEditor = () => {
-    var x = window.matchMedia('(max-width: 700px)');
+    const x = window.matchMedia('(max-width: 700px)');
     if (x.matches) {
       const lineHeightQueryEditor =
         (queryEditor && queryEditor.getOption(editor.EditorOption.lineHeight)) || 20;
@@ -217,7 +217,7 @@ const RedactorPage = () => {
           smoothScrolling: true,
         })
       );
-  }, []);
+  }, [history, queryEditor, colorScheme, variablesEditor, resultsViewer]);
 
   useEffect(() => {
     const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light';
@@ -227,7 +227,7 @@ const RedactorPage = () => {
   useEffect(() => {
     queryEditor?.addAction(queryAction);
     variablesEditor?.addAction(queryAction);
-  }, [variablesEditor]);
+  });
 
   useEffect(() => {
     if (!schema && !loading) {

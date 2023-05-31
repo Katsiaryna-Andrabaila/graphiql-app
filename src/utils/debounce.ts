@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function debounce<F extends (...args: any[]) => any>(duration: number, fn: F) {
   let timeout: number | null;
   return function (this: any, ...args: Parameters<F>) {
