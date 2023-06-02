@@ -27,28 +27,22 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   }, [lang, i18n]);
 
   const handleClickLogin = (cb: () => void) => {
-    setIsLogin && setIsLogin(true);
+    setIsLogin(true);
     cb();
   };
 
   const handleClickRegister = (cb: () => void) => {
-    setIsLogin && setIsLogin(false);
+    setIsLogin(false);
     cb();
   };
 
   const handleClickLogout = async (cb: () => void) => {
     await logOut();
-    setIsLogin && setIsLogin(true);
+    setIsLogin(true);
     cb();
   };
 
-  const handleChangeLanguage = () => {
-    if (lang === 'en') {
-      setLang && setLang('ru');
-    } else {
-      setLang && setLang('en');
-    }
-  };
+  const handleChangeLanguage = () => setLang(lang === 'en' ? 'ru' : 'en');
 
   const value = {
     isLogin,

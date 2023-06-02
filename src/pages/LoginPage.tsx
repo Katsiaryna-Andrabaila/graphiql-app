@@ -36,7 +36,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [passwordRepeated, setPasswordRepeated] = useState('');
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!email || !validateEmail(email)) {
@@ -177,7 +177,7 @@ const LoginPage = () => {
             </Alert>
           )}
           <Space h="md" />
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit}>
             <TextInput
               label={t('email')}
               placeholder="email@example.com"

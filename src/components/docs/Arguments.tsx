@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Args, DocsState, QueryType } from '../../types/types';
 
-type Props = {
+type ArgumentsProps = {
   args: Args[];
   position: 'type' | 'fields';
   parentState: DocsState;
@@ -20,7 +20,7 @@ const Arguments = ({
   setParentState,
   query,
   handleClickType,
-}: Props) => {
+}: ArgumentsProps) => {
   const handleClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
     type: 'type' | 'nested' | 'scalar'

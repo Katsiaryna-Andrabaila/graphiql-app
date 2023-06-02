@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { DocsState, Field } from '../../types/types';
 import { IconSquareDot } from '@tabler/icons-react';
 
-type Props = {
+type TypeComponentProps = {
   parentState: DocsState;
   setParentState: Dispatch<SetStateAction<DocsState>>;
   handleClickType: (
@@ -18,7 +18,7 @@ const TypeComponent = ({
   setParentState,
   handleClickType,
   handleClickDetails,
-}: Props) => {
+}: TypeComponentProps) => {
   const { t } = useTranslation();
   const { type } = parentState;
 

@@ -4,7 +4,7 @@ import { DocsState, QueryType } from '../../types/types';
 import Arguments from './Arguments';
 import { IconCircleDot, IconSquareDot } from '@tabler/icons-react';
 
-type Props = {
+type CurrentFieldProps = {
   parentState: DocsState;
   setParentState: Dispatch<SetStateAction<DocsState>>;
   query: QueryType[];
@@ -14,7 +14,12 @@ type Props = {
   ) => void;
 };
 
-const CurrentField = ({ parentState, setParentState, query, handleClickType }: Props) => {
+const CurrentField = ({
+  parentState,
+  setParentState,
+  query,
+  handleClickType,
+}: CurrentFieldProps) => {
   const { t } = useTranslation();
   const { field } = parentState;
 

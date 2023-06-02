@@ -4,7 +4,7 @@ import { DocsState, Field, QueryType } from '../../types/types';
 import Arguments from './Arguments';
 import { IconSquareDot } from '@tabler/icons-react';
 
-type Props = {
+type FieldsComponentProps = {
   parentState: DocsState;
   setParentState: Dispatch<SetStateAction<DocsState>>;
   query: QueryType[];
@@ -21,7 +21,7 @@ const FieldsComponent = ({
   query,
   handleClickType,
   handleClickField,
-}: Props) => {
+}: FieldsComponentProps) => {
   const { t } = useTranslation();
 
   const handleClick = (
@@ -38,7 +38,7 @@ const FieldsComponent = ({
   };
 
   return (
-    <div>
+    <>
       <p>{query[0].name}</p>
       <p className="header">
         <IconSquareDot size="1rem" stroke={2.3} /> {t('documentation.fields')}
@@ -71,7 +71,7 @@ const FieldsComponent = ({
           <p>{el.description}</p>
         </div>
       ))}
-    </div>
+    </>
   );
 };
 
