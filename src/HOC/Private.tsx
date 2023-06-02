@@ -12,5 +12,5 @@ export const RequireAuth = ({
   if ((redirect && !user) || (!redirect && user)) {
     return <Navigate to={redirectPath} replace />;
   }
-  return children;
+  return <>{children}</>;
 };
