@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 import type { Client, ClientOptions, ExecutionResult } from 'graphql-ws';
-import { DocumentNode, IntrospectionQuery } from 'graphql';
+import { DocumentNode } from 'graphql';
 
 export type TypeUser = {
   email: string;
@@ -23,9 +21,9 @@ export type TypeAppContext = {
         ) => { query: string; variables: string; id: string }[])
   ) => void;
   handleChangeLanguage?: () => void;
-  handleClickLogout?: (cb: Function) => void;
-  handleClickRegister?: (cb: Function) => void;
-  handleClickLogin?: (cb: Function) => void;
+  handleClickLogout?: (cb: () => void) => void;
+  handleClickRegister?: (cb: () => void) => void;
+  handleClickLogin?: (cb: () => void) => void;
 };
 
 export type TeamMember = {
@@ -36,7 +34,7 @@ export type TeamMember = {
 };
 
 export interface RequireAuthProps {
-  children: ReactElement<any, any>;
+  children: ReactNode;
   redirectPath?: string;
   redirect: boolean;
 }
@@ -144,8 +142,6 @@ export interface CreateFetcherOptions {
   url: string;
   subscriptionUrl?: string;
   wsClient?: Client;
-  legacyWsClient?: any;
-  legacyClient?: any;
   headers?: Record<string, string>;
   wsConnectionParams?: ClientOptions['connectionParams'];
   enableIncrementalDelivery?: boolean;
@@ -161,27 +157,14 @@ export type SyncExecutionResult =
 export type FetcherReturnType = MaybePromise<SyncExecutionResult>;
 export type Fetcher = (graphQLParams: FetcherParams, opts?: FetcherOpts) => FetcherReturnType;
 
-export type ExecutionResultPayload =
-  | {
-      data: IntrospectionQuery;
-      errors?: Array<Error>;
-    }
-  | { data?: any; errors?: Array<Error> }
-  | { data?: any; errors?: Array<Error>; hasNext: boolean }
-  | {
-      data?: any;
-      errors?: Error[];
-      path: (string | number)[];
-      hasNext: boolean;
-    };
 export type FetcherOpts = {
-  headers?: { [key: string]: any };
+  headers?: { [key: string]: unknown };
   documentAST?: DocumentNode;
 };
 export type FetcherParams = {
   query: string;
   operationName?: string | null;
-  variables?: any;
+  variables?: unknown;
 };
 export interface HistoryObject {
   query: string;

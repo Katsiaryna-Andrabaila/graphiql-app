@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { createContext, useState, ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TypeAppContext } from '../types/types';
@@ -27,17 +26,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     i18n.changeLanguage(lang);
   }, [lang, i18n]);
 
-  const handleClickLogin = (cb: Function) => {
+  const handleClickLogin = (cb: () => void) => {
     setIsLogin && setIsLogin(true);
     cb();
   };
 
-  const handleClickRegister = (cb: Function) => {
+  const handleClickRegister = (cb: () => void) => {
     setIsLogin && setIsLogin(false);
     cb();
   };
 
-  const handleClickLogout = async (cb: Function) => {
+  const handleClickLogout = async (cb: () => void) => {
     await logOut();
     setIsLogin && setIsLogin(true);
     cb();
