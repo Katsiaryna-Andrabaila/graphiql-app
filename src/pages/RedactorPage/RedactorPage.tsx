@@ -60,17 +60,17 @@ const RedactorPage = () => {
   const { history, setHistory } = useContext(AppContext);
 
   const adaptiveEditor = () => {
-    var x = window.matchMedia('(max-width: 700px)');
+    const x = window.matchMedia('(max-width: 700px)');
     if (x.matches) {
       const lineHeightQueryEditor =
         (queryEditor && queryEditor.getOption(editor.EditorOption.lineHeight)) || 20;
-      const lineCountQueryEditor = (queryEditor && queryEditor!.getModel()?.getLineCount()) || 1;
+      const lineCountQueryEditor = (queryEditor && queryEditor.getModel()?.getLineCount()) || 1;
       const heightQueryEditor = lineHeightQueryEditor * lineCountQueryEditor + 20;
 
       const lineHeightresultsViewer =
         (resultsViewer && resultsViewer.getOption(editor.EditorOption.lineHeight)) || 20;
       const lineCountresultsViewer =
-        (resultsViewer && resultsViewer!.getModel()?.getLineCount()) || 1;
+        (resultsViewer && resultsViewer.getModel()?.getLineCount()) || 1;
       const heightresultsViewer = lineHeightresultsViewer * lineCountresultsViewer + 20;
 
       if (opsRef.current) {
@@ -109,19 +109,21 @@ const RedactorPage = () => {
   let prevHeight = 0;
 
   const updateEditorHeight = () => {
-    const editorElement = resultsViewer!.getDomNode();
-    if (!editorElement) {
-      return;
-    }
-    const lineHeight = resultsViewer!.getOption(editor.EditorOption.lineHeight);
+    if (resultsViewer) {
+      const editorElement = resultsViewer.getDomNode();
+      if (!editorElement) {
+        return;
+      }
+      const lineHeight = resultsViewer.getOption(editor.EditorOption.lineHeight);
 
-    const lineCount = resultsViewer!.getModel()?.getLineCount() || 1;
-    const height = resultsViewer!.getTopForLineNumber(lineCount + 1) + lineHeight;
-    if (prevHeight !== height) {
-      prevHeight = height;
-      if (resultsRef.current) {
-        (resultsRef.current as HTMLElement).style.height = `${height}px`;
-        resultsViewer!.layout();
+      const lineCount = resultsViewer.getModel()?.getLineCount() || 1;
+      const height = resultsViewer.getTopForLineNumber(lineCount + 1) + lineHeight;
+      if (prevHeight !== height) {
+        prevHeight = height;
+        if (resultsRef.current) {
+          (resultsRef.current as HTMLElement).style.height = `${height}px`;
+          resultsViewer.layout();
+        }
       }
     }
   };
@@ -217,7 +219,7 @@ const RedactorPage = () => {
           smoothScrolling: true,
         })
       );
-  }, []);
+  }, [history, queryEditor, colorScheme, variablesEditor, resultsViewer]);
 
   useEffect(() => {
     const themeColor = colorScheme === 'dark' ? 'vs-dark' : 'hc-light';
@@ -227,7 +229,7 @@ const RedactorPage = () => {
   useEffect(() => {
     queryEditor?.addAction(queryAction);
     variablesEditor?.addAction(queryAction);
-  }, [variablesEditor]);
+  });
 
   useEffect(() => {
     if (!schema && !loading) {

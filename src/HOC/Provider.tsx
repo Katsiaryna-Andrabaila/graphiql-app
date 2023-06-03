@@ -24,31 +24,25 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     i18n.changeLanguage(lang);
-  }, [lang]);
+  }, [lang, i18n]);
 
-  const handleClickLogin = (cb: Function) => {
-    setIsLogin && setIsLogin(true);
+  const handleClickLogin = (cb: () => void) => {
+    setIsLogin(true);
     cb();
   };
 
-  const handleClickRegister = (cb: Function) => {
-    setIsLogin && setIsLogin(false);
+  const handleClickRegister = (cb: () => void) => {
+    setIsLogin(false);
     cb();
   };
 
-  const handleClickLogout = async (cb: Function) => {
+  const handleClickLogout = async (cb: () => void) => {
     await logOut();
-    setIsLogin && setIsLogin(true);
+    setIsLogin(true);
     cb();
   };
 
-  const handleChangeLanguage = () => {
-    if (lang === 'en') {
-      setLang && setLang('ru');
-    } else {
-      setLang && setLang('en');
-    }
-  };
+  const handleChangeLanguage = () => setLang(lang === 'en' ? 'ru' : 'en');
 
   const value = {
     isLogin,

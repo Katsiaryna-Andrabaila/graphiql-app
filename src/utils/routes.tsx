@@ -1,15 +1,17 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import LoginPage from '../pages/LoginPage';
 import WelcomePage from '../pages/WelcomePage';
 import { Layout } from '../components/layout';
 import { RequireAuth } from '../HOC/Private';
-import { auth } from './firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuth } from './firebase';
 import RedactorPage from '../pages/RedactorPage/RedactorPage';
+import { AppLoader } from '../components/AppLoader';
 
 export const Routing = () => {
-  const [user] = useAuthState(auth);
+  const { loading } = useAuth();
+
+  if (loading) return <AppLoader />;
 
   return (
     <Routes>
@@ -17,7 +19,7 @@ export const Routing = () => {
         <Route
           index
           element={
-            <RequireAuth redirect={!user}>
+            <RequireAuth redirect={true}>
               <RedactorPage />
             </RequireAuth>
           }
@@ -26,12 +28,13 @@ export const Routing = () => {
         <Route
           path="login"
           element={
-            <RequireAuth redirectPath="/" redirect={!!user}>
+            <RequireAuth redirectPath="/" redirect={false}>
               <LoginPage />
             </RequireAuth>
           }
         />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/404" element={<NotFoundPage />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Route>
     </Routes>
   );

@@ -17,8 +17,7 @@ import { useContext } from 'react';
 import { TeamMember } from '../types/types';
 import { Technologies } from '../components/technologies/technologies';
 import { useMediaQuery } from '@mantine/hooks';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../utils/firebase';
+import { useAuth } from '../utils/firebase';
 
 const useStyles = createStyles(() => ({
   button: {
@@ -29,7 +28,7 @@ const useStyles = createStyles(() => ({
 }));
 
 const WelcomePage = () => {
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
   const { t } = useTranslation();
   const { classes } = useStyles();
   const data: Array<TeamMember> = t('teamArray', { returnObjects: true });

@@ -1,14 +1,13 @@
-import { Outlet } from "react-router-dom";
-import { Footer } from "./Footer/Footer";
+import { Outlet } from 'react-router-dom';
+import { Footer } from './Footer/Footer';
 import { useTranslation } from 'react-i18next';
-import HeaderResponsive from "./Header/Header";
-
+import HeaderResponsive from './Header/Header';
 
 export const Layout = () => {
   const { t } = useTranslation();
   return (
     <>
-        <HeaderResponsive
+      <HeaderResponsive
         links={[
           { link: '/', label: `${t('homeLink')}` },
           { link: '/welcome', label: `${t('about')}` },

@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { DocsState, Field } from '../../types/types';
 import { IconSquareDot } from '@tabler/icons-react';
 
-type Props = {
+type NestedTypeComponentProps = {
   parentState: DocsState;
   setParentState: Dispatch<SetStateAction<DocsState>>;
   handleClickType: (
@@ -18,7 +18,7 @@ const NestedTypeComponent = ({
   setParentState,
   handleClickType,
   handleClickDetails,
-}: Props) => {
+}: NestedTypeComponentProps) => {
   const { t } = useTranslation();
   const { nestedType, header, isTypeOpen } = parentState;
 
@@ -36,7 +36,7 @@ const NestedTypeComponent = ({
     setParentState((prev) => ({
       ...prev,
       isTypeOpen: clickedType === 'nested' ? false : isTypeOpen,
-      isNestedTypeOpen: clickedType === 'nested' ? true : false,
+      isNestedTypeOpen: clickedType === 'nested',
       header: nestedType ? nestedType.name : header,
     }));
   };

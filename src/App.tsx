@@ -20,6 +20,7 @@ function App() {
 
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
   return (
     <StrictMode>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -38,7 +39,7 @@ function App() {
             withGlobalStyles
             withNormalizeCSS
           >
-            <Notifications position="bottom-right" zIndex={2077} />
+            <Notifications position="bottom-right" zIndex={10} />
             <AppProvider>
               <BrowserRouter>
                 <Routing />

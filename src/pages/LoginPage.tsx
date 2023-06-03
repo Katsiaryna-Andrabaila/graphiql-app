@@ -24,9 +24,11 @@ const LoginPage = () => {
   const { t } = useTranslation();
   const { isLogin } = useContext(AppContext);
 
-  const [type, toggle] = !isLogin
-    ? useToggle([`${t('registerLink')}`, `${t('loginLink')}`])
-    : useToggle([`${t('loginLink')}`, `${t('registerLink')}`]);
+  const [type, toggle] = useToggle(
+    !isLogin
+      ? [`${t('registerLink')}`, `${t('loginLink')}`]
+      : [`${t('loginLink')}`, `${t('registerLink')}`]
+  );
 
   const [isReset, setReset] = useState(false);
   const [error, setError] = useState('');
@@ -34,7 +36,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [passwordRepeated, setPasswordRepeated] = useState('');
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!email || !validateEmail(email)) {
@@ -175,7 +177,7 @@ const LoginPage = () => {
             </Alert>
           )}
           <Space h="md" />
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit}>
             <TextInput
               label={t('email')}
               placeholder="email@example.com"

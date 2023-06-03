@@ -3,13 +3,13 @@ import { Dispatch, SetStateAction } from 'react';
 import { DocsState, QueryType } from '../../types/types';
 import { IconCircleCheck } from '@tabler/icons-react';
 
-type Props = {
+type InitialComponentProps = {
   parentState: DocsState;
   setParentState: Dispatch<SetStateAction<DocsState>>;
   query: QueryType[];
 };
 
-const InitialComponent = ({ parentState, setParentState, query }: Props) => {
+const InitialComponent = ({ parentState, setParentState, query }: InitialComponentProps) => {
   const { isQueryOpen } = parentState;
   const { t } = useTranslation();
 

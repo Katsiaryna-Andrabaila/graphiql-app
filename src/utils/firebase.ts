@@ -8,6 +8,7 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -23,6 +24,11 @@ export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 
+export const useAuth = () => {
+  const [user, loading] = useAuthState(auth);
+  return { user, loading };
+};
+
 export const createUser = async (email: string, password: string) => {
   return createUserWithEmailAndPassword(auth, email, password);
 };
@@ -37,9 +43,10 @@ export const signInWithGoogleAccount = async () => {
 };
 
 export const forgotPassword = async (email: string) => {
-  // change url before production
-  return sendPasswordResetEmail(getAuth(app), email, {url: 'https://qraphiql-app-react-rsschool.netlify.app/login'})
-}
+  return sendPasswordResetEmail(getAuth(app), email, {
+    url: 'https://qraphiql-app-react-rsschool.netlify.app/login',
+  });
+};
 
 export const logOut = async () => {
   return signOut(auth);

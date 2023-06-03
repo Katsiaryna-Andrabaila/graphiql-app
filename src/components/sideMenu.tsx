@@ -19,7 +19,7 @@ export const SideMenu = ({
   handleClickSchema,
   execOperation,
   prettify,
-  handleClickHistory
+  handleClickHistory,
 }: SideMenuProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { t } = useTranslation();
