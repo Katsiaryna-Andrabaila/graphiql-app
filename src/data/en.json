@@ -1,0 +1,115 @@
+{
+  "loginPage": "Login page",
+  "redactor": "redactor page",
+  "404Page": {
+    "title": "You have found a secret place",
+    "notFound": "Unfortunately, this is only a 404 page. You may have mistyped the address, or the page has been moved to another URL",
+    "mainPage": "Take me back to home page"
+  },
+  "error": "Something went wrong",
+  "homeLink": "Home",
+  "about": "About",
+  "backToMain": "← Back to home page",
+  "register": "Register",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "passwordDescription": "Password must include at least 8 symbols (one latin letter, number and special character)",
+  "repeatPassword": "Repeat password",
+  "forgotPassword": "Forgot your password? ",
+  "resetPassword": "Reset",
+  "resetTitle": "Reset your password",
+  "notifications": {
+    "resetTitle": "Your password is resetting",
+    "resetTitleComplete": "Your password has been reset",
+    "resetMessage": "The link to set up your new password was sent to your e-mail",
+    "signInWithGoogleTitle": "You are signing in with google",
+    "signInTittle": "You are signing in",
+    "signInTittleComplete": "You signed in",
+    "waitMessage": "Please wait for a server response",
+    "completeMessage": "Now you will be redirected",
+    "signUpTittle": "You are signing up",
+    "signUpTittleComplete": "You signed up"
+  },
+  "signWithGoogle": "Sign in with",
+  "notHaveAccount": "Don't have an account yet? ",
+  "haveAccount": "Already have an account? ",
+  "registerLink": "Register",
+  "loginLink": "Login",
+  "signUp": "Sign Up",
+  "logOut": "Log out",
+  "generalLoginError": "Please enter your email and password",
+  "emailError": "Invalid email",
+  "passwordError": "Invalid password format",
+  "repeatPasswordError": "Please repeat your password carefully",
+  "playground": "Go to Playground",
+  "welcomePage": {
+    "title": "Rick&Morty GraphiQL",
+    "mainText": "Rick&Morty GraphiQL is the playground/IDE for graphQL requests",
+    "playgroundButton": "Go to Playground",
+    "team": "Developer Team",
+    "technologies": "Technologies stack integrated in project"
+  },
+  "footer": {
+    "iconText": "GraphQL playground",
+    "rightsText": "© 2023  Rick&Morty GraphiQL React. All rights reserved."
+  },
+  "teamArray": [
+    {
+      "name": "Katsiaryna Andrabaila",
+      "role": "Team Lead",
+      "link": "https://github.com/Katsiaryna-Andrabaila",
+      "src": "kat.jpeg"
+    },
+    {
+      "name": "Alexander Kotov",
+      "role": "Developer",
+      "link": "https://github.com/Sashkakotov",
+      "src": "sasha.jpeg"
+    },
+    {
+      "name": "Denis Mezhenin",
+      "role": "Developer",
+      "link": "https://github.com/denismezhenin",
+      "src": "denis.jpg"
+    },
+    {
+      "name": "Aleh Harnizonau",
+      "role": "Mentor",
+      "link": "https://github.com/alehharnizonau",
+      "src": "aleh.jpg"
+    }
+  ],
+
+  "documentation": {
+    "docs": "Docs",
+    "docsDescription": "A GraphQL schema provides a root type for each kind of operation.",
+    "rootTypes": "Root types",
+    "fields": "Fields",
+    "type": "Type",
+    "arguments": "Arguments"
+  },
+  "sideMenu": {
+    "show": "Show",
+    "hide": "Hide",
+    "schema": "Schema",
+    "history": "History",
+    "variables": "Variables",
+    "settings": "Settings",
+    "run": "Execute query",
+    "pretty": "Prettify query"
+  },
+  "modal": {
+    "title": "Settings",
+    "theme": "Theme",
+    "themeAdjust": "Adjust how the interface looks like",
+    "light": "Light",
+    "dark": "Dark",
+    "storage": "Clear storage",
+    "storageText": "Remove all locally stored data and start fresh",
+    "clearData": "Clear data",
+    "cleared": "Cleared",
+    "language": "Language",
+    "languageText": "Change language of interface"
+  }
+}

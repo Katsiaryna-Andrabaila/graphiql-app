@@ -1,0 +1,44 @@
+{
+"data": [
+  {
+    "src": "react.png",
+    "title": "React",
+    "link": "https://react.dev/"
+},
+  {
+    "src": "router.png",
+    "title": "React Router",
+    "link": "https://reactrouter.com/"
+},
+  {
+    "src": "typescript.png",
+    "title": "Typescript",
+    "link": "https://www.typescriptlang.org/"
+},
+  {
+    "src": "vite.png",
+    "title": "Vite",
+    "link": "https://vitejs.dev/"
+},
+  {
+    "src": "mantine.png",
+    "title": "Mantine",
+    "link": "https://mantine.dev/"
+},
+  {
+    "src": "firebase.png",
+    "title": "Firebase",
+    "link": "https://firebase.google.com/"
+},
+  {
+    "src": "graphql.png",
+    "title": "Graphql",
+    "link": "https://graphql.org/"
+},
+  {
+    "src": "inext.png",
+    "title": "i18Next",
+    "link": "https://www.i18next.com/"
+}
+]
+}
