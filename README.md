@@ -7,7 +7,7 @@ GraphiQL is the playground/IDE for graphQL requests. This project is made for gr
 1. Aleh Harnizonau (mentor) https://github.com/alehharnizonau
 2. Denis Mezhenin https://github.com/denismezhenin
 3. Alexander Kotov https://github.com/Sashkakotov
-4. Katsiaryna Andrabaila
+4. Katsiaryna Andrabaila (team-leader)
 
 ## Technical stack:
 1. React
